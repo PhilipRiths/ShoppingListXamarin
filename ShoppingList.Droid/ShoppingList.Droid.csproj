@@ -79,9 +79,9 @@
     <Folder Include="Resources\mipmap-xxxhdpi\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ShoppingList\ShoppingList.csproj">
-      <Project>{87756eb9-0822-42dd-b3f0-fa09503ed88b}</Project>
-      <Name>ShoppingList</Name>
+    <ProjectReference Include="..\ShoppingList.Shared\ShoppingList.Shared.csproj">
+      <Project>{3db12ecf-f029-496f-8d92-770833e90ff5}</Project>
+      <Name>ShoppingList.Shared</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
