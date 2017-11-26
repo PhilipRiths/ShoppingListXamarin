@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
-namespace ShoppingList.Shared
+namespace ShoppingList
 {
     public partial class MainPage : ContentPage
     {

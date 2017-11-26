@@ -6,7 +6,7 @@
     <Platform Condition=" '$(Platform)' == '' ">iPhoneSimulator</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{1638E905-6FB4-4202-B012-5311F33E9EAA}</ProjectGuid>
+    <ProjectGuid>{A8B04C3B-AF0A-4A8D-909A-9CDCF4F28193}</ProjectGuid>
     <ProjectTypeGuids>{FEACFBD2-3405-455C-9665-78FE426C6842};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <OutputType>Exe</OutputType>
     <RootNamespace>ShoppingList.iOS</RootNamespace>
@@ -135,8 +135,8 @@
     <Reference Include="Xamarin.iOS" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ShoppingList.Shared\ShoppingList.Shared.csproj">
-      <Project>{6cd9dbe4-c35e-47b9-9d4f-ff2868295e72}</Project>
+    <ProjectReference Include="..\..\ShoppingList.Shared\ShoppingList.Shared.csproj">
+      <Project>{63b5fc96-bbaa-4f0d-a207-4bf4fc2c7e8f}</Project>
       <Name>ShoppingList.Shared</Name>
     </ProjectReference>
   </ItemGroup>

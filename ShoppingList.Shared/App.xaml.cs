@@ -5,7 +5,7 @@ using System.Text;
 
 using Xamarin.Forms;
 
-namespace ShoppingList.Shared
+namespace ShoppingList
 {
     public partial class App : Application
     {
@@ -13,7 +13,7 @@ namespace ShoppingList.Shared
         {
             InitializeComponent();
 
-            MainPage = new MainPage();
+            MainPage = new ShoppingList.MainPage();
         }
 
         protected override void OnStart()

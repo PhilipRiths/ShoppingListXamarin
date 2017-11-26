@@ -6,7 +6,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{B1F579B8-3D90-4E4A-A22F-C313928F9E6D}</ProjectGuid>
+    <ProjectGuid>{8A9058E6-DDE5-4796-888F-4AB0AE2292B3}</ProjectGuid>
     <ProjectTypeGuids>{EFBA0AD7-5A72-4C68-AF49-83D382785DCF};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
@@ -154,8 +154,8 @@
     <AndroidResource Include="Resources\values\styles.xml" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ShoppingList.Shared\ShoppingList.Shared.csproj">
-      <Project>{6cd9dbe4-c35e-47b9-9d4f-ff2868295e72}</Project>
+    <ProjectReference Include="..\..\ShoppingList.Shared\ShoppingList.Shared.csproj">
+      <Project>{63b5fc96-bbaa-4f0d-a207-4bf4fc2c7e8f}</Project>
       <Name>ShoppingList.Shared</Name>
     </ProjectReference>
   </ItemGroup>
