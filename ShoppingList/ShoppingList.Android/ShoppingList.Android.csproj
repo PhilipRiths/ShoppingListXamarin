@@ -18,7 +18,7 @@
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
     <AndroidManifest>Properties\AndroidManifest.xml</AndroidManifest>
     <AndroidUseLatestPlatformSdk>true</AndroidUseLatestPlatformSdk>
-    <TargetFrameworkVersion>v7.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v8.0</TargetFrameworkVersion>
     <AndroidStoreUncompressedFileExtensions />
     <MandroidI18n />
     <JavaMaximumHeapSize />
@@ -154,8 +154,8 @@
     <AndroidResource Include="Resources\values\styles.xml" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\ShoppingList.Shared\ShoppingList.Shared.csproj">
-      <Project>{190f8964-2936-4aaf-8637-06a0b85e0a80}</Project>
+    <ProjectReference Include="..\ShoppingList.Shared\ShoppingList.Shared.csproj">
+      <Project>{6cd9dbe4-c35e-47b9-9d4f-ff2868295e72}</Project>
       <Name>ShoppingList.Shared</Name>
     </ProjectReference>
   </ItemGroup>
