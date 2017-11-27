@@ -9,6 +9,8 @@ using Android.OS;
 
 namespace ShoppingList.Droid
 {
+    using ShoppingList.Shared;
+
     [Activity(Label = "ShoppingList", Icon = "@drawable/icon", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
