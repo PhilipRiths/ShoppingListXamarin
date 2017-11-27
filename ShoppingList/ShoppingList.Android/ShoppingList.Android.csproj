@@ -154,8 +154,8 @@
     <AndroidResource Include="Resources\values\styles.xml" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\ShoppingList.Shared\ShoppingList.Shared.csproj">
-      <Project>{63b5fc96-bbaa-4f0d-a207-4bf4fc2c7e8f}</Project>
+    <ProjectReference Include="..\ShoppingList.Shared\ShoppingList.Shared.csproj">
+      <Project>{7c51df8f-074c-4c46-9313-9438187e0e7e}</Project>
       <Name>ShoppingList.Shared</Name>
     </ProjectReference>
   </ItemGroup>
