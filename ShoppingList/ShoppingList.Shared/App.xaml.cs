@@ -1,29 +1,30 @@
-﻿namespace ShoppingList.Shared
-{
-    using Xamarin.Forms;
+﻿using Prism.Autofac;
 
-    public partial class App : Application
+using ShoppingList.Shared.ViewModels;
+using ShoppingList.Shared.Views;
+
+using Xamarin.Forms;
+
+namespace ShoppingList.Shared
+{
+    public partial class App : PrismApplication
     {
-        public App()
+        public App(IPlatformInitializer initializer = null) : base(initializer)
+        {
+        }
+
+        protected override void OnInitialized()
         {
             InitializeComponent();
 
-            this.MainPage = new MainPage();
+            NavigationService.NavigateAsync($"{nameof(NavigationPage)}/{nameof(ShoppingListPage)}");
         }
 
-        protected override void OnStart()
+        protected override void RegisterTypes()
         {
-            // Handle when your app starts
-        }
-
-        protected override void OnSleep()
-        {
-            // Handle when your app sleeps
-        }
-
-        protected override void OnResume()
-        {
-            // Handle when your app resumes
+            Builder.RegisterTypeForNavigation<NavigationPage>();
+            Builder.RegisterTypeForNavigation<MainPage>();
+            Builder.RegisterTypeForNavigation<ShoppingListPage, ShoppingListViewModel>();
         }
     }
 }
