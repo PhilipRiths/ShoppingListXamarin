@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using System.Windows.Input;
+﻿using System.Windows.Input;
 
 using Prism.Commands;
 using Prism.Mvvm;
@@ -12,6 +11,8 @@ namespace ShoppingList.Shared.ViewModels
     {
         private readonly IPageDialogService _dialogService;
         private readonly INavigationService _navigationService;
+
+        private string _shoppingListName;
 
         public ShoppingListDetailViewModel(INavigationService navigationService, IPageDialogService dialogService)
         {
@@ -26,8 +27,6 @@ namespace ShoppingList.Shared.ViewModels
 
         public ICommand SaveCommand { get; }
 
-        private string _shoppingListName;
-
         public string ShoppingListName
         {
             get => _shoppingListName;
@@ -35,18 +34,28 @@ namespace ShoppingList.Shared.ViewModels
             {
                 SetProperty(ref _shoppingListName, value);
                 ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
-            } 
-        }
-
-
-        private async void OnCancel()
-        {
-            await _navigationService.GoBackAsync();
+            }
         }
 
         private bool CanSave()
         {
             return !string.IsNullOrWhiteSpace(ShoppingListName);
+        }
+
+        private async void OnCancel()
+        {
+            if (!string.IsNullOrWhiteSpace(ShoppingListName))
+            {
+                var answer = await _dialogService.DisplayAlertAsync(
+                    "Cancellation",
+                    "You have unsaved changes, cancel anyway?",
+                    "YES",
+                    "NO");
+
+                if (answer == false) return;
+            }
+
+            await _navigationService.GoBackAsync();
         }
 
         private async void OnSave()
