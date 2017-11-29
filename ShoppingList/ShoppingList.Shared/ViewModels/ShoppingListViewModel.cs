@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Prism.Commands;
 using ShoppingList.Shared.Models;
+using ShoppingList.Shared.Views;
 using Xamarin.Forms;
 
 namespace ShoppingList.Shared.ViewModels
@@ -22,6 +23,13 @@ namespace ShoppingList.Shared.ViewModels
             ShoppingLists = new ObservableCollection<ShoppingLists>();
             LoadShoppingListCommand = new Command(async () => await ExecuteLoadShoppingListCommand());
             AddShoppingListCommand = new DelegateCommand(AddShoppingListExecute);
+
+            MessagingCenter.Subscribe<NewListPage, ShoppingLists>(this, "AddList", async (obj, list) =>
+            {
+                var _list = list as ShoppingLists;
+                ShoppingLists.Add(_list);
+                await DataStore.AddAsync(_list);
+            });
         }
 
         public ICommand AddShoppingListCommand { get; }

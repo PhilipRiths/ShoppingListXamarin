@@ -100,14 +100,14 @@ namespace ShoppingList.Shared.Services
         }
 
     
-    public async Task<bool> AddAsync(ShoppingLists item)
+    public async Task<bool> AddAsync(ShoppingLists list)
     {
-        _shoppingLists.Add(item);
+        _shoppingLists.Add(list);
 
         return await Task.FromResult(true);
     }
 
-    public async Task<bool> UpdateAsync(ShoppingLists list)
+        public async Task<bool> UpdateAsync(ShoppingLists list)
     {
         var _updateList = _shoppingLists.Where((ShoppingLists arg) => arg.Id == list.Id).FirstOrDefault();
         _shoppingLists.Remove(_updateList);

@@ -18,7 +18,6 @@ namespace ShoppingList.Shared
 		public ListPage ()
 		{
 		    InitializeComponent();
-
 		    BindingContext = model = new ShoppingListViewModel();
 		}
 	    async void OnItemSelected(object sender, SelectedItemChangedEventArgs args)
@@ -32,7 +31,12 @@ namespace ShoppingList.Shared
             // Manually deselect item
             ItemsListView.SelectedItem = null;
         }
-	    protected override void OnAppearing()
+	    async void AddList_Clicked(object sender, EventArgs e)
+	    {
+	        await Navigation.PushAsync(new NewListPage());
+	    }
+
+        protected override void OnAppearing()
 	    {
 	        base.OnAppearing();
 

@@ -23,5 +23,9 @@ namespace ShoppingList.Shared.Views
 	            InitializeComponent();
 	        BindingContext = this.viewModel = viewModel;
         }
-	}
+	    async void AddItem_Clicked(object sender, EventArgs e)
+	    {
+	        await Navigation.PushAsync(new NewItemPage());
+	    }
+    }
 }
