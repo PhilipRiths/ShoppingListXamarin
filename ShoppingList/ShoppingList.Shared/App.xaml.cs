@@ -23,8 +23,8 @@ namespace ShoppingList.Shared
         protected override void RegisterTypes()
         {
             Builder.RegisterTypeForNavigation<NavigationPage>();
-            Builder.RegisterTypeForNavigation<MainPage>();
             Builder.RegisterTypeForNavigation<ShoppingListPage, ShoppingListViewModel>();
+            Builder.RegisterTypeForNavigation<ShoppingListDetailPage, ShoppingListDetailViewModel>();
         }
     }
 }

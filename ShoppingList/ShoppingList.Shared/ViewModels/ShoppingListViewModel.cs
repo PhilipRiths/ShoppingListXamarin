@@ -2,13 +2,20 @@
 
 using Prism.Commands;
 using Prism.Mvvm;
+using Prism.Navigation;
+using Prism.Services;
+
+using ShoppingList.Shared.Views;
 
 namespace ShoppingList.Shared.ViewModels
 {
-    public class ShoppingListViewModel : BindableBase
+    public class ShoppingListViewModel
     {
-        public ShoppingListViewModel()
+        private readonly INavigationService _navigationService;
+
+        public ShoppingListViewModel(INavigationService navigationService)
         {
+            _navigationService = navigationService;
             AddShoppingListCommand = new DelegateCommand(AddShoppingListExecute);
         }
 
@@ -16,7 +23,7 @@ namespace ShoppingList.Shared.ViewModels
 
         private void AddShoppingListExecute()
         {
-            throw new System.NotImplementedException();
+            _navigationService.NavigateAsync(nameof(ShoppingListDetailPage), null, true);
         }
     }
 }
