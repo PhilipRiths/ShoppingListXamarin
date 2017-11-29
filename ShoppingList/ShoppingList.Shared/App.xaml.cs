@@ -7,8 +7,10 @@
         public App()
         {
             InitializeComponent();
-
-            this.MainPage = new MainPage();
+            if (Device.RuntimePlatform == Device.iOS)
+                MainPage = new MainPageTabbed();
+            else
+                MainPage = new NavigationPage(new MainPageTabbed());
         }
 
         protected override void OnStart()
