@@ -44,6 +44,11 @@ namespace ShoppingListApi
                 app.UseExceptionHandler();
             }
 
+            AutoMapper.Mapper.Initialize(cfg =>
+            {
+                cfg.CreateMap<Entities.ShoppingList, Models.ShoppingListDto>();
+            });
+
             shoppingListContext.EnsureSeedDataForContext();
 
             app.UseMvc();
