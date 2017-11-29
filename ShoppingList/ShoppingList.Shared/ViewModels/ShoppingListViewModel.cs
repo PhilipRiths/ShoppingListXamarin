@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Prism.Commands;
 using ShoppingList.Shared.Models;
 using Xamarin.Forms;
 
@@ -20,8 +21,15 @@ namespace ShoppingList.Shared.ViewModels
             Title = "Shoppinglists";
             ShoppingLists = new ObservableCollection<ShoppingLists>();
             LoadShoppingListCommand = new Command(async () => await ExecuteLoadShoppingListCommand());
+            AddShoppingListCommand = new DelegateCommand(AddShoppingListExecute);
         }
 
+        public ICommand AddShoppingListCommand { get; }
+
+        private void AddShoppingListExecute()
+        {
+            throw new System.NotImplementedException();
+        }
         async Task ExecuteLoadShoppingListCommand()
         {
             if (IsBusy)
