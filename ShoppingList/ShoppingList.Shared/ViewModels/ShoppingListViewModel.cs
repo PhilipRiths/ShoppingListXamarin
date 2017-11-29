@@ -21,7 +21,7 @@ namespace ShoppingList.Shared.ViewModels
         {
             Title = "Shoppinglists";
             ShoppingLists = new ObservableCollection<ShoppingLists>();
-            LoadShoppingListCommand = new Command(async () => await ExecuteLoadShoppingListCommand());
+            LoadShoppingListCommand = new DelegateCommand(async () => await ExecuteLoadShoppingListCommand());
             AddShoppingListCommand = new DelegateCommand(AddShoppingListExecute);
 
             MessagingCenter.Subscribe<NewListPage, ShoppingLists>(this, "AddList", async (obj, list) =>
