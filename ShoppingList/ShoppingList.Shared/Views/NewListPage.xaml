@@ -8,7 +8,7 @@
     <ContentPage.Content>
         <StackLayout Spacing="20" Padding="15">
             <Label Text="Text" FontSize="Medium" />
-            <Entry Text="{Binding Item.Name}" FontSize="Small" />
+            <Entry Text="{Binding ShoppingLists.Name}" FontSize="Small" />
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

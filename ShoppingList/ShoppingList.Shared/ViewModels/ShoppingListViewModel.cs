@@ -28,8 +28,9 @@ namespace ShoppingList.Shared.ViewModels
             {
                 var _list = list as ShoppingLists;
                 ShoppingLists.Add(_list);
-                await DataStore.AddAsync(_list);
+                await ShoppingListDataStore.AddAsync(_list);
             });
+          
         }
 
         public ICommand AddShoppingListCommand { get; }
@@ -48,7 +49,7 @@ namespace ShoppingList.Shared.ViewModels
             try
             {
                 ShoppingLists.Clear();
-                var shoppingLists = await DataStore.GetAllAsync(true);
+                var shoppingLists = await ShoppingListDataStore.GetAllAsync(true);
                 foreach (var list in shoppingLists)
                 {
                     ShoppingLists.Add(list);

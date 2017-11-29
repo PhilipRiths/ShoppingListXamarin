@@ -9,9 +9,9 @@ using ShoppingList = ShoppingList.Shared.Models.ShoppingLists;
 
 namespace ShoppingList.Shared.Services
 {
-    public class MockDataStore : IDataStore<Models.ShoppingLists>
+    public class MockDataStore : IDataStore<ShoppingLists>
     {
-        private List<Models.ShoppingLists> _shoppingLists;
+        private List<ShoppingLists> _shoppingLists;
         public MockDataStore()
         {
             _shoppingLists = new List<ShoppingLists>();

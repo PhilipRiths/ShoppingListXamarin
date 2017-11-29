@@ -16,10 +16,18 @@ namespace ShoppingList.Shared.Views
 		public NewListPage ()
 		{
 			InitializeComponent ();
+
+            ShoppingLists = new ShoppingLists
+            {
+                Name = "Ny lista"
+                
+            };
+		    BindingContext = this;
 		}
 	    async void Save_Clicked(object sender, EventArgs e)
 	    {
 	        MessagingCenter.Send(this, "AddList", ShoppingLists);
+
 	        await Navigation.PopToRootAsync();
 	    }
     }

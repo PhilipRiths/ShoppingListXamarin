@@ -18,14 +18,14 @@ namespace ShoppingList.Shared.Views
 			InitializeComponent ();
 		}
 
-	    public ListDetailPage(ListDetailViewModel viewModel)
+	     public ListDetailPage(ListDetailViewModel viewModel)
 	    {
 	            InitializeComponent();
 	        BindingContext = this.viewModel = viewModel;
         }
 	    async void AddItem_Clicked(object sender, EventArgs e)
 	    {
-	        await Navigation.PushAsync(new NewItemPage());
+	        await Navigation.PushAsync(new NewItemPage(viewModel));
 	    }
     }
 }

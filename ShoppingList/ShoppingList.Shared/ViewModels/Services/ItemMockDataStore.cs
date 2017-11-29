@@ -8,6 +8,7 @@ namespace ShoppingList.Shared.Services
 {
    public class ItemMockDataStore : IDataStore<Items>
     {
+        private List<Items> _items;
         public Task<bool> AddAsync(Items item)
         {
             throw new NotImplementedException();

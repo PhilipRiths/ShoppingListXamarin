@@ -12,7 +12,8 @@ namespace ShoppingList.Shared.ViewModels
     public class BaseViewModel : INotifyPropertyChanged
     {
 
-        public IDataStore<ShoppingLists> DataStore = new MockDataStore();
+        public IDataStore<ShoppingLists> ShoppingListDataStore = new MockDataStore();
+        //public IDataStore<Items> ItemsDataStore = new MockDataStore();
 
         bool isBusy = false;
         public bool IsBusy
