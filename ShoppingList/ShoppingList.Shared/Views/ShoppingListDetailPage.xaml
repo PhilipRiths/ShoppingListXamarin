@@ -13,7 +13,7 @@
     mc:Ignorable="d">
 
     <StackLayout HorizontalOptions="Center" VerticalOptions="Center">
-        <Entry Placeholder="Shopping list name..." />
+        <Entry Placeholder="Shopping list name..." Text="{Binding ShoppingListName}" />
         <StackLayout Orientation="Horizontal">
             <Button Command="{Binding CancelCommand}" Text="Cancel" />
             <Button Command="{Binding SaveCommand}" Text="Save" />

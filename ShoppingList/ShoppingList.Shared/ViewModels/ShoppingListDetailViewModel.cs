@@ -1,12 +1,14 @@
-﻿using System.Windows.Input;
+﻿using System.Threading.Tasks;
+using System.Windows.Input;
 
 using Prism.Commands;
+using Prism.Mvvm;
 using Prism.Navigation;
 using Prism.Services;
 
 namespace ShoppingList.Shared.ViewModels
 {
-    public class ShoppingListDetailViewModel
+    public class ShoppingListDetailViewModel : BindableBase
     {
         private readonly IPageDialogService _dialogService;
         private readonly INavigationService _navigationService;
@@ -16,26 +18,43 @@ namespace ShoppingList.Shared.ViewModels
             _navigationService = navigationService;
             _dialogService = dialogService;
 
-            CancelCommand = new DelegateCommand(CancelCommandExecute);
-            SaveCommand = new DelegateCommand(SaveCommandExecute);
+            CancelCommand = new DelegateCommand(OnCancel);
+            SaveCommand = new DelegateCommand(OnSave, CanSave);
         }
 
         public ICommand CancelCommand { get; }
 
         public ICommand SaveCommand { get; }
 
-        private void CancelCommandExecute()
+        private string _shoppingListName;
+
+        public string ShoppingListName
         {
-            _navigationService.GoBackAsync();
+            get => _shoppingListName;
+            set
+            {
+                SetProperty(ref _shoppingListName, value);
+                ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
+            } 
         }
 
-        private void SaveCommandExecute()
+
+        private async void OnCancel()
         {
-            _dialogService.DisplayAlertAsync("Save", "Your shopping list was saved...", "OK");
+            await _navigationService.GoBackAsync();
+        }
+
+        private bool CanSave()
+        {
+            return !string.IsNullOrWhiteSpace(ShoppingListName);
+        }
+
+        private async void OnSave()
+        {
+            await _dialogService.DisplayAlertAsync("Save", "Your shopping list was saved...", "OK");
 
             // TODO Push changes to API
-
-            _navigationService.GoBackAsync();
+            await _navigationService.GoBackAsync();
         }
     }
 }

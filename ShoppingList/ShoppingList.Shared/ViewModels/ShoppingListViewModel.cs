@@ -16,12 +16,12 @@ namespace ShoppingList.Shared.ViewModels
         public ShoppingListViewModel(INavigationService navigationService)
         {
             _navigationService = navigationService;
-            AddShoppingListCommand = new DelegateCommand(AddShoppingListExecute);
+            AddShoppingListCommand = new DelegateCommand(OnAddShoppingList);
         }
 
         public ICommand AddShoppingListCommand { get; }
 
-        private void AddShoppingListExecute()
+        private void OnAddShoppingList()
         {
             _navigationService.NavigateAsync(nameof(ShoppingListDetailPage), null, true);
         }
