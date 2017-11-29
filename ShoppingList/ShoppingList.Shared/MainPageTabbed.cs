@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using ShoppingList.Shared.Views;
 using Xamarin.Forms;
 
 namespace ShoppingList.Shared
@@ -9,7 +10,7 @@ namespace ShoppingList.Shared
    {
        public MainPageTabbed()
        {
-           Page userPage, displayListPage = null;
+           Page userPage, displayListPage, loginPage = null;
 
            switch (Device.RuntimePlatform)
            {
@@ -18,9 +19,13 @@ namespace ShoppingList.Shared
                     {Title = "Users"};
                     displayListPage = new NavigationPage(new ListPage())
                     {Title = "Shoppinglist"};
+                        loginPage = new NavigationPage(new LoginPage())
+                        {Title = "Login page"};
                    break;
 
                 default:
+                    loginPage = new LoginPage()
+                        { Title = "Login page" };
                     userPage = new UserPage()
                     {
                         Title = "User"
@@ -29,13 +34,16 @@ namespace ShoppingList.Shared
                     {
                         Title = "Shoppinglist"
                     };
+                  
                     break;
                        
             }
+           Children.Add(loginPage);
             Children.Add(userPage);
             Children.Add(displayListPage);
 
-           Title = Children[0].Title;
+
+           Title = "ShoppingList";
        }
      
      
