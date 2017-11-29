@@ -1,28 +1,32 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using System.ComponentModel.DataAnnotations;
 
-namespace ShoppingListApi.Models
+namespace ShoppingListApi.Entities
 {
     public class ShoppingItem
     {
         public ShoppingItem()
         {
-            ShoppingLists = new List<ShoppingList>();
+            ShoppingLists = new List<ShoppingListItem>();
         }
 
-        public int Id { get; set; }
+        [Key]
+        public Guid Id { get; set; }
 
+        [Required]
+        [MaxLength(50)]
         public string Name { get; set; }
 
         public int Quantity { get; set; }
 
+        [MaxLength(400)]
         public string Description { get; set; }
 
         public bool IsFavorite { get; set; }
 
         public bool IsBought { get; set; }
 
-        public ICollection<ShoppingList> ShoppingLists { get; set; }
+        public ICollection<ShoppingListItem> ShoppingLists { get; set; }
     }
 }
