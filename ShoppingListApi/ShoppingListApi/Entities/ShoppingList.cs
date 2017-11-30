@@ -6,12 +6,6 @@ namespace ShoppingListApi.Entities
 {
     public class ShoppingList
     {
-        public ShoppingList()
-        {
-            Users = new List<ShoppingListUser>();
-            ShoppingItems = new List<ShoppingListItem>();
-        }
-
         [Key]
         public Guid Id { get; set; }
 
@@ -19,9 +13,9 @@ namespace ShoppingListApi.Entities
         [MaxLength(50)]
         public string Name { get; set; }
 
-        public ICollection<ShoppingListItem> ShoppingItems { get; set; }
+        public ICollection<ShoppingListItem> ShoppingItems { get; set; } = new List<ShoppingListItem>();
 
-        public ICollection<ShoppingListUser> Users { get; set; }
+        public ICollection<ShoppingListUser> Users { get; set; } = new List<ShoppingListUser>();
 
         public DateTime LastEdited { get; set; }
 

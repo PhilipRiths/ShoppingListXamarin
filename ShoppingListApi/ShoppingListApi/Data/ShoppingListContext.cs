@@ -9,6 +9,7 @@ namespace ShoppingListApi.Data
            : base(options)
         {
             //Database.EnsureCreated();
+            //Database.Migrate();
         }
 
         //public ShoppingListContext()

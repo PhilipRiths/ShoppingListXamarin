@@ -6,11 +6,6 @@ namespace ShoppingListApi.Entities
 {
     public class ShoppingItem
     {
-        public ShoppingItem()
-        {
-            ShoppingLists = new List<ShoppingListItem>();
-        }
-
         [Key]
         public Guid Id { get; set; }
 
@@ -27,6 +22,6 @@ namespace ShoppingListApi.Entities
 
         public bool IsBought { get; set; }
 
-        public ICollection<ShoppingListItem> ShoppingLists { get; set; }
+        public ICollection<ShoppingListItem> ShoppingLists { get; set; } = new List<ShoppingListItem>();
     }
 }

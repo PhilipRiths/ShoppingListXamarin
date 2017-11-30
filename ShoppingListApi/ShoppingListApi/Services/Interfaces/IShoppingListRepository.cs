@@ -1,4 +1,5 @@
 ﻿using ShoppingListApi.Entities;
+using System;
 using System.Collections.Generic;
 
 namespace ShoppingListApi.Services
@@ -8,5 +9,7 @@ namespace ShoppingListApi.Services
         void AddShoppingList(ShoppingList shoppingList);
 
         IEnumerable<ShoppingList> GetShoppingLists();
+
+        ShoppingList GetShoppingList(Guid id);
     }
 }
