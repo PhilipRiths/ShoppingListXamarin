@@ -20,7 +20,7 @@ namespace ShoppingList.Shared.Services
                 new ShoppingLists()
                 {
                     Id = Guid.NewGuid().ToString(),
-                    Name = "Babas lista",
+                    Name = "Kalles lista",
                     Items = new ObservableCollection<Items>()
                     {
                         new Items()
