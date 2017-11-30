@@ -7,14 +7,14 @@ using Prism.Services;
 
 namespace ShoppingList.Shared.ViewModels
 {
-    public class ShoppingListDetailViewModel : BindableBase
+    public class GroceryListDetailViewModel : BaseViewModel
     {
         private readonly IPageDialogService _dialogService;
         private readonly INavigationService _navigationService;
 
         private string _shoppingListName;
 
-        public ShoppingListDetailViewModel(INavigationService navigationService, IPageDialogService dialogService)
+        public GroceryListDetailViewModel(INavigationService navigationService, IPageDialogService dialogService)
         {
             _navigationService = navigationService;
             _dialogService = dialogService;

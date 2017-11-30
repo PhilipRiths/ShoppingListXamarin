@@ -3,10 +3,10 @@
 using ShoppingList.Shared.ViewModels;
 using ShoppingList.Shared.Views;
 
-using Xamarin.Forms;
-
 namespace ShoppingList.Shared
 {
+    using Xamarin.Forms;
+
     public partial class App : PrismApplication
     {
         public App(IPlatformInitializer initializer = null) : base(initializer)
@@ -17,14 +17,17 @@ namespace ShoppingList.Shared
         {
             InitializeComponent();
 
-            NavigationService.NavigateAsync($"{nameof(NavigationPage)}/{nameof(ShoppingListPage)}");
+            // Set the page you are working with:
+            NavigationService.NavigateAsync($"{nameof(NavigationPage)}/{nameof(GroceryListPage)}");
         }
 
         protected override void RegisterTypes()
         {
             Builder.RegisterTypeForNavigation<NavigationPage>();
-            Builder.RegisterTypeForNavigation<ShoppingListPage, ShoppingListViewModel>();
-            Builder.RegisterTypeForNavigation<ShoppingListDetailPage, ShoppingListDetailViewModel>();
+            Builder.RegisterTypeForNavigation<GroceryListPage, GroceryListViewModel>();
+            Builder.RegisterTypeForNavigation<GroceryListDetailPage, GroceryListDetailViewModel>();
+            Builder.RegisterTypeForNavigation<GroceryItemPage, GroceryItemViewModel>();
+            Builder.RegisterTypeForNavigation<GroceryItemDetailPage, GroceryItemDetailViewModel>();
         }
     }
 }

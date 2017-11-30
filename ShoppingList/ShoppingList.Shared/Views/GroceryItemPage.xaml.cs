@@ -4,9 +4,9 @@ using Xamarin.Forms.Xaml;
 namespace ShoppingList.Shared.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class ShoppingListDetailPage : ContentPage
+    public partial class GroceryItemPage : ContentPage
     {
-        public ShoppingListDetailPage()
+        public GroceryItemPage()
         {
             InitializeComponent();
         }

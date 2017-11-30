@@ -11,6 +11,21 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Views\GroceryListDetailPage.xaml.cs">
+      <DependentUpon>GroceryListDetailPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\GroceryItemDetailPage.xaml.cs">
+      <DependentUpon>GroceryItemDetailPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\GroceryItemPage.xaml.cs">
+      <DependentUpon>GroceryItemPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\GroceryListPage.xaml.cs">
+      <DependentUpon>GroceryListPage.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Update="NETStandard.Library" Version="2.0.1" />
   </ItemGroup>
 
