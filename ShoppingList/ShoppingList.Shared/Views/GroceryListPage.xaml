@@ -1,13 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage
-    x:Class="ShoppingList.Shared.Views.ShoppingListPage"
+    x:Class="ShoppingList.Shared.Views.GroceryListPage"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
     xmlns:vm="clr-namespace:ShoppingList.Shared.ViewModels;assembly=ShoppingList.Shared"
-    d:DataContext="{d:DesignInstance vm:ShoppingListViewModel}"
+    Title="Shoppling Lists"
+    d:DataContext="{d:DesignInstance vm:GroceryListViewModel}"
     prism:ViewModelLocator.AutowireViewModel="True"
     mc:Ignorable="d">
 

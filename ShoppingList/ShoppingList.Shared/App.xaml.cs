@@ -1,43 +1,33 @@
 ﻿using Prism.Autofac;
 
+using ShoppingList.Shared.ViewModels;
+using ShoppingList.Shared.Views;
+
 namespace ShoppingList.Shared
 {
     using Xamarin.Forms;
 
     public partial class App : PrismApplication
     {
-        public App()
+        public App(IPlatformInitializer initializer = null) : base(initializer)
         {
-            InitializeComponent();
-            if (Device.RuntimePlatform == Device.iOS)
-                MainPage = new MainPageTabbed();
-            else
-                MainPage = new NavigationPage(new MainPageTabbed());
-        }
-
-        protected override void OnStart()
-        {
-            // Handle when your app starts
-        }
-
-        protected override void OnSleep()
-        {
-            // Handle when your app sleeps
         }
 
         protected override void OnInitialized()
         {
-          
+            InitializeComponent();
+
+            // Set the page you are working with:
+            NavigationService.NavigateAsync($"{nameof(NavigationPage)}/{nameof(GroceryListPage)}");
         }
 
         protected override void RegisterTypes()
         {
-            
-        }
-
-        protected override void OnResume()
-        {
-            // Handle when your app resumes
+            Builder.RegisterTypeForNavigation<NavigationPage>();
+            Builder.RegisterTypeForNavigation<GroceryListPage, GroceryListViewModel>();
+            Builder.RegisterTypeForNavigation<GroceryListDetailPage, GroceryListDetailViewModel>();
+            Builder.RegisterTypeForNavigation<GroceryItemPage, GroceryItemViewModel>();
+            Builder.RegisterTypeForNavigation<GroceryItemDetailPage, GroceryItemDetailViewModel>();
         }
     }
 }
