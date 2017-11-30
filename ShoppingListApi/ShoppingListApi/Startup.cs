@@ -29,6 +29,7 @@ namespace ShoppingListApi
 
             // register the repository
             services.AddScoped<IShoppingListRepository, ShoppingListRepository>();
+            services.AddScoped<IShoppingItemRepository, ShoppingItemRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

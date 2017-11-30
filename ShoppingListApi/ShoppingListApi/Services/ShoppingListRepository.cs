@@ -22,15 +22,6 @@ namespace ShoppingListApi.Services
             _context.ShoppingLists.Add(shoppingList);
         }
 
-        public IEnumerable<ShoppingListItem> GetShoppingListItem(Guid shoppingListId)
-        {
-            return _context.ShoppingListItem
-                .Where(s => s.ShoppingListId == shoppingListId)
-                .Include(si => si.ShoppingItem)
-                .Include(sl => sl.ShoppingList)
-                .ToList();
-        }
-
         public IEnumerable<ShoppingList> GetShoppingLists()
         {
             return _context.ShoppingLists

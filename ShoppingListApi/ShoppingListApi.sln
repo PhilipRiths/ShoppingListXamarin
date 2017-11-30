@@ -1,11 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27004.2009
+VisualStudioVersion = 15.0.27004.2010
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShoppingListApi", "ShoppingListApi\ShoppingListApi.csproj", "{B035C44C-5E69-4DEA-90B9-0C40F06C4DED}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShoppingListApi.Models", "ShoppingListApi.Models\ShoppingListApi.Models.csproj", "{4678884E-D2A6-4220-B2DC-FC5335FBA9BE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShoppingListApi", "ShoppingListApi\ShoppingListApi.csproj", "{B035C44C-5E69-4DEA-90B9-0C40F06C4DED}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +15,6 @@ Global
 		{B035C44C-5E69-4DEA-90B9-0C40F06C4DED}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B035C44C-5E69-4DEA-90B9-0C40F06C4DED}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B035C44C-5E69-4DEA-90B9-0C40F06C4DED}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4678884E-D2A6-4220-B2DC-FC5335FBA9BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4678884E-D2A6-4220-B2DC-FC5335FBA9BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4678884E-D2A6-4220-B2DC-FC5335FBA9BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4678884E-D2A6-4220-B2DC-FC5335FBA9BE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
