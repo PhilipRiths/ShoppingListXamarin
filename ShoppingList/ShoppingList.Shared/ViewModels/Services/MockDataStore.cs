@@ -26,14 +26,14 @@ namespace ShoppingList.Shared.Services
                         new Items()
                         {
                             Id = Guid.NewGuid().ToString(),
-                            Name = "Banan",
+                            Name = "Sylt",
                             InBasket = false
 
                         },
                         new Items()
                         {
                             Id = Guid.NewGuid().ToString(),
-                            Name = "Äpple",
+                            Name = "Pannkakor",
                             InBasket = false
 
                         },

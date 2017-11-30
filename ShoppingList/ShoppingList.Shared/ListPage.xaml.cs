@@ -26,7 +26,7 @@ namespace ShoppingList.Shared
             if (shoppingList == null)
                 return;
 
-            await Navigation.PushAsync(new ListDetailPage(new ListDetailViewModel(shoppingList)));
+            await Navigation.PushAsync(new ListDetailPage(new ShoppingListViewModel(shoppingList)));
 
             // Manually deselect item
             ItemsListView.SelectedItem = null;

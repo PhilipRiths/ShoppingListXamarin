@@ -14,12 +14,16 @@ namespace ShoppingList.Shared.ViewModels
 {
     public class ShoppingListViewModel : BaseViewModel
     {
+        public ObservableCollection<Items> Items { get; set; }
         public ObservableCollection<ShoppingLists> ShoppingLists { get; set; }
         public ICommand LoadShoppingListCommand { get; set; }
-
-        public ShoppingListViewModel()
+        public ShoppingLists ShoppingList { get; set; }
+        public ShoppingListViewModel(ShoppingLists shoppingList = null)
         {
-            Title = "Shoppinglists";
+            Title = shoppingList?.Name;
+            Items = shoppingList?.Items;
+            //Title = "Shoppinglists";
+            ShoppingList = shoppingList;
             ShoppingLists = new ObservableCollection<ShoppingLists>();
             LoadShoppingListCommand = new DelegateCommand(async () => await ExecuteLoadShoppingListCommand());
             AddShoppingListCommand = new DelegateCommand(AddShoppingListExecute);
@@ -30,7 +34,14 @@ namespace ShoppingList.Shared.ViewModels
                 ShoppingLists.Add(_list);
                 await ShoppingListDataStore.AddAsync(_list);
             });
-          
+            MessagingCenter.Subscribe<NewItemPage, ShoppingLists>(this, "UpdateList", async (obj, list) =>
+            {
+                var _list = list as ShoppingLists;
+                ShoppingLists.Remove(_list);
+                ShoppingLists.Add(_list);
+                await ShoppingListDataStore.UpdateAsync(_list);
+            });
+
         }
 
         public ICommand AddShoppingListCommand { get; }

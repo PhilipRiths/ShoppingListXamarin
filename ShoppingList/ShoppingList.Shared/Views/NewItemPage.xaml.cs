@@ -13,8 +13,9 @@ namespace ShoppingList.Shared.Views
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class NewItemPage : ContentPage
 	{
+	    ShoppingListViewModel Viewmodel = new ShoppingListViewModel();
         public Items Items { get; set; }
-	    public ShoppingLists ShoppingLists { get; set; }
+	    public ShoppingLists ShoppingList { get; set; }
 		public NewItemPage ()
 		{
 			InitializeComponent ();
@@ -26,20 +27,22 @@ namespace ShoppingList.Shared.Views
             };
 		    BindingContext = this;
         }
-	    public NewItemPage(ListDetailViewModel viewmodel)
+	    public NewItemPage(ShoppingListViewModel viewModel)
 	    {
+	        ShoppingList = viewModel.ShoppingList;
 	        InitializeComponent();
-
-	        Items = new Items()
+              Items = new Items()
 	        {
 	            Name = "Ny vara",
 	            InBasket = false
 	        };
 	        BindingContext = this;
+            
 	    }
         async void Save_Clicked(object sender, EventArgs e)
 	    {
-	        MessagingCenter.Send(this, "AddItem", Items);
+            ShoppingList.Items.Add(Items);
+	        MessagingCenter.Send(this, "UpdateList", ShoppingList);
 	        await Navigation.PopToRootAsync();
 	    }
     }

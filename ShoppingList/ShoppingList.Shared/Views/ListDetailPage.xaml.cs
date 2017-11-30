@@ -12,19 +12,22 @@ namespace ShoppingList.Shared.Views
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class ListDetailPage : ContentPage
 	{
-	    private ListDetailViewModel viewModel;
+	    private ShoppingListViewModel viewModel;
 		public ListDetailPage ()
 		{
 			InitializeComponent ();
 		}
 
-	     public ListDetailPage(ListDetailViewModel viewModel)
+	     public ListDetailPage(ShoppingListViewModel viewModel)
 	    {
-	            InitializeComponent();
+	       
+
+                InitializeComponent();
 	        BindingContext = this.viewModel = viewModel;
         }
 	    async void AddItem_Clicked(object sender, EventArgs e)
 	    {
+            
 	        await Navigation.PushAsync(new NewItemPage(viewModel));
 	    }
     }
