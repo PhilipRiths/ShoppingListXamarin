@@ -5,8 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="MvvmValidation" Version="3.1.0" />
     <PackageReference Include="Prism.Autofac.Forms" Version="7.0.0.269-pre" />
     <PackageReference Include="Prism.Forms" Version="7.0.0.269-pre" />
+    <PackageReference Include="System.ComponentModel.Annotations" Version="4.4.0" />
     <PackageReference Include="Xamarin.Forms" Version="2.5.0.91635" />
   </ItemGroup>
 
@@ -27,6 +29,10 @@
 
   <ItemGroup>
     <PackageReference Update="NETStandard.Library" Version="2.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Effects\" />
   </ItemGroup>
 
 </Project>

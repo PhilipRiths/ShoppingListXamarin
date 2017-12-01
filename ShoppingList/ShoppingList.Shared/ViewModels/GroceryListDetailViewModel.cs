@@ -1,9 +1,13 @@
-﻿using System.Windows.Input;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Windows.Input;
 
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
 using Prism.Services;
+
+using ShoppingList.Shared.Models;
+using ShoppingList.Shared.Services;
 
 namespace ShoppingList.Shared.ViewModels
 {
@@ -11,56 +15,45 @@ namespace ShoppingList.Shared.ViewModels
     {
         private readonly IPageDialogService _dialogService;
         private readonly INavigationService _navigationService;
+        private string _groceryListName;
 
-        private string _shoppingListName;
-
-        public GroceryListDetailViewModel(INavigationService navigationService, IPageDialogService dialogService)
+        public GroceryListDetailViewModel(
+            INavigationService navigationService, 
+            IPageDialogService dialogService)
         {
             _navigationService = navigationService;
             _dialogService = dialogService;
 
             CancelCommand = new DelegateCommand(OnCancel);
-            SaveCommand = new DelegateCommand(OnSave, CanSave);
+            SaveCommand = new DelegateCommand(OnSave);
         }
 
         public ICommand CancelCommand { get; }
 
         public ICommand SaveCommand { get; }
 
-        public string ShoppingListName
+        public string GroceryListName
         {
-            get => _shoppingListName;
-            set
-            {
-                SetProperty(ref _shoppingListName, value);
-                ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
-            }
-        }
-
-        private bool CanSave()
-        {
-            return !string.IsNullOrWhiteSpace(ShoppingListName);
+            get => _groceryListName;
+            set => SetProperty(ref _groceryListName, value);
         }
 
         private async void OnCancel()
         {
-            if (!string.IsNullOrWhiteSpace(ShoppingListName))
-            {
-                var answer = await _dialogService.DisplayAlertAsync(
-                    "Cancellation",
-                    "You have unsaved changes, cancel anyway?",
-                    "YES",
-                    "NO");
+            var answer = await _dialogService.DisplayAlertAsync(
+                "Cancellation",
+                "You have unsaved changes, cancel anyway?",
+                "YES",
+                "NO");
 
-                if (answer == false) return;
-            }
+            if (answer == false) return;
 
             await _navigationService.GoBackAsync();
         }
 
         private async void OnSave()
         {
-            await _dialogService.DisplayAlertAsync("Save", "Your shopping list was saved...", "OK");
+            await _dialogService.DisplayAlertAsync(string.Empty, "Your shopping list was saved...", "OK");
 
             // TODO Push changes to API
             await _navigationService.GoBackAsync();

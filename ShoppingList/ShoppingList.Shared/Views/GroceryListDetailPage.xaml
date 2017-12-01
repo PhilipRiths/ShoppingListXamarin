@@ -3,20 +3,55 @@
     x:Class="ShoppingList.Shared.Views.GroceryListDetailPage"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:behaviors="clr-namespace:ShoppingList.Shared.Validation"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
-    xmlns:vm="clr-namespace:ShoppingList.Shared.ViewModels;assembly=ShoppingList.Shared"
+    xmlns:vm="clr-namespace:ShoppingList.Shared.ViewModels"
     Title="Shoppling Lists"
     d:DataContext="{d:DesignInstance vm:GroceryListDetailViewModel}"
     prism:ViewModelLocator.AutowireViewModel="True"
     mc:Ignorable="d">
 
-    <StackLayout HorizontalOptions="Center" VerticalOptions="Center">
-        <Entry Placeholder="Shopping list name..." Text="{Binding ShoppingListName}" />
-        <StackLayout Orientation="Horizontal">
+    <Grid HorizontalOptions="Center" VerticalOptions="Center">
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+        <RelativeLayout HorizontalOptions="Center">
+            <Entry
+                x:Name="NameEntry"
+                BackgroundColor="Transparent"
+                Keyboard="Text"
+                Placeholder="Grocery list name..."
+                Text="{Binding GroceryListName}"
+                WidthRequest="250">
+                <Entry.Behaviors>
+                    <behaviors:EntryValidatorBehavior x:Name="EntryValidator" MaxLength="2" />
+                </Entry.Behaviors>
+            </Entry>
+            <Label
+                Margin="4,0,0,0"
+                RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToView,
+                                                                  ElementName=NameEntry,
+                                                                  Property=Height,
+                                                                  Factor=1,
+                                                                  Constant=-6}"
+                Text="{Binding Message, Source={x:Reference EntryValidator}}"
+                TextColor="Red" />
+        </RelativeLayout>
+
+        <StackLayout
+            Grid.Row="1"
+            HorizontalOptions="Center"
+            Orientation="Horizontal"
+            VerticalOptions="Center">
             <Button Command="{Binding CancelCommand}" Text="Cancel" />
-            <Button Command="{Binding SaveCommand}" Text="Save" />
+            <Button
+                Command="{Binding SaveCommand}"
+                IsEnabled="{Binding IsValid, Source={x:Reference EntryValidator}}"
+                Text="Save" />
         </StackLayout>
-    </StackLayout>
+    </Grid>
 </ContentPage>

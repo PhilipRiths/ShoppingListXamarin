@@ -2,6 +2,7 @@
 
 using ShoppingList.Shared.Models;
 using ShoppingList.Shared.Services;
+using ShoppingList.Shared.Validation;
 
 namespace ShoppingList.Shared.ViewModels
 {
