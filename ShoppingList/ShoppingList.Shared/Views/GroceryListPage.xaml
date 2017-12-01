@@ -18,4 +18,13 @@
             Icon="plus.png"
             Text="New" />
     </ContentPage.ToolbarItems>
+
+    <ListView ItemsSource="{Binding GroceryLists}">
+        <ListView.ItemTemplate>
+            <DataTemplate>
+                <TextCell Text="{Binding Name}" />
+            </DataTemplate>
+        </ListView.ItemTemplate>
+    </ListView>
+
 </ContentPage>

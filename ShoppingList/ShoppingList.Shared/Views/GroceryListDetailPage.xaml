@@ -28,7 +28,10 @@
                 Text="{Binding GroceryListName}"
                 WidthRequest="250">
                 <Entry.Behaviors>
-                    <behaviors:EntryValidatorBehavior x:Name="EntryValidator" MaxLength="2" />
+                    <behaviors:EntryValidatorBehavior
+                        x:Name="EntryValidator"
+                        CheckEmpty="True"
+                        MaxLength="20" />
                 </Entry.Behaviors>
             </Entry>
             <Label

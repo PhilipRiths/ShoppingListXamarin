@@ -1,15 +1,21 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
 
 namespace ShoppingList.Shared.Models
 {
     public class GroceryList
     {
-        public string Id { get; set; }
+        public GroceryList()
+        {
+            Items = new List<GroceryItem>();
+            Users = new List<User>();
+        }
+
+        public int Id { get; set; }
 
         public string Name { get; set; }
 
-        public ObservableCollection<GroceryItem> Items { get; set; }
+        public List<GroceryItem> Items { get; set; }
 
-        public ObservableCollection<User> Users { get; set; }
+        public List<User> Users { get; set; }
     }
 }

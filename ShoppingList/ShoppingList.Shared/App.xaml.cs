@@ -1,5 +1,9 @@
-﻿using Prism.Autofac;
+﻿using Autofac;
 
+using Prism.Autofac;
+
+using ShoppingList.Shared.Models;
+using ShoppingList.Shared.Services;
 using ShoppingList.Shared.ViewModels;
 using ShoppingList.Shared.Views;
 

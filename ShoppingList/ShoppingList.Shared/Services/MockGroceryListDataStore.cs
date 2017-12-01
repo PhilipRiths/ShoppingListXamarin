@@ -25,7 +25,7 @@
             return await Task.FromResult(true);
         }
 
-        public async Task<bool> DeleteAsync(string id)
+        public async Task<bool> DeleteAsync(int id)
         {
             var removeList = _groceryLists.FirstOrDefault(arg => arg.Id == id);
             _groceryLists.Remove(removeList);
@@ -38,7 +38,7 @@
             return await Task.FromResult(_groceryLists);
         }
 
-        public async Task<GroceryList> GetAsync(string id)
+        public async Task<GroceryList> GetAsync(int id)
         {
             return await Task.FromResult(_groceryLists.FirstOrDefault(s => s.Id == id));
         }
@@ -56,27 +56,27 @@
         {
             var grocyList1 = new GroceryList
             {
-                Id = Guid.NewGuid().ToString(),
+                Id = 1,
                 Name = "Babas lista",
-                Items = new ObservableCollection<GroceryItem>
+                Items = new List<GroceryItem>
                 {
-                    new GroceryItem { Id = Guid.NewGuid().ToString(), Name = "Banan", InBasket = false },
-                    new GroceryItem { Id = Guid.NewGuid().ToString(), Name = "Äpple", InBasket = false },
-                    new GroceryItem { Id = Guid.NewGuid().ToString(), Name = "Yoghurt", InBasket = false },
-                    new GroceryItem { Id = Guid.NewGuid().ToString(), Name = "Kanel", InBasket = false },
+                    new GroceryItem { Id = 1, Name = "Banan", InBasket = false },
+                    new GroceryItem { Id = 2, Name = "Äpple", InBasket = false },
+                    new GroceryItem { Id = 3, Name = "Yoghurt", InBasket = false },
+                    new GroceryItem { Id = 4, Name = "Kanel", InBasket = false },
                 }
             };
 
             var grocyList2 = new GroceryList
             {
-                Id = Guid.NewGuid().ToString(),
+                Id = 2,
                 Name = "Babas lista2",
-                Items = new ObservableCollection<GroceryItem>
+                Items = new List<GroceryItem>
                 {
-                    new GroceryItem { Id = Guid.NewGuid().ToString(), Name = "Avokado", InBasket = false },
-                    new GroceryItem { Id = Guid.NewGuid().ToString(), Name = "Spetskål", InBasket = false },
-                    new GroceryItem { Id = Guid.NewGuid().ToString(), Name = "Gurka", InBasket = false },
-                    new GroceryItem { Id = Guid.NewGuid().ToString(), Name = "Keso", InBasket = false },
+                    new GroceryItem { Id = 5, Name = "Avokado", InBasket = false },
+                    new GroceryItem { Id = 6, Name = "Spetskål", InBasket = false },
+                    new GroceryItem { Id = 7, Name = "Gurka", InBasket = false },
+                    new GroceryItem { Id = 8, Name = "Keso", InBasket = false },
                 }
             };
 
