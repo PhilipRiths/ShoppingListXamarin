@@ -22,7 +22,8 @@ namespace ShoppingListApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc();
+            services.AddMvc()
+                .AddJsonOptions(x => x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
             var connectionString = Configuration["connectionStrings:shoppingListDBConnectionString"];
             services.AddDbContext<ShoppingListContext>(o => o.UseSqlServer(connectionString));
@@ -48,6 +49,15 @@ namespace ShoppingListApi
             AutoMapper.Mapper.Initialize(cfg =>
             {
                 cfg.CreateMap<Entities.ShoppingList, Models.ShoppingListDto>();
+                //.ForMember(dest => dest.CreatedBy, opt => opt.MapFrom(src => src.CreatedBy.Id))
+                //.ForMember(dest => dest.LastEditedBy, opt => opt.MapFrom(src => src.LastEditedBy.Id));
+                cfg.CreateMap<Models.ShoppingListDto, Entities.ShoppingList>();
+
+                cfg.CreateMap<Entities.ShoppingItem, Models.ShoppingItemDto>();
+                cfg.CreateMap<Models.ShoppingItemDto, Entities.ShoppingItem>();
+
+                cfg.CreateMap<Models.ShoppingListForCreationDto, Entities.ShoppingList>();
+                cfg.CreateMap<Entities.ShoppingListItem, Models.ShoppingListItemDto>();
             });
 
             shoppingListContext.EnsureSeedDataForContext();

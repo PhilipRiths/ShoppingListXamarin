@@ -11,5 +11,9 @@ namespace ShoppingListApi.Services
         IEnumerable<ShoppingList> GetShoppingLists();
 
         ShoppingList GetShoppingList(Guid id);
+
+        bool ShoppingListExists(Guid shoppingListId);
+
+        bool Save();
     }
 }

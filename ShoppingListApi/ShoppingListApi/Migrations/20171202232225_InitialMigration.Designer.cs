@@ -11,7 +11,7 @@ using System;
 namespace ShoppingListApi.Migrations
 {
     [DbContext(typeof(ShoppingListContext))]
-    [Migration("20171129200112_InitialMigration")]
+    [Migration("20171202232225_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

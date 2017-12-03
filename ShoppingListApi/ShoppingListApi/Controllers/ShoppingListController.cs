@@ -32,21 +32,37 @@ namespace ShoppingListApi.Controllers
         [HttpGet("{id}")]
         public IActionResult GetShoppingList(Guid id)
         {
+            if (!_shoppingListRepository.ShoppingListExists(id))
+            {
+                return NotFound();
+            }
+
             var shoppingListFromRepo = _shoppingListRepository.GetShoppingList(id);
 
             var shoppingList = Mapper.Map<ShoppingListDto>(shoppingListFromRepo);
             return new JsonResult(shoppingList);
         }
 
-        [HttpPost()]
-        public IActionResult AddShoppingList(ShoppingList shoppingList)
+        [HttpPost(Name = "CreateShoppingList")]
+        public IActionResult CreateShoppingList([FromBody] ShoppingListForCreationDto shoppingList)
         {
             if (shoppingList == null)
             {
                 return NotFound();
             }
 
-            return Ok();
+            var shoppingListEntity = Mapper.Map<ShoppingList>(shoppingList);
+
+            _shoppingListRepository.AddShoppingList(shoppingListEntity);
+
+            if (!_shoppingListRepository.Save())
+            {
+                throw new Exception("Creating an author failed on save.");
+            }
+
+            var shoppingListToReturn = Mapper.Map<ShoppingListDto>(shoppingListEntity);
+
+            return Ok(shoppingListToReturn);
         }
 
         [HttpDelete()]

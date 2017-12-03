@@ -8,12 +8,36 @@ namespace ShoppingListApi.Entities
     {
         public static void EnsureSeedDataForContext(this ShoppingListContext context)
         {
-            context.ShoppingLists.RemoveRange(context.ShoppingLists);
-            context.ShoppingItems.RemoveRange(context.ShoppingItems);
+            //if (context.Users.Any() || context.ShoppingLists.Any())
+            //{
+            //    return;
+            //}
+
             context.Users.RemoveRange(context.Users);
+            context.ShoppingItems.RemoveRange(context.ShoppingItems);
+            context.ShoppingLists.RemoveRange(context.ShoppingLists);
             context.SaveChanges();
 
             // init seed data
+
+            var users = new List<User>
+            {
+                new User
+                {
+                    Id = new Guid("aee07c9e-da35-4a65-8f28-bffc004081b6"),
+                    FirstName = "Redige",
+                    LastName = "Redginsson",
+                    Mail = "RedigeRedginsson@redigmail.org"
+                },
+                new User
+                {
+                    Id = new Guid("b1cdafb9-db7e-485d-b89b-216fb71664e5"),
+                    FirstName = "Redi",
+                    LastName = "Redgi",
+                    Mail = "RediRedgi@redimail.org"
+                }
+            };
+
             var shoppingLists = new List<ShoppingList>
             {
                 new ShoppingList
@@ -41,13 +65,21 @@ namespace ShoppingListApi.Entities
                             }
                         }
                     },
-                    LastEdited = new DateTime(2000, 10, 10),
-                    CreatedBy = new User
+                    LastEditedBy = users.Find(u => u.Mail == "RedigeRedginsson@redigmail.org"),
+                    LastEdited = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second),
+                    CreatedBy = users.Find(u => u.Mail == "RedigeRedginsson@redigmail.org"),
+                    Users = new List<ShoppingListUser>
                     {
-                        Id = new Guid("aee07c9e-da35-4a65-8f28-bffc004081b6"),
-                        FirstName = "Redige",
-                        LastName = "Redginsson",
-                        Mail = "RedigeRedginsson@redigmail.org"
+                        new ShoppingListUser
+                        {
+                            User = users.Find(u => u.Mail == "RedigeRedginsson@redigmail.org"),
+                            UserId = users.Find(u => u.Mail == "RedigeRedginsson@redigmail.org").Id
+                        },
+                        new ShoppingListUser
+                        {
+                            User = users.Find(u => u.Mail == "RediRedgi@redimail.org"),
+                            UserId = users.Find(u => u.Mail == "RediRedgi@redimail.org").Id
+                        }
                     }
                 },
                 new ShoppingList
@@ -75,17 +107,13 @@ namespace ShoppingListApi.Entities
                             }
                         }
                     },
-                    LastEdited = new DateTime(2001, 11, 11),
-                    CreatedBy = new User
-                    {
-                        Id = new Guid("b1cdafb9-db7e-485d-b89b-216fb71664e5"),
-                        FirstName = "Redi",
-                        LastName = "Redgi",
-                        Mail = "RediRedgi@redimail.org"
-                    }
+                    LastEditedBy = users.Find(u => u.Mail == "RediRedgi@redimail.org"),
+                    LastEdited = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second),
+                    CreatedBy = users.Find(u => u.Mail == "RediRedgi@redimail.org")
                 }
             };
 
+            context.Users.AddRange(users);
             context.ShoppingLists.AddRange(shoppingLists);
             context.SaveChanges();
         }

@@ -20,13 +20,23 @@ namespace ShoppingListApi.Services
         {
             shoppingList.Id = Guid.NewGuid();
             _context.ShoppingLists.Add(shoppingList);
+
+            if (shoppingList.ShoppingItems.Any())
+            {
+                foreach (var item in shoppingList.ShoppingItems)
+                {
+                    item.Id = Guid.NewGuid();
+                }
+            }
         }
 
         public IEnumerable<ShoppingList> GetShoppingLists()
         {
             return _context.ShoppingLists
                 .OrderBy(s => s.Name)
-                .Include(su => su.Users)
+                .Include(u => u.Users)
+                .Include(c => c.CreatedBy)
+                .Include(l => l.LastEditedBy)
                 .ToList();
         }
 
@@ -34,7 +44,25 @@ namespace ShoppingListApi.Services
         {
             return _context.ShoppingLists
                 .Include(si => si.ShoppingItems)
+                .Include(u => u.Users)
+                .Include(c => c.CreatedBy)
+                .Include(l => l.LastEditedBy)
                 .FirstOrDefault(s => s.Id == id);
+        }
+
+        public void DeleteShoppingList(ShoppingList shoppingList)
+        {
+            _context.ShoppingLists.Remove(shoppingList);
+        }
+
+        public bool Save()
+        {
+            return (_context.SaveChanges() >= 0);
+        }
+
+        public bool ShoppingListExists(Guid shoppingListId)
+        {
+            return _context.ShoppingLists.Any(s => s.Id.Equals(shoppingListId));
         }
     }
 }
