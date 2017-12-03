@@ -1,14 +1,12 @@
-﻿using System.Collections.ObjectModel;
-using System.Threading.Tasks;
-using System.Windows.Input;
-
-using Prism.Commands;
+﻿using Prism.Commands;
 using Prism.Navigation;
 using Prism.Services;
-
 using ShoppingList.Shared.Helpers;
 using ShoppingList.Shared.Models;
 using ShoppingList.Shared.Views;
+using System.Collections.ObjectModel;
+using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace ShoppingList.Shared.ViewModels
 {
@@ -71,8 +69,17 @@ namespace ShoppingList.Shared.ViewModels
                 "Delete",
                 async () =>
                     {
-                        GroceryLists.Remove(groceryList);
-                        await MockShoppingListDataStore.DeleteAsync(groceryList.Id);
+                        var answer = await _dialogService.DisplayAlertAsync(
+                            string.Empty,
+                            "This will be permanently deleted, continue?",
+                            "OK",
+                            "CANCEL");
+
+                        if (answer)
+                        {
+                            GroceryLists.Remove(groceryList);
+                            await MockShoppingListDataStore.DeleteAsync(groceryList.Id);
+                        }
                     });
 
             var cancelAction = ActionSheetButton.CreateCancelButton("Cancel", () => { });
