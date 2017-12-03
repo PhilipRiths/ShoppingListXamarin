@@ -16,7 +16,7 @@
     <ContentPage.ToolbarItems>
         <ToolbarItem
             Command="{Binding OpenGroceryListDetailCommand}"
-            Icon="plus.png"
+            Icon="ic_plus.png"
             Text="New" />
     </ContentPage.ToolbarItems>
 
