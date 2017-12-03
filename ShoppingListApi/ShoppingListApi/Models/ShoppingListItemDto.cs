@@ -1,5 +1,4 @@
-﻿using ShoppingListApi.Entities;
-using System;
+﻿using System;
 
 namespace ShoppingListApi.Models
 {
@@ -8,9 +7,9 @@ namespace ShoppingListApi.Models
         public Guid Id { get; set; }
 
         public Guid ShoppingListId { get; set; }
-        public ShoppingList ShoppingList { get; set; }
+        public ShoppingListDto ShoppingList { get; set; }
 
         public Guid ShoppingItemId { get; set; }
-        public ShoppingItem ShoppingItem { get; set; }
+        public ShoppingItemDto ShoppingItem { get; set; }
     }
 }

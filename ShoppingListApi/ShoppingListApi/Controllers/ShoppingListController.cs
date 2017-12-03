@@ -40,6 +40,7 @@ namespace ShoppingListApi.Controllers
             var shoppingListFromRepo = _shoppingListRepository.GetShoppingList(id);
 
             var shoppingList = Mapper.Map<ShoppingListDto>(shoppingListFromRepo);
+
             return new JsonResult(shoppingList);
         }
 

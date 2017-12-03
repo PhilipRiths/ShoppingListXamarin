@@ -1,5 +1,4 @@
-﻿using ShoppingListApi.Entities;
-using System;
+﻿using System;
 
 namespace ShoppingListApi.Models
 {
@@ -11,8 +10,8 @@ namespace ShoppingListApi.Models
 
         public DateTime LastEdited { get; set; }
 
-        public User LastEditedBy { get; set; }
+        public UserDto LastEditedBy { get; set; }
 
-        public User CreatedBy { get; set; }
+        public UserDto CreatedBy { get; set; }
     }
 }
