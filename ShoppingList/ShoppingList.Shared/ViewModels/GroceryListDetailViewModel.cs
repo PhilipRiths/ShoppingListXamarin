@@ -35,14 +35,6 @@ namespace ShoppingList.Shared.ViewModels
 
         private async void OnCancel()
         {
-            var answer = await _dialogService.DisplayAlertAsync(
-                             "Cancellation",
-                             "You have unsaved changes, cancel anyway?",
-                             "YES",
-                             "NO");
-
-            if (answer == false) return;
-
             await _navigationService.GoBackAsync();
         }
 

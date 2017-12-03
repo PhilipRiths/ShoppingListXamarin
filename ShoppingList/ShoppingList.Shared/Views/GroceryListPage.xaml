@@ -8,7 +8,7 @@
     xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
     xmlns:vm="clr-namespace:ShoppingList.Shared.ViewModels;assembly=ShoppingList.Shared"
     x:Name="ContentPage"
-    Title="Shoppling Lists"
+    Title="Grocery Lists"
     d:DataContext="{d:DesignInstance vm:GroceryListViewModel}"
     prism:ViewModelLocator.AutowireViewModel="True"
     mc:Ignorable="d">
@@ -16,7 +16,7 @@
     <ContentPage.ToolbarItems>
         <ToolbarItem
             Command="{Binding OpenGroceryListDetailCommand}"
-            Icon="plus.png"
+            Icon="ic_plus.png"
             Text="New" />
     </ContentPage.ToolbarItems>
 

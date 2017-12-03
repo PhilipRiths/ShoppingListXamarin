@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.ObjectModel;
-using System.Diagnostics;
-using System.Threading.Tasks;
-using System.Windows.Input;
-
-using Prism.Commands;
+﻿using Prism.Commands;
 using Prism.Navigation;
 using Prism.Services;
-
 using ShoppingList.Shared.Helpers;
 using ShoppingList.Shared.Models;
 using ShoppingList.Shared.Views;
+using System.Collections.ObjectModel;
+using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace ShoppingList.Shared.ViewModels
 {
@@ -61,6 +57,36 @@ namespace ShoppingList.Shared.ViewModels
             }
         }
 
+        private async Task DisplayActionSheet(GroceryList groceryList)
+        {
+            var navigationParameters = new NavigationParameters { { "GroceryList", groceryList } };
+
+            var editAction = ActionSheetButton.CreateButton(
+                "Edit",
+                () => _navigationService.NavigateAsync(nameof(GroceryListDetailPage), navigationParameters));
+
+            var deleteAction = ActionSheetButton.CreateButton(
+                "Delete",
+                async () =>
+                    {
+                        var answer = await _dialogService.DisplayAlertAsync(
+                            string.Empty,
+                            "This will be permanently deleted, continue?",
+                            "OK",
+                            "CANCEL");
+
+                        if (answer)
+                        {
+                            GroceryLists.Remove(groceryList);
+                            await MockShoppingListDataStore.DeleteAsync(groceryList.Id);
+                        }
+                    });
+
+            var cancelAction = ActionSheetButton.CreateCancelButton("Cancel", () => { });
+
+            await _dialogService.DisplayActionSheetAsync(string.Empty, editAction, deleteAction, cancelAction);
+        }
+
         private async Task InitializeAsync()
         {
             GroceryLists = new ObservableCollection<GroceryList>(await MockShoppingListDataStore.GetAllAsync());
@@ -75,14 +101,7 @@ namespace ShoppingList.Shared.ViewModels
                 return;
             }
 
-            var navigationParameters = new NavigationParameters { { "GroceryList", groceryList } };
-
-            var editAction = ActionSheetButton.CreateButton(
-                "Edit",
-                () => _navigationService.NavigateAsync(nameof(GroceryListDetailPage), navigationParameters));
-            var cancelAction = ActionSheetButton.CreateCancelButton("CANCEL", () => { });
-
-            await _dialogService.DisplayActionSheetAsync(string.Empty, editAction, cancelAction);
+            await DisplayActionSheet(groceryList);
         }
     }
 }
