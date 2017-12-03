@@ -13,7 +13,9 @@
     prism:ViewModelLocator.AutowireViewModel="True"
     mc:Ignorable="d">
 
-    <Grid HorizontalOptions="Center" VerticalOptions="Center">
+    <Grid
+        HorizontalOptions="Center"
+        VerticalOptions="Center">
         <Grid.RowDefinitions>
             <RowDefinition />
             <RowDefinition />
@@ -22,10 +24,9 @@
         <RelativeLayout HorizontalOptions="Center">
             <Entry
                 x:Name="NameEntry"
-                BackgroundColor="Transparent"
                 Keyboard="Text"
                 Placeholder="Grocery list name..."
-                Text="{Binding GroceryListName}"
+                Text="{Binding GroceryList.Name}"
                 WidthRequest="250">
                 <Entry.Behaviors>
                     <behaviors:EntryValidatorBehavior
@@ -50,7 +51,9 @@
             HorizontalOptions="Center"
             Orientation="Horizontal"
             VerticalOptions="Center">
-            <Button Command="{Binding CancelCommand}" Text="Cancel" />
+            <Button
+                Command="{Binding CancelCommand}"
+                Text="Cancel" />
             <Button
                 Command="{Binding SaveCommand}"
                 IsEnabled="{Binding IsValid, Source={x:Reference EntryValidator}}"

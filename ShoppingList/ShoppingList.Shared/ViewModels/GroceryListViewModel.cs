@@ -1,10 +1,12 @@
-﻿using System.Collections.ObjectModel;
-using System.Linq;
+﻿using System;
+using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
 using Prism.Commands;
 using Prism.Navigation;
+using Prism.Services;
 
 using ShoppingList.Shared.Helpers;
 using ShoppingList.Shared.Models;
@@ -14,22 +16,24 @@ namespace ShoppingList.Shared.ViewModels
 {
     public class GroceryListViewModel : BaseViewModel, IAsyncInitialization, INavigatedAware
     {
+        private readonly IPageDialogService _dialogService;
         private readonly INavigationService _navigationService;
 
-        public GroceryListViewModel(INavigationService navigationService)
+        public GroceryListViewModel(INavigationService navigationService, IPageDialogService dialogService)
         {
             _navigationService = navigationService;
-
-            AddShoppingListCommand = new DelegateCommand(OnAddShoppingList);
+            _dialogService = dialogService;
 
             Initialization = InitializeAsync();
-        }
 
-        public Task Initialization { get; }
+            OpenGroceryListDetailCommand = new DelegateCommand<GroceryList>(OnOpenGroceryListDetail);
+        }
 
         public ObservableCollection<GroceryList> GroceryLists { get; private set; }
 
-        public ICommand AddShoppingListCommand { get; }
+        public ICommand OpenGroceryListDetailCommand { get; }
+
+        public Task Initialization { get; }
 
         public void OnNavigatedFrom(NavigationParameters parameters)
         {
@@ -37,12 +41,24 @@ namespace ShoppingList.Shared.ViewModels
 
         public async void OnNavigatedTo(NavigationParameters parameters)
         {
-            if (parameters.Count <= 0) return;
-
             // TODO Push changes to API
-            var newGroceryList = new GroceryList { Name = (string)parameters.First().Value };
-            GroceryLists.Add(newGroceryList);
-            await MockShoppingListDataStore.AddAsync(newGroceryList);
+            if (parameters.Count <= 0) return;
+            var groceryList = parameters["GroceryList"] as GroceryList;
+
+            if (groceryList != null && groceryList.Id == 0)
+            {
+                // Temporary Id solution to not create duplications
+                groceryList.Id = GroceryLists.Count + 1;
+                GroceryLists.Add(groceryList);
+                await MockShoppingListDataStore.AddAsync(groceryList);
+            }
+            else
+            {
+                var index = GroceryLists.IndexOf(groceryList);
+                GroceryLists.Remove(groceryList);
+                GroceryLists.Insert(index, groceryList);
+                await MockShoppingListDataStore.UpdateAsync(groceryList);
+            }
         }
 
         private async Task InitializeAsync()
@@ -50,9 +66,23 @@ namespace ShoppingList.Shared.ViewModels
             GroceryLists = new ObservableCollection<GroceryList>(await MockShoppingListDataStore.GetAllAsync());
         }
 
-        private async void OnAddShoppingList()
+        private async void OnOpenGroceryListDetail(GroceryList groceryList)
         {
-            await _navigationService.NavigateAsync(nameof(GroceryListDetailPage), null, true);
+            if (groceryList == null)
+            {
+                var newGroceryListParameter = new NavigationParameters { { "GroceryList", new GroceryList() } };
+                await _navigationService.NavigateAsync(nameof(GroceryListDetailPage), newGroceryListParameter, true);
+                return;
+            }
+
+            var navigationParameters = new NavigationParameters { { "GroceryList", groceryList } };
+
+            var editAction = ActionSheetButton.CreateButton(
+                "Edit",
+                () => _navigationService.NavigateAsync(nameof(GroceryListDetailPage), navigationParameters));
+            var cancelAction = ActionSheetButton.CreateCancelButton("CANCEL", () => { });
+
+            await _dialogService.DisplayActionSheetAsync(string.Empty, editAction, cancelAction);
         }
     }
 }
