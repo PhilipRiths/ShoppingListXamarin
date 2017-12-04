@@ -66,16 +66,38 @@ namespace ShoppingListApi.Controllers
             return Ok(shoppingListToReturn);
         }
 
-        [HttpDelete()]
-        public IActionResult DeleteShoppingList(Guid shoppingListId)
+        [HttpDelete("{id}")]
+        public IActionResult DeleteShoppingList(Guid id)
         {
-            return Ok();
+            var shoppingListFromRepo = _shoppingListRepository.GetShoppingList(id);
+            if (shoppingListFromRepo == null)
+            {
+                return NotFound();
+            }
+
+            _shoppingListRepository.DeleteShoppingList(shoppingListFromRepo);
+
+            if (!_shoppingListRepository.Save())
+            {
+                throw new Exception($"Deleting shoppingList on {id} failed on save");
+            }
+
+            return NoContent();
         }
 
         [HttpPatch()]
-        public IActionResult PartiallyUpdateShoppingList()
+        public IActionResult PartiallyUpdateShoppingList([FromBody] ShoppingListForEditDto shoppingList)
         {
-            return Ok();
+            if (shoppingList == null)
+            {
+                return NotFound();
+            }
+
+            var shoppingListEntity = Mapper.Map<ShoppingList>(shoppingList);
+
+            _shoppingListRepository.EditShoppingList(shoppingListEntity);
+
+            return NoContent();
         }
     }
 }
