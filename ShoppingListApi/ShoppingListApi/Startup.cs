@@ -74,12 +74,14 @@ namespace ShoppingListApi
                 cfg.CreateMap<Entities.ShoppingItem, Models.ShoppingItemDto>();
                 cfg.CreateMap<Models.ShoppingItemDto, Entities.ShoppingItem>();
 
-                cfg.CreateMap<Entities.User, Models.UserDto>()
-                .ForMember(dest => dest.Name, opt => opt.MapFrom(src =>
-                    $"{src.FirstName} {src.LastName}"));
+                cfg.CreateMap<Entities.User, Models.UserDto>();
+                //.ForMember(dest => dest.Name, opt => opt.MapFrom(src =>
+                //    $"{src.FirstName} {src.LastName}"));
 
                 cfg.CreateMap<Models.ShoppingListForCreationDto, Entities.ShoppingList>();
                 cfg.CreateMap<Entities.ShoppingListItem, Models.ShoppingListItemDto>();
+
+                cfg.CreateMap<Models.ShoppingListForEditDto, Entities.ShoppingList>();
             });
 
             shoppingListContext.EnsureSeedDataForContext();

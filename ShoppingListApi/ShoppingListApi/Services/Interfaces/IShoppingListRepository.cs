@@ -14,6 +14,9 @@ namespace ShoppingListApi.Services
 
         bool ShoppingListExists(Guid shoppingListId);
 
+        void EditShoppingList(ShoppingList shoppingList);
+
         bool Save();
+        void DeleteShoppingList(ShoppingList shoppingListFromRepo);
     }
 }
