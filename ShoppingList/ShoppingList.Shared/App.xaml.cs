@@ -1,4 +1,6 @@
-﻿using Autofac;
+﻿using System;
+
+using Autofac;
 
 using Prism.Autofac;
 
@@ -21,13 +23,15 @@ namespace ShoppingList.Shared
         {
             InitializeComponent();
 
+
             // Set the page you are working with:
-            NavigationService.NavigateAsync($"{nameof(NavigationPage)}/{nameof(GroceryListPage)}");
+            NavigationService.NavigateAsync($"{nameof(NavigationPage)}/{nameof(UserProfilePage)}");
         }
 
         protected override void RegisterTypes()
         {
             Builder.RegisterTypeForNavigation<NavigationPage>();
+            Builder.RegisterTypeForNavigation<UserProfilePage, UserProfileViewModel>();
             Builder.RegisterTypeForNavigation<GroceryListPage, GroceryListViewModel>();
             Builder.RegisterTypeForNavigation<GroceryListDetailPage, GroceryListDetailViewModel>();
             Builder.RegisterTypeForNavigation<GroceryItemPage, GroceryItemViewModel>();

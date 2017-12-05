@@ -1,0 +1,91 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="ShoppingList.Shared.Views.UserProfilePage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
+    xmlns:vm="clr-namespace:ShoppingList.Shared.ViewModels;assembly=ShoppingList.Shared"
+    Title="User Profile"
+    d:DataContext="{d:DesignInstance vm:UserProfileViewModel}"
+    prism:ViewModelLocator.AutowireViewModel="True"
+    mc:Ignorable="d">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style
+                x:Key="LabelHeaderStyle"
+                TargetType="Label">
+                <Setter Property="FontAttributes" Value="Bold" />
+                <Setter Property="FontSize" Value="16" />
+                <Setter Property="WidthRequest" Value="100" />
+                <Setter Property="VerticalTextAlignment" Value="Center" />
+            </Style>
+            <Style
+                x:Key="LabelContentStyle"
+                TargetType="Label">
+                <Setter Property="VerticalTextAlignment" Value="Center" />
+            </Style>
+
+            <Style
+                x:Key="EntryStyle"
+                TargetType="Entry" />
+
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <TableView Intent="Settings">
+        <TableSection>
+            <ViewCell>
+                <StackLayout
+                    Margin="10,0"
+                    Orientation="Horizontal">
+                    <Label
+                        Style="{StaticResource LabelHeaderStyle}"
+                        Text="First name:" />
+                    <Entry
+                        HorizontalOptions="FillAndExpand"
+                        Style="{StaticResource EntryStyle}"
+                        Text="Alem" />
+                </StackLayout>
+            </ViewCell>
+            <ViewCell>
+                <StackLayout
+                    Margin="10,0"
+                    Orientation="Horizontal">
+                    <Label
+                        Style="{StaticResource LabelHeaderStyle}"
+                        Text="Last name:" />
+                    <Entry
+                        HorizontalOptions="FillAndExpand"
+                        Style="{StaticResource EntryStyle}"
+                        Text="Putes" />
+                </StackLayout>
+            </ViewCell>
+            <ViewCell>
+                <StackLayout
+                    Margin="10,0"
+                    Orientation="Horizontal">
+                    <Label
+                        Style="{StaticResource LabelHeaderStyle}"
+                        Text="Email:" />
+                    <Label
+                        Style="{StaticResource LabelContentStyle}"
+                        Text="{Binding Email}">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer
+                                Command="{Binding OpenEditCommand}"
+                                CommandParameter="{Binding Email}" />
+                        </Label.GestureRecognizers>
+                    </Label>
+                </StackLayout>
+            </ViewCell>
+            <ViewCell>
+                <Button
+                    Margin="20,0"
+                    Text="Save" />
+            </ViewCell>
+        </TableSection>
+    </TableView>
+</ContentPage>
