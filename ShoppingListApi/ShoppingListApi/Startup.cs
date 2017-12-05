@@ -46,7 +46,7 @@ namespace ShoppingListApi
                 {
                     options.Authority = "http://localhost:5000";
                     options.RequireHttpsMetadata = false;
-                    options.ApiName = "api1";
+                    options.ApiName = "shoppingListApi";
                 });
         }
 
@@ -54,6 +54,7 @@ namespace ShoppingListApi
         public void Configure(IApplicationBuilder app, IHostingEnvironment env,
             ILoggerFactory loggerFactory, ShoppingListContext shoppingListContext)
         {
+            //In Configure the middleware is added to the HTTP pipeline.
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -83,12 +84,11 @@ namespace ShoppingListApi
 
             shoppingListContext.EnsureSeedDataForContext();
 
+            app.UseIdentityServer();
+
             app.UseAuthentication();
 
-            app.UseMvc();
-
-            //In Configure the middleware is added to the HTTP pipeline.
-            app.UseIdentityServer();
+            app.UseMvc();            
         }
     }
 }

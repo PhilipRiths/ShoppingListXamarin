@@ -21,6 +21,12 @@ namespace ShoppingListApi.Controllers
             _shoppingListRepository = shoppingListRepository;
         }
 
+        [HttpGet]
+        public string TestMethod()
+        {
+            return "This is totally a JSON string, like, totally...";
+        }
+
         [HttpGet()]
         public IActionResult GetShoppingLists()
         {

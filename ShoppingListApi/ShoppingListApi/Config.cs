@@ -9,7 +9,7 @@ namespace ShoppingListApi
         {
             return new List<ApiResource>
             {
-                new ApiResource("api1", "My API")
+                new ApiResource("shoppingListApi", "Shopping list API")
             };
         }
 
@@ -19,7 +19,8 @@ namespace ShoppingListApi
             {
                 new Client
                 {
-                    ClientId = "client",
+                   ClientId = "android",
+                   ClientName = "Android",
                     
                     // No interactive user, use the clientid/secret for authentication.
                     AllowedGrantTypes = GrantTypes.ClientCredentials,
@@ -27,11 +28,30 @@ namespace ShoppingListApi
                     // Secret for authentication
                     ClientSecrets =
                     {
-                        new Secret("secret".Sha256())
+                        new Secret("androidSecret".Sha256())
+                    },
+                    
+
+
+                    // Scopes that client has access to
+                    AllowedScopes = { "shoppingListApi" }
+                },
+
+                new Client
+                {
+                   ClientId = "ios",
+                    
+                    // No interactive user, use the clientid/secret for authentication.
+                    AllowedGrantTypes = GrantTypes.ClientCredentials,
+                    
+                    // Secret for authentication
+                    ClientSecrets =
+                    {
+                        new Secret("iosSecret".Sha256())
                     },
 
                     // Scopes that client has access to
-                    AllowedScopes = { "api1" }
+                    AllowedScopes = { "shoppingListApi" }
                 }
             };
         }
