@@ -1,11 +1,12 @@
 ﻿using Android.App;
+using Android.Content;
 using Android.Content.PM;
 using Android.OS;
 
 using Autofac;
 
 using Prism.Autofac;
-
+using Prism.Events;
 using ShoppingList.Shared;
 
 namespace ShoppingList.Droid
@@ -24,9 +25,15 @@ namespace ShoppingList.Droid
             ToolbarResource = Resource.Layout.Toolbar;
 
             base.OnCreate(bundle);
-
+            SimpleAuth.Providers.Google.Init(this.Application);
             global::Xamarin.Forms.Forms.Init(this, bundle);
             LoadApplication(new App());
+        }
+
+        protected override void OnActivityResult(int requestCode, Result resultCode, Intent data)
+        {
+            base.OnActivityResult(requestCode, resultCode, data);
+            SimpleAuth.Native.OnActivityResult(requestCode, resultCode, data);
         }
     }
 

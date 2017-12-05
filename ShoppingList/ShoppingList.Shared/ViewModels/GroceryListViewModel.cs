@@ -7,6 +7,8 @@ using ShoppingList.Shared.Views;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Prism.Events;
+using ShoppingList.Shared.Events;
 
 namespace ShoppingList.Shared.ViewModels
 {
@@ -14,16 +16,20 @@ namespace ShoppingList.Shared.ViewModels
     {
         private readonly IPageDialogService _dialogService;
         private readonly INavigationService _navigationService;
+        private readonly IEventAggregator _eventAggregator;
 
-        public GroceryListViewModel(INavigationService navigationService, IPageDialogService dialogService)
+        public GroceryListViewModel(INavigationService navigationService, 
+            IPageDialogService dialogService, IEventAggregator eventAggregator)
         {
             _navigationService = navigationService;
             _dialogService = dialogService;
+            _eventAggregator = eventAggregator;
 
             Initialization = InitializeAsync();
 
             OpenGroceryListDetailCommand = new DelegateCommand<GroceryList>(OnOpenGroceryListDetail);
         }
+
 
         public ObservableCollection<GroceryList> GroceryLists { get; private set; }
 
@@ -31,15 +37,19 @@ namespace ShoppingList.Shared.ViewModels
 
         public Task Initialization { get; }
 
+        public GoogleProfile GoogleProfile { get; private set; }
+
         public void OnNavigatedFrom(NavigationParameters parameters)
         {
         }
 
         public async void OnNavigatedTo(NavigationParameters parameters)
         {
+            GoogleProfile = parameters["GoogleProfile"] as GoogleProfile;
             // TODO Push changes to API
             if (parameters.Count <= 0) return;
             var groceryList = parameters["GroceryList"] as GroceryList;
+
 
             if (groceryList != null && groceryList.Id == 0)
             {
