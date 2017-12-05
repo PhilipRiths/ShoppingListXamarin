@@ -30,6 +30,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="Assets\google_signin_buttons\web\1x\btn_google_signin_dark_normal_web.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Update="NETStandard.Library" Version="2.0.1" />
   </ItemGroup>
 

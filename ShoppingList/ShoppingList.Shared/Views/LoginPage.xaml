@@ -11,9 +11,16 @@
              d:DataContext="{d:DesignInstance vm:LoginViewModel}"
              prism:ViewModelLocator.AutowireViewModel="True"
              mc:Ignorable="d">
-    
+
     <StackLayout Padding="10,40,10,10">
-        <Button Text="Login with Google" Command="{Binding LoginCommand}" />
+        <Label Text="Sign in"></Label>
+        <Image
+            Source="btn_google_signin_dark_normal_web.png">
+            <Image.GestureRecognizers>
+                <TapGestureRecognizer
+                    Command="{Binding LoginCommand}" />
+            </Image.GestureRecognizers>
+        </Image>
     </StackLayout>
     
 </ContentPage>
