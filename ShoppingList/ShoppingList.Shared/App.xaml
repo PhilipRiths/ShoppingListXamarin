@@ -3,4 +3,16 @@
     x:Class="ShoppingList.Shared.App"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:prism="clr-namespace:Prism.Autofac;assembly=Prism.Autofac.Forms" />
+    xmlns:prism="clr-namespace:Prism.Autofac;assembly=Prism.Autofac.Forms">
+
+    <prism:PrismApplication.Resources>
+        <ResourceDictionary>
+            <Style TargetType="NavigationPage">
+                <Setter Property="BarBackgroundColor" Value="White" />
+                <Setter Property="BarTextColor" Value="Black" />
+                <Setter Property="HasBackButton" Value="True" />
+            </Style>
+        </ResourceDictionary>
+    </prism:PrismApplication.Resources>
+
+</prism:PrismApplication>

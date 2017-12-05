@@ -12,6 +12,7 @@
     prism:ViewModelLocator.AutowireViewModel="True"
     mc:Ignorable="d">
 
+
     <ContentPage.Resources>
         <ResourceDictionary>
             <Style
@@ -28,64 +29,73 @@
                 <Setter Property="VerticalTextAlignment" Value="Center" />
             </Style>
 
-            <Style
-                x:Key="EntryStyle"
-                TargetType="Entry" />
-
         </ResourceDictionary>
     </ContentPage.Resources>
 
-    <TableView Intent="Settings">
+    <TableView
+        BackgroundColor="White"
+        Intent="Settings">
         <TableSection>
             <ViewCell>
-                <StackLayout
-                    Margin="10,0"
-                    Orientation="Horizontal">
-                    <Label
-                        Style="{StaticResource LabelHeaderStyle}"
-                        Text="First name:" />
-                    <Entry
-                        HorizontalOptions="FillAndExpand"
-                        Style="{StaticResource EntryStyle}"
-                        Text="Alem" />
-                </StackLayout>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <Image
+                        Grid.Column="0"
+                        Margin="8"
+                        Aspect="AspectFit"
+                        Source="ic_user.png" />
+                    <StackLayout
+                        Grid.Column="1"
+                        Spacing="0"
+                        VerticalOptions="Center">
+                        <Label
+                            Text="Som användare"
+                            TextColor="DeepPink" />
+                        <Label Text="{Binding UserWrapper.FullName}">
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer
+                                    Command="{Binding OpenEditCommand}"
+                                    CommandParameter="email" />
+                            </Label.GestureRecognizers>
+                        </Label>
+                    </StackLayout>
+                </Grid>
             </ViewCell>
             <ViewCell>
-                <StackLayout
-                    Margin="10,0"
-                    Orientation="Horizontal">
-                    <Label
-                        Style="{StaticResource LabelHeaderStyle}"
-                        Text="Last name:" />
-                    <Entry
-                        HorizontalOptions="FillAndExpand"
-                        Style="{StaticResource EntryStyle}"
-                        Text="Putes" />
-                </StackLayout>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <Image
+                        Grid.Column="0"
+                        Margin="12"
+                        Aspect="AspectFit"
+                        Source="ic_email.png" />
+                    <StackLayout
+                        Grid.Column="1"
+                        Spacing="0"
+                        VerticalOptions="Center">
+                        <Label
+                            Text="Inloggad med email"
+                            TextColor="DeepPink" />
+                        <Label Text="{Binding UserWrapper.Email}">
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer
+                                    Command="{Binding OpenEditCommand}"
+                                    CommandParameter="email" />
+                            </Label.GestureRecognizers>
+                        </Label>
+                    </StackLayout>
+
+                </Grid>
             </ViewCell>
-            <ViewCell>
-                <StackLayout
-                    Margin="10,0"
-                    Orientation="Horizontal">
-                    <Label
-                        Style="{StaticResource LabelHeaderStyle}"
-                        Text="Email:" />
-                    <Label
-                        Style="{StaticResource LabelContentStyle}"
-                        Text="{Binding Email}">
-                        <Label.GestureRecognizers>
-                            <TapGestureRecognizer
-                                Command="{Binding OpenEditCommand}"
-                                CommandParameter="{Binding Email}" />
-                        </Label.GestureRecognizers>
-                    </Label>
-                </StackLayout>
-            </ViewCell>
-            <ViewCell>
-                <Button
-                    Margin="20,0"
-                    Text="Save" />
-            </ViewCell>
+
         </TableSection>
     </TableView>
 </ContentPage>
