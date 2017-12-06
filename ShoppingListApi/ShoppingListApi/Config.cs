@@ -9,7 +9,7 @@ namespace ShoppingListApi
         {
             return new List<ApiResource>
             {
-                new ApiResource("shoppingListApi", "Shopping list API")
+                new ApiResource("shoppingListApi", "Shopping List API")
             };
         }
 
@@ -19,8 +19,8 @@ namespace ShoppingListApi
             {
                 new Client
                 {
-                   ClientId = "android",
-                   ClientName = "Android",
+                   ClientId = "shoppingList",
+                   ClientName = "Shopping List",
                     
                     // No interactive user, use the clientid/secret for authentication.
                     AllowedGrantTypes = GrantTypes.ClientCredentials,
@@ -28,31 +28,29 @@ namespace ShoppingListApi
                     // Secret for authentication
                     ClientSecrets =
                     {
-                        new Secret("androidSecret".Sha256())
+                        new Secret("secret".Sha256())
                     },
                     
-
-
                     // Scopes that client has access to
                     AllowedScopes = { "shoppingListApi" }
                 },
 
-                new Client
-                {
-                   ClientId = "ios",
+                //new Client
+                //{
+                //   ClientId = "ios",
                     
-                    // No interactive user, use the clientid/secret for authentication.
-                    AllowedGrantTypes = GrantTypes.ClientCredentials,
+                //    // No interactive user, use the clientid/secret for authentication.
+                //    AllowedGrantTypes = GrantTypes.ClientCredentials,
                     
-                    // Secret for authentication
-                    ClientSecrets =
-                    {
-                        new Secret("iosSecret".Sha256())
-                    },
+                //    // Secret for authentication
+                //    ClientSecrets =
+                //    {
+                //        new Secret("androidSecret".Sha256())
+                //    },
 
-                    // Scopes that client has access to
-                    AllowedScopes = { "shoppingListApi" }
-                }
+                //    // Scopes that client has access to
+                //    AllowedScopes = { "shoppingListApi" }
+                //}
             };
         }
     }

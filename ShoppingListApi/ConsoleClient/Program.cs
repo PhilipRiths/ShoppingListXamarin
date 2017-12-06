@@ -9,33 +9,38 @@ namespace ConsoleClient
     {
         static async Task Main(string[] args)
         {
+            Console.WriteLine("Press any key to continue...\n");
+            Console.ReadKey();
+
             // Discover endpoints from metadata.
             var discoveryResponse = await DiscoveryClient.GetAsync("http://localhost:5000");
             
-            if (discoveryResponse.IsError)
+             if (discoveryResponse.IsError)
             {
                 Console.WriteLine(discoveryResponse.Error);
                 return;
             }
 
             // Request token.
-            var tokenClient = new TokenClient(discoveryResponse.TokenEndpoint, "android", "androidSecret");
+            var tokenClient = new TokenClient(discoveryResponse.TokenEndpoint, "shoppingList", "secret");
             var tokenResponse = await tokenClient.RequestClientCredentialsAsync("shoppingListApi");
 
             if (tokenResponse.IsError)
             {
                 Console.WriteLine(tokenResponse.Error);
+                Console.WriteLine("Press any key to exit...");
+                Console.ReadKey();
                 return;
             }
 
             Console.WriteLine(tokenResponse.Json);
-            Console.WriteLine("\n\n");
+            Console.WriteLine();
 
             // Call API.
             var client = new HttpClient();
             client.SetBearerToken(tokenResponse.AccessToken);
 
-            var response = await client.GetAsync("http://localhost:5000/api/ShoppingLists/TestMethod"); // Correct URL?
+            var response = await client.GetAsync("http://localhost:5000/api/ShoppingLists/Test"); // Correct URL?
 
             if (!response.IsSuccessStatusCode)
             {
@@ -44,8 +49,11 @@ namespace ConsoleClient
             else
             {
                 var content = await response.Content.ReadAsStringAsync();
-                Console.WriteLine(content);
+                Console.WriteLine("API Response: " + content);
             }
+
+            Console.WriteLine("Press any key to exit...");
+            Console.ReadKey();
         }
     }
 }
