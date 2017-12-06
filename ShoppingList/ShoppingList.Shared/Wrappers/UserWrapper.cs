@@ -3,9 +3,6 @@
 using Prism.Mvvm;
 
 using ShoppingList.Shared.Models;
-using ShoppingList.Shared.Validation;
-
-using Xamarin.Forms;
 
 namespace ShoppingList.Shared.Wrappers
 {

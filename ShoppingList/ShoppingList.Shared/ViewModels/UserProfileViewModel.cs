@@ -7,9 +7,9 @@ using System.Windows.Input;
 using Acr.UserDialogs;
 
 using Prism.Commands;
+using Prism.Services;
 
 using ShoppingList.Shared.Helpers;
-using ShoppingList.Shared.Validation;
 using ShoppingList.Shared.Wrappers;
 
 namespace ShoppingList.Shared.ViewModels
@@ -20,10 +20,12 @@ namespace ShoppingList.Shared.ViewModels
             @"^(?("")("".+?(?<!\\)""@)|(([0-9a-z]((\.(?!\.))|[-!#\$%&'\*\+/=\?\^`\{\}\|~\w])*)(?<=[0-9a-z])@))"
             + @"(?(\[)(\[(\d{1,3}\.){3}\d{1,3}\])|(([0-9a-z][-\w]*[0-9a-z]*\.)+[a-z0-9][\-a-z0-9]{0,22}[a-z0-9]))$";
 
+        private readonly IPageDialogService _dialogService;
         private UserWrapper _userWrapper;
 
-        public UserProfileViewModel()
+        public UserProfileViewModel(IPageDialogService dialogService)
         {
+            _dialogService = dialogService;
             Initialization = InitializeAsync();
 
             OpenEditCommand = new DelegateCommand<string>(OnOpenEdit);
@@ -51,20 +53,25 @@ namespace ShoppingList.Shared.ViewModels
             switch (commandParameterValue)
             {
                 case "email":
-                    await PromptEmail();
+                    await PromptEditEmail();
                     break;
 
                 case "name":
-                    await PromptName();
+                    await PromptEditName();
+                    break;
+                default:
+                    await _dialogService.DisplayAlertAsync("Error", "Sorry, something went wrong, error message has been sent to support.", "OK");
+                    // TODO Log error
                     break;
             }
         }
 
-        private async Task PromptEmail()
+        private async Task PromptEditEmail()
         {
             var result = await UserDialogs.Instance.PromptAsync(
                              new PromptConfig
                              {
+                                 Message = "Edit your email:",
                                  CancelText = "CANCEL",
                                  OkText = "OK",
                                  OnTextChanged = ValidateEmail,
@@ -75,12 +82,12 @@ namespace ShoppingList.Shared.ViewModels
             UserWrapper.Email = result.Text;
         }
 
-        private async Task PromptName()
+        private async Task PromptEditName()
         {
             var result = await UserDialogs.Instance.PromptAsync(
                              new PromptConfig
                              {
-                                 Message = "Enter First name Last name",
+                                 Message = "Edit you first- and last name:",
                                  CancelText = "CANCEL",
                                  OkText = "OK",
                                  OnTextChanged = ValidateName,
