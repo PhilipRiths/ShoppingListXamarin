@@ -13,5 +13,9 @@ namespace ShoppingListApi.Controllers
     [Route("api/User")]
     public class UserController : Controller
     {
+        public UserController()
+        {
+
+        }
     }
 }

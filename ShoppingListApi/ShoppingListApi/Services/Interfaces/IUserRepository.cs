@@ -5,6 +5,6 @@ namespace ShoppingListApi.Services
 {
     public interface IUserRepository
     {
-        User GetUser(Guid Id);
+        User GetUser(string googleId);
     }
 }

@@ -23,6 +23,11 @@ namespace ShoppingListApi.Data
         //    base.OnConfiguring(optionsBuilder);
         //}
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            //modelBuilder.Entity<User>().HasAlternateKey(u => u.GoogleId); // Unique constraint
+        }
+
         public DbSet<ShoppingList> ShoppingLists { get; set; }
 
         public DbSet<ShoppingItem> ShoppingItems { get; set; }

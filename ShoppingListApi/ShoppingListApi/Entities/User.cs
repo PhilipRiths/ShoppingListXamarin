@@ -22,6 +22,9 @@ namespace ShoppingListApi.Entities
         [MaxLength(50)]
         public string Mail { get; set; }
 
+        [Required]
+        public string GoogleId { get; set; }
+
         public ICollection<ShoppingListUser> ShoppingLists { get; set; } = new List<ShoppingListUser>();
     }
 }

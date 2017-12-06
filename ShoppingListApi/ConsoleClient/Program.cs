@@ -40,7 +40,7 @@ namespace ConsoleClient
             var client = new HttpClient();
             client.SetBearerToken(tokenResponse.AccessToken);
 
-            var response = await client.GetAsync("http://localhost:5000/api/ShoppingLists/Test"); // Correct URL?
+            var response = await client.GetAsync("http://localhost:5000/api/ShoppingLists/Test"); // Test URL
 
             if (!response.IsSuccessStatusCode)
             {

@@ -27,14 +27,16 @@ namespace ShoppingListApi.Entities
                     Id = new Guid("aee07c9e-da35-4a65-8f28-bffc004081b6"),
                     FirstName = "Redige",
                     LastName = "Redginsson",
-                    Mail = "RedigeRedginsson@redigmail.org"
+                    Mail = "RedigeRedginsson@redigmail.org",
+                    GoogleId = "4561203165113013546"
                 },
                 new User
                 {
                     Id = new Guid("b1cdafb9-db7e-485d-b89b-216fb71664e5"),
                     FirstName = "Redi",
                     LastName = "Redgi",
-                    Mail = "RediRedgi@redimail.org"
+                    Mail = "RediRedgi@redimail.org",
+                    GoogleId = "1563587315654646465"
                 }
             };
 

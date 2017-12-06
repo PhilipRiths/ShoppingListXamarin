@@ -31,7 +31,7 @@ namespace ShoppingListApi.Services
                 .Where(s => s.ShoppingListId == shoppingListId)
                 .Include(sl => sl.ShoppingList)
                 .Include(si => si.ShoppingItem)
-                .ToList();
+                .ToList(); // Isn't this method supposed to just return one (1) ShoppingListItem??
         }
 
         public bool ShoppingListExists(Guid shoppingListId)
