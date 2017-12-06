@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -20,8 +21,9 @@ namespace ShoppingList.Shared.ViewModels
     {
         private readonly IPageDialogService _dialogService;
         private readonly IEventAggregator _eventAggregator;
-
         private readonly INavigationService _navigationService;
+        private GoogleApi _api;
+
 #if __ANDROID__
 			private string GoogleClientId = "707171298949-c27i7ehhs1ectmkifma6fbuft677bie9.apps.googleusercontent.com";
 			private string GoogleSecret = GoogleApi.NativeClientSecret; //"041h67ZTZOryqEbNKzDkaRms";
@@ -29,12 +31,14 @@ namespace ShoppingList.Shared.ViewModels
         private string GoogleClientId = "707171298949-jbjeae1jtunvpal1gtc8v7ta37b5iq9s.apps.googleusercontent.com";
         private string GoogleSecret = "041h67ZTZOryqEbNKzDkaRms";
 #endif
-        public LoginViewModel(INavigationService navigationService, 
+        public LoginViewModel(INavigationService navigationService,
             IPageDialogService dialogService, IEventAggregator eventAggregator)
         {
             _dialogService = dialogService;
             _eventAggregator = eventAggregator;
             _navigationService = navigationService;
+
+            _api = CreateApi();
 
             LoginCommand = new DelegateCommand(OnLoginExecute);
         }
@@ -43,7 +47,9 @@ namespace ShoppingList.Shared.ViewModels
         public ICommand LoginCommand { get; }
 
 
-        private async void OnLoginExecute()
+
+
+        private GoogleApi CreateApi()
         {
             var scopes = new[]
             {
@@ -56,23 +62,26 @@ namespace ShoppingList.Shared.ViewModels
             {
                 Scopes = scopes,
             };
+            return api;
+        }
 
+        private async void OnLoginExecute()
+        {
             try
             {
-                var account = await api.Authenticate();
-                var profile = await api.Get<GoogleProfile>("https://www.googleapis.com/plus/v1/people/me");
-                var navigationParameters = new NavigationParameters { { "GoogleProfile", profile } };
+                await _api.Authenticate();
+                
+                var profile = await _api.Get<GoogleProfile>("https://www.googleapis.com/plus/v1/people/me");
+                var navigationParameters = new NavigationParameters {{"GoogleProfile", profile}};
                 await _navigationService.NavigateAsync(nameof(GroceryListPage), navigationParameters);
             }
-            catch (TaskCanceledException)
+            catch (TaskCanceledException e)
             {
-
+                Debug.Write(e.Message);
             }
             catch (Exception ex)
             {
-
             }
         }
-        
     }
 }

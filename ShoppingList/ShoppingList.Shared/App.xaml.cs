@@ -19,14 +19,6 @@ namespace ShoppingList.Shared
     {
         public App(IPlatformInitializer initializer = null) : base(initializer)
         {
-#if __ANDROID__
-			string GoogleClientId = "707171298949-c27i7ehhs1ectmkifma6fbuft677bie9.apps.googleusercontent.com";
-			string GoogleSecret = GoogleApi.NativeClientSecret; //"041h67ZTZOryqEbNKzDkaRms";
-#else
-            string GoogleClientId = "707171298949-jbjeae1jtunvpal1gtc8v7ta37b5iq9s.apps.googleusercontent.com";
-            string GoogleSecret = "041h67ZTZOryqEbNKzDkaRms";
-#endif
-            // The root page of your application
             MainPage = new NavigationPage(new LoginPage());
         }
         

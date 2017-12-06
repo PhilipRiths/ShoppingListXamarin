@@ -6,7 +6,7 @@ using ShoppingList.Shared.Models;
 
 namespace ShoppingList.Shared.Events
 {
-    public class LoggedInEvent : PubSubEvent<GoogleProfile>
+    public class LoggedInEvent
     {
     }
 }
