@@ -1,0 +1,68 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="ShoppingList.Shared.Views.UserProfilePage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:ShoppingList.Shared.Controls;assembly=ShoppingList.Shared"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
+    xmlns:vm="clr-namespace:ShoppingList.Shared.ViewModels;assembly=ShoppingList.Shared"
+    Title="User Profile"
+    d:DataContext="{d:DesignInstance vm:UserProfileViewModel}"
+    prism:ViewModelLocator.AutowireViewModel="True"
+    mc:Ignorable="d">
+
+    <TableView
+        BackgroundColor="White"
+        Intent="Settings">
+        <TableSection Title="Inloggad">
+            <ViewCell>
+                <StackLayout
+                    Orientation="Horizontal"
+                    Spacing="0">
+                    <StackLayout.GestureRecognizers>
+                        <TapGestureRecognizer
+                            Command="{Binding OpenEditCommand}"
+                            CommandParameter="name" />
+                    </StackLayout.GestureRecognizers>
+                    <Image
+                        Margin="8"
+                        Aspect="AspectFit"
+                        Source="ic_user.png" />
+                    <StackLayout
+                        Spacing="0"
+                        VerticalOptions="Center">
+                        <Label
+                            Text="som användare"
+                            TextColor="DeepPink" />
+                        <Label Text="{Binding UserWrapper.FullName}" />
+                    </StackLayout>
+                </StackLayout>
+            </ViewCell>
+            <ViewCell>
+                <StackLayout
+                    Orientation="Horizontal"
+                    Spacing="0">
+                    <StackLayout.GestureRecognizers>
+                        <TapGestureRecognizer
+                            Command="{Binding OpenEditCommand}"
+                            CommandParameter="email" />
+                    </StackLayout.GestureRecognizers>
+                    <Image
+                        Margin="12"
+                        Aspect="AspectFit"
+                        Source="ic_email.png" />
+                    <StackLayout
+                        Spacing="0"
+                        VerticalOptions="Center">
+                        <Label
+                            Text="med email"
+                            TextColor="DeepPink" />
+                        <Label Text="{Binding UserWrapper.Email}" />
+                    </StackLayout>
+                </StackLayout>
+            </ViewCell>
+        </TableSection>
+    </TableView>
+</ContentPage>
