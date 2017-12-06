@@ -16,7 +16,7 @@
     <TableView
         BackgroundColor="White"
         Intent="Settings">
-        <TableSection Title="Inloggad">
+        <TableSection Title="Logged in">
             <ViewCell>
                 <StackLayout
                     Orientation="Horizontal"
@@ -34,7 +34,7 @@
                         Spacing="0"
                         VerticalOptions="Center">
                         <Label
-                            Text="som användare"
+                            Text="as user"
                             TextColor="DeepPink" />
                         <Label Text="{Binding UserWrapper.FullName}" />
                     </StackLayout>
@@ -57,10 +57,60 @@
                         Spacing="0"
                         VerticalOptions="Center">
                         <Label
-                            Text="med email"
+                            Text="with email"
                             TextColor="DeepPink" />
                         <Label Text="{Binding UserWrapper.Email}" />
                     </StackLayout>
+                </StackLayout>
+            </ViewCell>
+        </TableSection>
+        <TableSection Title="Get notifyed">
+            <ViewCell>
+                <StackLayout
+                    Orientation="Horizontal"
+                    Spacing="0">
+                    <Image
+                        Margin="12"
+                        Aspect="AspectFit"
+                        Source="ic_notification.png" />
+                    <Label
+                        Text="when existing items are updated in your shopping lists by other users"
+                        VerticalOptions="Center" />
+                    <Switch
+                        Margin="10,0"
+                        IsToggled="{Binding IsNotifyItemsUpdatedToggled}" />
+                </StackLayout>
+            </ViewCell>
+            <ViewCell>
+                <StackLayout
+                    Orientation="Horizontal"
+                    Spacing="0">
+                    <Image
+                        Margin="12"
+                        Aspect="AspectFit"
+                        Source="ic_notification.png" />
+                    <Label
+                        Text="when new items are added to your shopping lists by other users"
+                        VerticalOptions="Center" />
+                    <Switch
+                        Margin="10,0"
+                        IsToggled="{Binding IsNotifyItemsAddedToggled}" />
+                </StackLayout>
+            </ViewCell>
+            <ViewCell>
+                <StackLayout
+                    Orientation="Horizontal"
+                    Spacing="0">
+                    <Image
+                        Margin="12"
+                        Aspect="AspectFit"
+                        Source="ic_notification.png" />
+                    <Label
+                        Text="when items are deleted from your shopping lists by other users"
+                        VerticalOptions="Center" />
+                    <Switch
+                        Margin="10,0"
+                        IsToggled="{Binding IsNotifyItemsDeletedToggled}" />
                 </StackLayout>
             </ViewCell>
         </TableSection>

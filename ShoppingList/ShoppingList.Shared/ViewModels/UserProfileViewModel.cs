@@ -21,23 +21,46 @@ namespace ShoppingList.Shared.ViewModels
             + @"(?(\[)(\[(\d{1,3}\.){3}\d{1,3}\])|(([0-9a-z][-\w]*[0-9a-z]*\.)+[a-z0-9][\-a-z0-9]{0,22}[a-z0-9]))$";
 
         private readonly IPageDialogService _dialogService;
+        private readonly IUserDialogs _userDialogs;
+        private bool _isNotifyItemsAddedToggled;
+        private bool _isNotifyItemsDeletedToggled;
+        private bool _isNotifyItemsUpdatedToggled;
         private UserWrapper _userWrapper;
 
-        public UserProfileViewModel(IPageDialogService dialogService)
+        public UserProfileViewModel(IPageDialogService dialogService, IUserDialogs userDialogs)
         {
             _dialogService = dialogService;
+            _userDialogs = userDialogs;
             Initialization = InitializeAsync();
 
             OpenEditCommand = new DelegateCommand<string>(OnOpenEdit);
         }
 
-        public ICommand OpenEditCommand { get; }
+        public bool IsNotifyItemsUpdatedToggled
+        {
+            get => _isNotifyItemsUpdatedToggled;
+            set => SetProperty(ref _isNotifyItemsUpdatedToggled, value);
+        }
+
+        public bool IsNotifyItemsAddedToggled
+        {
+            get => _isNotifyItemsAddedToggled;
+            set => SetProperty(ref _isNotifyItemsAddedToggled, value);
+        }
+
+        public bool IsNotifyItemsDeletedToggled
+        {
+            get => _isNotifyItemsDeletedToggled;
+            set => SetProperty(ref _isNotifyItemsDeletedToggled, value);
+        }
 
         public UserWrapper UserWrapper
         {
             get => _userWrapper;
             set => SetProperty(ref _userWrapper, value);
         }
+
+        public ICommand OpenEditCommand { get; }
 
         public Task Initialization { get; }
 
@@ -59,8 +82,13 @@ namespace ShoppingList.Shared.ViewModels
                 case "name":
                     await PromptEditName();
                     break;
+
                 default:
-                    await _dialogService.DisplayAlertAsync("Error", "Sorry, something went wrong, error message has been sent to support.", "OK");
+                    await _dialogService.DisplayAlertAsync(
+                        "Error",
+                        "Sorry, something went wrong, error message has been sent to support.",
+                        "OK");
+
                     // TODO Log error
                     break;
             }
@@ -68,7 +96,7 @@ namespace ShoppingList.Shared.ViewModels
 
         private async Task PromptEditEmail()
         {
-            var result = await UserDialogs.Instance.PromptAsync(
+            var result = await _userDialogs.PromptAsync(
                              new PromptConfig
                              {
                                  Message = "Edit your email:",
@@ -78,8 +106,10 @@ namespace ShoppingList.Shared.ViewModels
                                  Text = UserWrapper.Email,
                                  InputType = InputType.Email
                              });
-
-            UserWrapper.Email = result.Text;
+            if (result.Ok)
+            {
+                UserWrapper.Email = result.Text;
+            }
         }
 
         private async Task PromptEditName()
@@ -95,9 +125,12 @@ namespace ShoppingList.Shared.ViewModels
                                  InputType = InputType.Name
                              });
 
-            var nameParts = result.Value.Split(' ');
-            UserWrapper.FirstName = nameParts[0].Trim();
-            UserWrapper.LastName = nameParts[1].Trim();
+            if (result.Ok)
+            {
+                var nameParts = result.Value.Split(' ');
+                UserWrapper.FirstName = nameParts[0].Trim();
+                UserWrapper.LastName = nameParts[1].Trim();
+            }
         }
 
         private void ValidateEmail(PromptTextChangedArgs e)
