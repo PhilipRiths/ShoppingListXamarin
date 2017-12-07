@@ -11,5 +11,7 @@ namespace ShoppingListApi.Models
         public string LastName { get; set; }
 
         public string Mail { get; set; }
+
+        public string GoogleId { get; set; }
     }
 }
