@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Prism.Commands;
@@ -39,14 +40,18 @@ namespace ShoppingList.Shared.ViewModels
             _navigationService = navigationService;
 
             _api = CreateApi();
-
             LoginCommand = new DelegateCommand(OnLoginExecute);
+
+            MessagingCenter.Subscribe<LoginPage>(this, "LoginAppeared", (sender) =>
+            {
+                OnLoginExecute();
+            });
+
+
         }
 
 
         public ICommand LoginCommand { get; }
-
-
 
 
         private GoogleApi CreateApi()
@@ -69,11 +74,18 @@ namespace ShoppingList.Shared.ViewModels
         {
             try
             {
-                await _api.Authenticate();
-                
-                var profile = await _api.Get<GoogleProfile>("https://www.googleapis.com/plus/v1/people/me");
-                var navigationParameters = new NavigationParameters {{"GoogleProfile", profile}};
-                await _navigationService.NavigateAsync(nameof(GroceryListPage), navigationParameters);
+                if (!_api.HasAuthenticated)
+                {
+                    await _api.Authenticate();
+
+                    var profile = await _api.Get<GoogleProfile>("https://www.googleapis.com/plus/v1/people/me");
+                    var navigationParameters = new NavigationParameters { { "GoogleProfile", profile } };
+                    await _navigationService.NavigateAsync(nameof(GroceryListPage), navigationParameters);
+                }
+                else
+                {
+                    return;
+                }
             }
             catch (TaskCanceledException e)
             {
@@ -81,6 +93,7 @@ namespace ShoppingList.Shared.ViewModels
             }
             catch (Exception ex)
             {
+                Debug.Write(ex.Message);
             }
         }
     }

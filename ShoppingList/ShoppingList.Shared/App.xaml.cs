@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using Autofac;
 using Prism.Autofac;
+using Prism.Autofac.Navigation;
 using Prism.Events;
+using Prism.Navigation;
 using ShoppingList.Shared.Events;
 using ShoppingList.Shared.Models;
 using ShoppingList.Shared.Services;
@@ -17,18 +20,21 @@ namespace ShoppingList.Shared
 
     public partial class App : PrismApplication
     {
+
+
         public App(IPlatformInitializer initializer = null) : base(initializer)
         {
-            MainPage = new NavigationPage(new LoginPage());
+            
         }
-        
+
+
         protected override void OnInitialized()
         {
             InitializeComponent();
-
-            // Set the page you are working with:
             NavigationService.NavigateAsync($"{nameof(NavigationPage)}/{nameof(LoginPage)}");
         }
+
+        
 
         protected override void RegisterTypes()
         {
