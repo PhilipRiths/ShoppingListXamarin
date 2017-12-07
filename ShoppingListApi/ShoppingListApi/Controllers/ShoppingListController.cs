@@ -105,6 +105,11 @@ namespace ShoppingListApi.Controllers
 
             _shoppingListRepository.EditShoppingList(shoppingListEntity);
 
+            if (!_shoppingListRepository.Save())
+            {
+                throw new Exception($"Updating shoppingList on {shoppingList.Id} failed on save");
+            }
+
             return NoContent();
         }
     }

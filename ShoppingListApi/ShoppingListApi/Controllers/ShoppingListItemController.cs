@@ -10,20 +10,20 @@ namespace ShoppingListApi.Controllers
 {
     [Authorize]
     [Produces("application/json")]
-    [Route("api/ShoppingItems")]
-    public class ShoppingItemController : Controller
-    {
-        private IShoppingItemRepository _shoppingItemRepository;
+    [Route("api/ShoppingListItems")]
+    public class ShoppingListItemController : Controller
+    {   
+        private IShoppingListItemRepository _shoppingListItemRepository;
 
-        public ShoppingItemController(IShoppingItemRepository shoppingItemRepository)
+        public ShoppingListItemController(IShoppingListItemRepository shoppingListItemRepository)
         {
-            _shoppingItemRepository = shoppingItemRepository;
+            _shoppingListItemRepository = shoppingListItemRepository;
         }
 
         [HttpGet()]
-        public IActionResult GetAllShoppingItems()
+        public IActionResult GetAllShoppingListItems()
         {
-            var allItemsFromRepo = _shoppingItemRepository.GetAllShoppingListItems();
+            var allItemsFromRepo = _shoppingListItemRepository.GetAllShoppingListItems();
 
             var allItems = Mapper.Map<IEnumerable<ShoppingListItemDto>>(allItemsFromRepo);
 
@@ -39,12 +39,12 @@ namespace ShoppingListApi.Controllers
         [HttpGet("{shoppingListId}")]
         public IActionResult GetAllItemsOnShoppingList(Guid shoppingListId)
         {
-            if (!_shoppingItemRepository.ShoppingListExists(shoppingListId))
+            if (!_shoppingListItemRepository.ShoppingListExists(shoppingListId))
             {
                 return NotFound();
             }
 
-            var itemsForShoppingListFromRepo = _shoppingItemRepository.GetShoppingListItem(shoppingListId);
+            var itemsForShoppingListFromRepo = _shoppingListItemRepository.GetShoppingListItem(shoppingListId);
 
             var itemsForShoppingList = Mapper.Map<IEnumerable<ShoppingListItemDto>>(itemsForShoppingListFromRepo);
 

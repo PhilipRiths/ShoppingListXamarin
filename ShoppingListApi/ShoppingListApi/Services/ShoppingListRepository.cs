@@ -67,12 +67,10 @@ namespace ShoppingListApi.Services
 
         public void EditShoppingList(ShoppingList shoppingList)
         {
-            var ShoppingListFromRepo = _context.ShoppingLists.FirstOrDefault(s => s.Id == shoppingList.Id);
+            var shoppingListFromRepo = _context.ShoppingLists.FirstOrDefault(s => s.Id == shoppingList.Id);
 
-            ShoppingListFromRepo.Name = shoppingList.Name;
-            ShoppingListFromRepo.LastEdited = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
-
-            _context.SaveChanges();
+            shoppingListFromRepo.Name = shoppingList.Name;
+            shoppingListFromRepo.LastEdited = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
         }
     }
 }

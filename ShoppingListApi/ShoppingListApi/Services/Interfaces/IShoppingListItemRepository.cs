@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace ShoppingListApi.Services
 {
-    public interface IShoppingItemRepository
+    public interface IShoppingListItemRepository
     {
         IEnumerable<ShoppingListItem> GetShoppingListItem(Guid shoppingListId);
 
