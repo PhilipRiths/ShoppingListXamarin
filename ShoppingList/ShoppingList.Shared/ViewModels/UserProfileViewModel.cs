@@ -16,9 +16,9 @@ namespace ShoppingList.Shared.ViewModels
 {
     public class UserProfileViewModel : BaseViewModel, IAsyncInitialization
     {
-        private const string EmailRegex =
-            @"^(?("")("".+?(?<!\\)""@)|(([0-9a-z]((\.(?!\.))|[-!#\$%&'\*\+/=\?\^`\{\}\|~\w])*)(?<=[0-9a-z])@))"
-            + @"(?(\[)(\[(\d{1,3}\.){3}\d{1,3}\])|(([0-9a-z][-\w]*[0-9a-z]*\.)+[a-z0-9][\-a-z0-9]{0,22}[a-z0-9]))$";
+        //private const string EmailRegex =
+            //@"^(?("")("".+?(?<!\\)""@)|(([0-9a-z]((\.(?!\.))|[-!#\$%&'\*\+/=\?\^`\{\}\|~\w])*)(?<=[0-9a-z])@))"
+            //+ @"(?(\[)(\[(\d{1,3}\.){3}\d{1,3}\])|(([0-9a-z][-\w]*[0-9a-z]*\.)+[a-z0-9][\-a-z0-9]{0,22}[a-z0-9]))$";
 
         private readonly IPageDialogService _dialogService;
         private UserWrapper _userWrapper;
@@ -52,9 +52,9 @@ namespace ShoppingList.Shared.ViewModels
         {
             switch (commandParameterValue)
             {
-                case "email":
-                    await PromptEditEmail();
-                    break;
+                //case "email":
+                    //await PromptEditEmail();
+                    //break;
 
                 case "name":
                     await PromptEditName();
@@ -66,21 +66,21 @@ namespace ShoppingList.Shared.ViewModels
             }
         }
 
-        private async Task PromptEditEmail()
-        {
-            var result = await UserDialogs.Instance.PromptAsync(
-                             new PromptConfig
-                             {
-                                 Message = "Edit your email:",
-                                 CancelText = "CANCEL",
-                                 OkText = "OK",
-                                 OnTextChanged = ValidateEmail,
-                                 Text = UserWrapper.Email,
-                                 InputType = InputType.Email
-                             });
+        //private async Task PromptEditEmail()
+        //{
+        //    var result = await UserDialogs.Instance.PromptAsync(
+        //                     new PromptConfig
+        //                     {
+        //                         Message = "Edit your email:",
+        //                         CancelText = "CANCEL",
+        //                         OkText = "OK",
+        //                         OnTextChanged = ValidateEmail,
+        //                         Text = UserWrapper.Email,
+        //                         InputType = InputType.Email
+        //                     });
 
-            UserWrapper.Email = result.Text;
-        }
+        //    UserWrapper.Email = result.Text;
+        //}
 
         private async Task PromptEditName()
         {
@@ -100,10 +100,10 @@ namespace ShoppingList.Shared.ViewModels
             UserWrapper.LastName = nameParts[1].Trim();
         }
 
-        private void ValidateEmail(PromptTextChangedArgs e)
-        {
-            e.IsValid = Regex.IsMatch(e.Value, EmailRegex, RegexOptions.IgnoreCase, TimeSpan.FromMilliseconds(250));
-        }
+        //private void ValidateEmail(PromptTextChangedArgs e)
+        //{
+        //    e.IsValid = Regex.IsMatch(e.Value, EmailRegex, RegexOptions.IgnoreCase, TimeSpan.FromMilliseconds(250));
+        //}
 
         private void ValidateName(PromptTextChangedArgs e)
         {

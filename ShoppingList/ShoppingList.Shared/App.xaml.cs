@@ -7,11 +7,17 @@ namespace ShoppingList.Shared
 {
     using Xamarin.Forms;
 
+
+
     public partial class App : PrismApplication
     {
-        public App(IPlatformInitializer initializer = null)
-            : base(initializer)
+        //public App(IPlatformInitializer initializer = null)
+        //    : base(initializer)
+        //{
+        //}
+        public App()
         {
+            InitializeComponent();
         }
 
         protected override void OnInitialized()
@@ -19,7 +25,7 @@ namespace ShoppingList.Shared
             InitializeComponent();
 
             // Set the page you are working with:
-            NavigationService.NavigateAsync($"{nameof(NavigationPage)}/{nameof(UserProfilePage)}");
+            NavigationService.NavigateAsync($"{nameof(NavigationPage)}/{nameof(GroceryListPage)}");
         }
 
         protected override void RegisterTypes()
