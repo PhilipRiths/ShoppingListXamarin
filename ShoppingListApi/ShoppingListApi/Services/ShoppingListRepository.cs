@@ -4,12 +4,19 @@ using ShoppingListApi.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 
 namespace ShoppingListApi.Services
 {
     public class ShoppingListRepository : IShoppingListRepository
     {
         private ShoppingListContext _context;
+        private static readonly ReaderWriterLockSlim ProductsLock = new ReaderWriterLockSlim();
+
+        public ShoppingListRepository()
+        {
+
+        }
 
         public ShoppingListRepository(ShoppingListContext context)
         {

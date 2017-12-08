@@ -66,7 +66,7 @@ namespace ShoppingListApi.Controllers
 
             if (!_shoppingListRepository.Save())
             {
-                throw new Exception("Creating an author failed on save.");
+                throw new Exception("Creating an shoppingList failed on save.");
             }
 
             var shoppingListToReturn = Mapper.Map<ShoppingListDto>(shoppingListEntity);

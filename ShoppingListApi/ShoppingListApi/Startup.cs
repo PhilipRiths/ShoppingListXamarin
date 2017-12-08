@@ -7,6 +7,7 @@ using Microsoft.Extensions.Logging;
 using ShoppingListApi.Data;
 using ShoppingListApi.Entities;
 using ShoppingListApi.Services;
+using Microsoft.AspNetCore.SpaServices.Webpack;
 
 namespace ShoppingListApi
 {
@@ -24,6 +25,8 @@ namespace ShoppingListApi
         {
             services.AddMvc()
                 .AddJsonOptions(x => x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+
+            services.AddSignalR();
 
             var connectionString = Configuration["connectionStrings:shoppingListDBConnectionString"];
             services.AddDbContext<ShoppingListContext>(o => o.UseSqlServer(connectionString));
@@ -55,10 +58,19 @@ namespace ShoppingListApi
         public void Configure(IApplicationBuilder app, IHostingEnvironment env,
             ILoggerFactory loggerFactory, ShoppingListContext shoppingListContext)
         {
+            app.UseSignalR(routes =>
+            {
+                routes.MapHub<ShoppingListMessageHub>("ShoppingListMessageHub");
+            });
+
             //In Configure the middleware is added to the HTTP pipeline.
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseWebpackDevMiddleware(new WebpackDevMiddlewareOptions
+                {
+                    HotModuleReplacement = true
+                });
             }
             else
             {
@@ -90,6 +102,8 @@ namespace ShoppingListApi
             app.UseIdentityServer();
 
             app.UseAuthentication();
+
+            app.UseStaticFiles();
 
             app.UseMvc();            
         }
