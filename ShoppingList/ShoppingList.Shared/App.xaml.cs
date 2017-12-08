@@ -44,6 +44,8 @@ namespace ShoppingList.Shared
             Builder.RegisterTypeForNavigation<GroceryItemPage, GroceryItemViewModel>();
             Builder.RegisterTypeForNavigation<GroceryItemDetailPage, GroceryItemDetailViewModel>();
             Builder.RegisterTypeForNavigation<LoginPage, LoginViewModel>();
+
+            Builder.RegisterType<GoogleAuthService>().As<IGoogleAuthService>().SingleInstance();
         }
     }
 }

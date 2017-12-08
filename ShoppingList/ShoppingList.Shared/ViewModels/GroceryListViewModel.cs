@@ -37,22 +37,15 @@ namespace ShoppingList.Shared.ViewModels
 
         public Task Initialization { get; }
 
-        public static GoogleProfile GoogleProfile { get; private set; }
-
         public void OnNavigatedFrom(NavigationParameters parameters)
         {
         }
 
         public async void OnNavigatedTo(NavigationParameters parameters)
         {
-            if (GoogleProfile == null)
-            {
-                GoogleProfile = parameters["GoogleProfile"] as GoogleProfile;
-            }
             // TODO Push changes to API
-           // if (parameters.Count <= 0) return;
+            if (parameters.Count <= 0) return;
             var groceryList = parameters["GroceryList"] as GroceryList;
-            if (groceryList == null) return;
 
             if (groceryList != null && groceryList.Id == 0)
             {
