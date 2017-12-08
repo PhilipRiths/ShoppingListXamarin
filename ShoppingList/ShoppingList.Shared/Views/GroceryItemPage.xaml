@@ -8,7 +8,8 @@
     Title="Shopping items">
     <ContentPage.ToolbarItems>
         <ToolbarItem  Text="New item"
-                      Command="{Binding NewItemCommand}"/>
+                      Command="{Binding NewItemCommand}"
+                      Icon="ic_plus.png"/>
     </ContentPage.ToolbarItems>
    
        <StackLayout>
