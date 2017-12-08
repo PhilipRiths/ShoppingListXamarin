@@ -7,11 +7,11 @@ using System.Linq;
 
 namespace ShoppingListApi.Services
 {
-    public class ShoppingItemRepository : IShoppingItemRepository
+    public class ShoppingListItemRepository : IShoppingListItemRepository
     {
         private ShoppingListContext _context;
 
-        public ShoppingItemRepository(ShoppingListContext context)
+        public ShoppingListItemRepository(ShoppingListContext context)
         {
             _context = context;
         }
@@ -31,7 +31,7 @@ namespace ShoppingListApi.Services
                 .Where(s => s.ShoppingListId == shoppingListId)
                 .Include(sl => sl.ShoppingList)
                 .Include(si => si.ShoppingItem)
-                .ToList(); // Isn't this method supposed to just return one (1) ShoppingListItem??
+                .ToList();
         }
 
         public bool ShoppingListExists(Guid shoppingListId)

@@ -25,7 +25,11 @@ namespace ShoppingListApi.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            //modelBuilder.Entity<User>().HasAlternateKey(u => u.GoogleId); // Unique constraint
+            // Unique constraints
+            modelBuilder.Entity<User>().HasAlternateKey(u => u.GoogleId);
+            modelBuilder.Entity<User>().HasAlternateKey(u => u.Mail);
+            modelBuilder.Entity<ShoppingList>().HasAlternateKey(s => s.Name);
+            modelBuilder.Entity<ShoppingItem>().HasAlternateKey(s => s.Name);
         }
 
         public DbSet<ShoppingList> ShoppingLists { get; set; }
