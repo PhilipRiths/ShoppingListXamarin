@@ -7,7 +7,6 @@ using Microsoft.Extensions.Logging;
 using ShoppingListApi.Data;
 using ShoppingListApi.Entities;
 using ShoppingListApi.Services;
-using Microsoft.AspNetCore.SpaServices.Webpack;
 
 namespace ShoppingListApi
 {
@@ -46,7 +45,7 @@ namespace ShoppingListApi
             //.AddTestUsers(Config.GetUsers());
 
             services.AddAuthentication("Bearer")
-                .AddIdentityServerAuthentication(options => 
+                .AddIdentityServerAuthentication(options =>
                 {
                     options.Authority = "http://localhost:5000";
                     options.RequireHttpsMetadata = false;
@@ -67,10 +66,10 @@ namespace ShoppingListApi
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseWebpackDevMiddleware(new WebpackDevMiddlewareOptions
-                {
-                    HotModuleReplacement = true
-                });
+                //app.UseWebpackDevMiddleware(new WebpackDevMiddlewareOptions
+                //{
+                //    HotModuleReplacement = true
+                //});
             }
             else
             {
@@ -95,6 +94,7 @@ namespace ShoppingListApi
                 cfg.CreateMap<Entities.ShoppingListItem, Models.ShoppingListItemDto>();
 
                 cfg.CreateMap<Models.ShoppingListForEditDto, Entities.ShoppingList>();
+                cfg.CreateMap<Models.ShoppingItemForEditDto, Entities.ShoppingItem>();
             });
 
             shoppingListContext.EnsureSeedDataForContext();
@@ -105,7 +105,7 @@ namespace ShoppingListApi
 
             app.UseStaticFiles();
 
-            app.UseMvc();            
+            app.UseMvc();
         }
     }
 }

@@ -25,7 +25,14 @@ namespace ShoppingListApi.Services
                 .ToList();
         }
 
-        public IEnumerable<ShoppingListItem> GetShoppingListItem(Guid shoppingListId)
+        public ShoppingListItem GetShoppingListItemById(Guid id)
+        {
+            return _context.ShoppingListItem
+                .Include(si => si.ShoppingItem)
+                .FirstOrDefault(si => si.ShoppingItemId == id);
+        }
+
+        public IEnumerable<ShoppingListItem> GetShoppingListItems(Guid shoppingListId)
         {
             return _context.ShoppingListItem
                 .Where(s => s.ShoppingListId == shoppingListId)
@@ -37,6 +44,26 @@ namespace ShoppingListApi.Services
         public bool ShoppingListExists(Guid shoppingListId)
         {
             return _context.ShoppingLists.Any(s => s.Id.Equals(shoppingListId));
+        }
+
+        public bool ShoppingItemExists(Guid shoppingItemId)
+        {
+            return _context.ShoppingItems.Any(i => i.Id.Equals(shoppingItemId));
+        }
+
+        public void EditShoppingItem(ShoppingItem shoppingItem)
+        {
+            var shoppingItemFromRepo = _context.ShoppingItems.FirstOrDefault(i => i.Id == shoppingItem.Id);
+
+            shoppingItemFromRepo.Quantity = shoppingItem.Quantity;
+            shoppingItemFromRepo.Description = shoppingItem.Description;
+            shoppingItemFromRepo.IsFavorite = shoppingItem.IsFavorite;
+            shoppingItemFromRepo.IsBought = shoppingItem.IsBought;
+        }
+
+        public bool Save()
+        {
+            return (_context.SaveChanges() >= 0);
         }
     }
 }

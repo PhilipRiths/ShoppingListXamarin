@@ -15,7 +15,6 @@ namespace ShoppingListApi.Services
 
         public ShoppingListRepository()
         {
-
         }
 
         public ShoppingListRepository(ShoppingListContext context)
@@ -60,6 +59,17 @@ namespace ShoppingListApi.Services
         public void DeleteShoppingList(ShoppingList shoppingList)
         {
             _context.ShoppingLists.Remove(shoppingList);
+        }
+
+        public void DeleteShoppingListItemContainingShoppingList(Guid shoppingListId)
+        {
+            foreach (var listItem in _context.ShoppingListItem)
+            {
+                if (listItem.ShoppingListId.Equals(shoppingListId))
+                {
+                    _context.ShoppingListItem.Remove(listItem);
+                }
+            }
         }
 
         public bool Save()
