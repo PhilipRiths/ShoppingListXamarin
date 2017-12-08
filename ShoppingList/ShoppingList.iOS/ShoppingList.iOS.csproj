@@ -155,13 +155,22 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <BundleResource Include="Resources\plus.png" />
+    <BundleResource Include="Resources\menu_dots.png" />
   </ItemGroup>
   <ItemGroup>
-    <BundleResource Include="Resources\plus%402x.png" />
+    <BundleResource Include="Resources\menu_dots%402x.png" />
   </ItemGroup>
   <ItemGroup>
-    <BundleResource Include="Resources\plus%403x.png" />
+    <BundleResource Include="Resources\menu_dots%403x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\ic_plus%402x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\ic_plus%403x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\ic_plus.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

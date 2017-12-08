@@ -4,13 +4,15 @@ using Prism.Commands;
 using Prism.Navigation;
 using Prism.Services;
 
+using ShoppingList.Shared.Models;
+
 namespace ShoppingList.Shared.ViewModels
 {
-    public class GroceryListDetailViewModel : BaseViewModel
+    public class GroceryListDetailViewModel : BaseViewModel, INavigatedAware
     {
         private readonly IPageDialogService _dialogService;
         private readonly INavigationService _navigationService;
-        private string _groceryListName;
+        private GroceryList _groceryList;
 
         public GroceryListDetailViewModel(INavigationService navigationService, IPageDialogService dialogService)
         {
@@ -25,22 +27,14 @@ namespace ShoppingList.Shared.ViewModels
 
         public ICommand SaveCommand { get; }
 
-        public string GroceryListName
+        public GroceryList GroceryList
         {
-            get => _groceryListName;
-            set => SetProperty(ref _groceryListName, value);
+            get => _groceryList;
+            set => SetProperty(ref _groceryList, value);
         }
 
         private async void OnCancel()
         {
-            var answer = await _dialogService.DisplayAlertAsync(
-                             "Cancellation",
-                             "You have unsaved changes, cancel anyway?",
-                             "YES",
-                             "NO");
-
-            if (answer == false) return;
-
             await _navigationService.GoBackAsync();
         }
 
@@ -49,7 +43,16 @@ namespace ShoppingList.Shared.ViewModels
             await _dialogService.DisplayAlertAsync(string.Empty, "Your grocery list was saved!", "OK");
 
             await _navigationService.GoBackAsync(
-                new NavigationParameters { { nameof(GroceryListName), GroceryListName } });
+                new NavigationParameters { { "GroceryList", GroceryList } });
+        }
+
+        public void OnNavigatedFrom(NavigationParameters parameters)
+        {
+        }
+
+        public void OnNavigatedTo(NavigationParameters parameters)
+        {
+            GroceryList = parameters["GroceryList"] as GroceryList;
         }
     }
 }

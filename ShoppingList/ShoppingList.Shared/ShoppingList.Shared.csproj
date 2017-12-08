@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MvvmValidation" Version="3.1.0" />
+    <PackageReference Include="Acr.UserDialogs" Version="6.5.1" />
     <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
     <PackageReference Include="Prism.Autofac.Forms" Version="7.0.0.269-pre" />
     <PackageReference Include="Prism.Forms" Version="7.0.0.269-pre" />
@@ -25,6 +25,9 @@
     </Compile>
     <Compile Update="Views\GroceryListPage.xaml.cs">
       <DependentUpon>GroceryListPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\UserProfilePage.xaml.cs">
+      <DependentUpon>UserProfilePage.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
 

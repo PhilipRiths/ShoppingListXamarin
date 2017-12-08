@@ -14,9 +14,12 @@ namespace ShoppingList.Shared.ViewModels
         public BaseViewModel()
         {
             MockShoppingListDataStore = new MockGroceryListDataStore();
+            MockUserDataStore = new MockUserDataStore();
         }
 
         public IDataStore<GroceryList> MockShoppingListDataStore { get; }
+
+        public IDataStore<User> MockUserDataStore { get; }
 
         public bool IsBusy
         {
