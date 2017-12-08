@@ -3,8 +3,9 @@
     x:Class="ShoppingList.Shared.Views.UserProfilePage"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:controls="clr-namespace:ShoppingList.Shared.Controls;assembly=ShoppingList.Shared"
+    xmlns:b="clr-namespace:Prism.Behaviors;assembly=Prism.Forms"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:helpers="clr-namespace:ShoppingList.Shared.Helpers;assembly=ShoppingList.Shared"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
     xmlns:vm="clr-namespace:ShoppingList.Shared.ViewModels;assembly=ShoppingList.Shared"
@@ -16,7 +17,7 @@
     <TableView
         BackgroundColor="White"
         Intent="Settings">
-        <TableSection Title="Inloggad">
+        <TableSection Title="Logged in">
             <ViewCell>
                 <StackLayout
                     Orientation="Horizontal"
@@ -34,7 +35,7 @@
                         Spacing="0"
                         VerticalOptions="Center">
                         <Label
-                            Text="som användare"
+                            Text="as user"
                             TextColor="DeepPink" />
                         <Label Text="{Binding UserWrapper.FullName}" />
                     </StackLayout>
@@ -44,11 +45,6 @@
                 <StackLayout
                     Orientation="Horizontal"
                     Spacing="0">
-                    <StackLayout.GestureRecognizers>
-                        <TapGestureRecognizer
-                            Command="{Binding OpenEditCommand}"
-                            CommandParameter="email" />
-                    </StackLayout.GestureRecognizers>
                     <Image
                         Margin="12"
                         Aspect="AspectFit"
@@ -57,10 +53,81 @@
                         Spacing="0"
                         VerticalOptions="Center">
                         <Label
-                            Text="med email"
+                            Text="with email"
                             TextColor="DeepPink" />
                         <Label Text="{Binding UserWrapper.Email}" />
                     </StackLayout>
+                </StackLayout>
+            </ViewCell>
+        </TableSection>
+        <TableSection Title="Get notifyed">
+            <ViewCell>
+                <StackLayout
+                    Orientation="Horizontal"
+                    Spacing="0">
+                    <Image
+                        Margin="12"
+                        Aspect="AspectFit"
+                        Source="ic_notification.png" />
+                    <Label
+                        Text="when new items are added to your shopping lists by other users"
+                        VerticalOptions="Center" />
+                    <Switch
+                        Margin="10,0"
+                        IsToggled="{Binding UserWrapper.IsNotifyGroceryItemAdded}">
+                        <Switch.Behaviors>
+                            <b:EventToCommandBehavior
+                                Command="{Binding UserNotificationPreferenceChangedCommand}"
+                                CommandParameter="{x:Static helpers:NotificationType.GroceryItemAdded}"
+                                EventName="Toggled" />
+                        </Switch.Behaviors>
+                    </Switch>
+                </StackLayout>
+            </ViewCell>
+            <ViewCell>
+                <StackLayout
+                    Orientation="Horizontal"
+                    Spacing="0">
+                    <Image
+                        Margin="12"
+                        Aspect="AspectFit"
+                        Source="ic_notification.png" />
+                    <Label
+                        Text="when existing items are updated in your shopping lists by other users"
+                        VerticalOptions="Center" />
+                    <Switch
+                        Margin="10,0"
+                        IsToggled="{Binding UserWrapper.IsNotifyGroceryItemUpdated}">
+                        <Switch.Behaviors>
+                            <b:EventToCommandBehavior
+                                Command="{Binding UserNotificationPreferenceChangedCommand}"
+                                CommandParameter="{x:Static helpers:NotificationType.GroceryItemUpdated}"
+                                EventName="Toggled" />
+                        </Switch.Behaviors>
+                    </Switch>
+                </StackLayout>
+            </ViewCell>
+            <ViewCell>
+                <StackLayout
+                    Orientation="Horizontal"
+                    Spacing="0">
+                    <Image
+                        Margin="12"
+                        Aspect="AspectFit"
+                        Source="ic_notification.png" />
+                    <Label
+                        Text="when items are deleted from your shopping lists by other users"
+                        VerticalOptions="Center" />
+                    <Switch
+                        Margin="10,0"
+                        IsToggled="{Binding UserWrapper.IsNotifyGroceryItemDeleted}">
+                        <Switch.Behaviors>
+                            <b:EventToCommandBehavior
+                                Command="{Binding UserNotificationPreferenceChangedCommand}"
+                                CommandParameter="{x:Static helpers:NotificationType.GroceryItemDeleted}"
+                                EventName="Toggled" />
+                        </Switch.Behaviors>
+                    </Switch>
                 </StackLayout>
             </ViewCell>
         </TableSection>
