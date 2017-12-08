@@ -31,6 +31,7 @@ namespace ShoppingList.Shared
             Builder.RegisterTypeForNavigation<GroceryListPage, GroceryListViewModel>();
             Builder.RegisterTypeForNavigation<GroceryListDetailPage, GroceryListDetailViewModel>();
             Builder.RegisterTypeForNavigation<GroceryItemPage, GroceryItemViewModel>();
+            //Builder.RegisterTypeForNavigation<NewGroceryItemPage, >()
             Builder.RegisterTypeForNavigation<GroceryItemDetailPage, GroceryItemDetailViewModel>();
         }
     }

@@ -29,5 +29,7 @@ namespace ShoppingList.Shared.ViewModels
             get => _title;
             set => SetProperty(ref _title, value);
         }
+
+   
     }
 }
