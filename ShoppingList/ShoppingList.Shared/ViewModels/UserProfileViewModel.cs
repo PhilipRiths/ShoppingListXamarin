@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Linq;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
 using Acr.UserDialogs;
 
 using Prism.Commands;
+using Prism.Events;
 using Prism.Services;
 
+using ShoppingList.Shared.Events;
 using ShoppingList.Shared.Helpers;
 using ShoppingList.Shared.Wrappers;
 
@@ -16,49 +17,27 @@ namespace ShoppingList.Shared.ViewModels
 {
     public class UserProfileViewModel : BaseViewModel, IAsyncInitialization
     {
-        private const string EmailRegex =
-            @"^(?("")("".+?(?<!\\)""@)|(([0-9a-z]((\.(?!\.))|[-!#\$%&'\*\+/=\?\^`\{\}\|~\w])*)(?<=[0-9a-z])@))"
-            + @"(?(\[)(\[(\d{1,3}\.){3}\d{1,3}\])|(([0-9a-z][-\w]*[0-9a-z]*\.)+[a-z0-9][\-a-z0-9]{0,22}[a-z0-9]))$";
-
         private readonly IPageDialogService _dialogService;
+        private readonly IEventAggregator _eventAggregator;
         private readonly IUserDialogs _userDialogs;
-        private bool _isNotifyItemsAddedToggled;
-        private bool _isNotifyItemsDeletedToggled;
-        private bool _isNotifyItemsUpdatedToggled;
-        private UserWrapper _userWrapper;
 
-        public UserProfileViewModel(IPageDialogService dialogService, IUserDialogs userDialogs)
+        public UserProfileViewModel(
+            IEventAggregator eventAggregator,
+            IPageDialogService dialogService,
+            IUserDialogs userDialogs)
         {
+            _eventAggregator = eventAggregator;
             _dialogService = dialogService;
             _userDialogs = userDialogs;
             Initialization = InitializeAsync();
 
             OpenEditCommand = new DelegateCommand<string>(OnOpenEdit);
+            UserNotificationPreferenceChangedCommand = new DelegateCommand<object>(OnUserNotificationPreferenceChanged);
         }
 
-        public bool IsNotifyItemsUpdatedToggled
-        {
-            get => _isNotifyItemsUpdatedToggled;
-            set => SetProperty(ref _isNotifyItemsUpdatedToggled, value);
-        }
+        public UserWrapper UserWrapper { get; private set; }
 
-        public bool IsNotifyItemsAddedToggled
-        {
-            get => _isNotifyItemsAddedToggled;
-            set => SetProperty(ref _isNotifyItemsAddedToggled, value);
-        }
-
-        public bool IsNotifyItemsDeletedToggled
-        {
-            get => _isNotifyItemsDeletedToggled;
-            set => SetProperty(ref _isNotifyItemsDeletedToggled, value);
-        }
-
-        public UserWrapper UserWrapper
-        {
-            get => _userWrapper;
-            set => SetProperty(ref _userWrapper, value);
-        }
+        public ICommand UserNotificationPreferenceChangedCommand { get; }
 
         public ICommand OpenEditCommand { get; }
 
@@ -71,14 +50,48 @@ namespace ShoppingList.Shared.ViewModels
             UserWrapper = new UserWrapper(user);
         }
 
+        private void OnUserNotificationPreferenceChanged(object notificationType)
+        {
+            // TODO Update the API
+            var notification = (NotificationType)notificationType;
+
+            switch (notification)
+            {
+                case NotificationType.GroceryItemAdded:
+                    _eventAggregator.GetEvent<UserNotificationPreferenceChangedEvent>()
+                        .Publish(
+                            new UserNotificationPreferenceChangedEventArgs
+                            {
+                                NotificationType = NotificationType.GroceryItemUpdated
+                            });
+                    break;
+                case NotificationType.GroceryItemUpdated:
+                    _eventAggregator.GetEvent<UserNotificationPreferenceChangedEvent>()
+                        .Publish(
+                            new UserNotificationPreferenceChangedEventArgs
+                            {
+                                NotificationType = NotificationType.GroceryItemAdded
+                            });
+                    break;
+                case NotificationType.GroceryItemDeleted:
+                    _eventAggregator.GetEvent<UserNotificationPreferenceChangedEvent>()
+                        .Publish(
+                            new UserNotificationPreferenceChangedEventArgs
+                            {
+                                NotificationType = NotificationType.GroceryItemAdded
+                            });
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
+
         private async void OnOpenEdit(string commandParameterValue)
         {
+            if (commandParameterValue.Length <= 0) return;
+
             switch (commandParameterValue)
             {
-                case "email":
-                    await PromptEditEmail();
-                    break;
-
                 case "name":
                     await PromptEditName();
                     break;
@@ -94,27 +107,9 @@ namespace ShoppingList.Shared.ViewModels
             }
         }
 
-        private async Task PromptEditEmail()
-        {
-            var result = await _userDialogs.PromptAsync(
-                             new PromptConfig
-                             {
-                                 Message = "Edit your email:",
-                                 CancelText = "CANCEL",
-                                 OkText = "OK",
-                                 OnTextChanged = ValidateEmail,
-                                 Text = UserWrapper.Email,
-                                 InputType = InputType.Email
-                             });
-            if (result.Ok)
-            {
-                UserWrapper.Email = result.Text;
-            }
-        }
-
         private async Task PromptEditName()
         {
-            var result = await UserDialogs.Instance.PromptAsync(
+            var result = await _userDialogs.PromptAsync(
                              new PromptConfig
                              {
                                  Message = "Edit you first- and last name:",
@@ -131,11 +126,6 @@ namespace ShoppingList.Shared.ViewModels
                 UserWrapper.FirstName = nameParts[0].Trim();
                 UserWrapper.LastName = nameParts[1].Trim();
             }
-        }
-
-        private void ValidateEmail(PromptTextChangedArgs e)
-        {
-            e.IsValid = Regex.IsMatch(e.Value, EmailRegex, RegexOptions.IgnoreCase, TimeSpan.FromMilliseconds(250));
         }
 
         private void ValidateName(PromptTextChangedArgs e)

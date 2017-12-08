@@ -1,4 +1,5 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 
 using Prism.Mvvm;
 
@@ -8,25 +9,33 @@ namespace ShoppingList.Shared.Wrappers
 {
     public class UserWrapper : BindableBase
     {
-        private readonly User _user;
-
         public UserWrapper(User user)
         {
-            _user = user;
+            Model = user;
         }
 
-        public int Id => _user.Id;
+        public User Model { get; }
+
+        public int Id => Model.Id;
 
         public string FirstName
         {
             get => GetValue<string>();
-            set => SetValue(value);
+            set
+            {
+                SetValue(value);
+                RaisePropertyChanged(nameof(FullName));
+            }
         }
 
         public string LastName
         {
             get => GetValue<string>();
-            set => SetValue(value);
+            set
+            {
+                SetValue(value);
+                RaisePropertyChanged(nameof(FullName));
+            }
         }
 
         public string Email
@@ -35,24 +44,38 @@ namespace ShoppingList.Shared.Wrappers
             set => SetValue(value);
         }
 
-        public string FullName
+        public bool IsNotifyGroceryItemAdded
         {
-            get
-            {
-                var fullName = $"{FirstName} {LastName}";
-                RaisePropertyChanged();
-                return fullName;
-            }
+            get => GetValue<bool>();
+            set => SetValue(value);
         }
+
+        public bool IsNotifyGroceryItemUpdated
+        {
+            get => GetValue<bool>();
+            set => SetValue(value);
+        }
+
+        public bool IsNotifyGroceryItemDeleted
+        {
+            get => GetValue<bool>();
+            set => SetValue(value);
+        }
+
+        public string FullName => $"{FirstName} {LastName}";
 
         private TValue GetValue<TValue>([CallerMemberName] string propertyName = null)
         {
-            return (TValue)typeof(User).GetProperty(propertyName).GetValue(_user);
+            return (TValue)typeof(User).GetProperty(propertyName).GetValue(Model);
         }
 
         private void SetValue<TValue>(TValue value, [CallerMemberName] string propertyName = null)
         {
-            typeof(User).GetProperty(propertyName).SetValue(_user, value);
+            var oldValue = GetValue<TValue>(propertyName);
+
+            if (EqualityComparer<TValue>.Default.Equals(oldValue, value)) return;
+
+            typeof(User).GetProperty(propertyName).SetValue(Model, value);
             RaisePropertyChanged(propertyName);
         }
     }

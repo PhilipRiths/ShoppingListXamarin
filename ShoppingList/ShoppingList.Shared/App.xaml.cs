@@ -3,6 +3,7 @@
 using Autofac;
 
 using Prism.Autofac;
+using Prism.Events;
 
 using ShoppingList.Shared.ViewModels;
 using ShoppingList.Shared.Views;
@@ -34,6 +35,8 @@ namespace ShoppingList.Shared
             Builder.RegisterTypeForNavigation<GroceryListDetailPage, GroceryListDetailViewModel>();
             Builder.RegisterTypeForNavigation<GroceryItemPage, GroceryItemViewModel>();
             Builder.RegisterTypeForNavigation<GroceryItemDetailPage, GroceryItemDetailViewModel>();
+
+            Builder.RegisterType<EventAggregator>().As<IEventAggregator>().SingleInstance();
 
             var userDialogsInstance = UserDialogs.Instance;
             Builder.RegisterInstance(userDialogsInstance).As<IUserDialogs>();

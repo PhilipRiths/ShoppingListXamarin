@@ -50,10 +50,46 @@ namespace ShoppingList.Shared.Services
 
         private void LoadUsers()
         {
-            var user1 = new User { Id = 1, FirstName = "Kent", LastName = "Anderson", Email = "kent.anderson@gmail.com" };
-            var user2 = new User { Id = 2, FirstName = "Rachel", LastName = "Addison", Email = "rachel.addison@gmail.com" };
-            var user3 = new User { Id = 3, FirstName = "Saga", LastName = "Gabor", Email = "saga.gabor@gmail.com" };
-            var user4 = new User { Id = 3, FirstName = "Bean", LastName = "Dabney", Email = "bean.dabney@gmail.com" };
+            var user1 = new User
+            {
+                Id = 1,
+                FirstName = "Kent",
+                LastName = "Anderson",
+                Email = "kent.anderson@gmail.com",
+                IsNotifyGroceryItemAdded = true,
+                IsNotifyGroceryItemUpdated = false,
+                IsNotifyGroceryItemDeleted = true
+            };
+            var user2 = new User
+            {
+                Id = 2,
+                FirstName = "Rachel",
+                LastName = "Addison",
+                Email = "rachel.addison@gmail.com",
+                IsNotifyGroceryItemAdded = false,
+                IsNotifyGroceryItemUpdated = false,
+                IsNotifyGroceryItemDeleted = true
+            };
+            var user3 = new User
+            {
+                Id = 3,
+                FirstName = "Elia",
+                LastName = "Gabor",
+                Email = "saga.gabor@gmail.com",
+                IsNotifyGroceryItemAdded = false,
+                IsNotifyGroceryItemUpdated = false,
+                IsNotifyGroceryItemDeleted = false
+            };
+            var user4 = new User
+            {
+                Id = 4,
+                FirstName = "Bean",
+                LastName = "Dabney",
+                Email = "bean.dabney@gmail.com",
+                IsNotifyGroceryItemAdded = true,
+                IsNotifyGroceryItemUpdated = true,
+                IsNotifyGroceryItemDeleted = true
+            };
 
             _users.Add(user1);
             _users.Add(user2);
