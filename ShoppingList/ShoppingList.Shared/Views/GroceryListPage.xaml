@@ -7,6 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
     xmlns:vm="clr-namespace:ShoppingList.Shared.ViewModels;assembly=ShoppingList.Shared"
+    xmlns:helpers="clr-namespace:ShoppingList.Shared.Helpers;assembly=ShoppingList.Shared"
     x:Name="ContentPage"
     Title="Grocery Lists"
     d:DataContext="{d:DesignInstance vm:GroceryListViewModel}"
@@ -20,7 +21,14 @@
             Text="New" />
     </ContentPage.ToolbarItems>
 
-    <ListView ItemsSource="{Binding GroceryLists}">
+    <ListView ItemsSource="{Binding GroceryLists}"
+              VerticalOptions="FillAndExpand"
+              HasUnevenRows="true"
+              RefreshCommand="{Binding LoadItemsCommand}"
+              IsPullToRefreshEnabled="true"
+              IsRefreshing="{Binding IsBusy, Mode=OneWay}"
+              CachingStrategy="RecycleElement"
+              helpers:ItemTappedAttached.Command="{Binding NavigateToItemSelected, Mode=TwoWay}">
         <ListView.ItemTemplate>
             <DataTemplate>
                 <ViewCell>

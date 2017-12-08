@@ -6,7 +6,7 @@ using System.Windows.Input;
 
 using Prism.Commands;
 using Prism.Navigation;
-
+using Prism.Services;
 using ShoppingList.Shared.Helpers;
 using ShoppingList.Shared.Models;
 using ShoppingList.Shared.Views;
@@ -17,13 +17,17 @@ namespace ShoppingList.Shared.ViewModels
     public class GroceryListViewModel : BaseViewModel, IAsyncInitialization, INavigatedAware
     {
         private readonly INavigationService _navigationService;
-
-        public GroceryListViewModel(INavigationService navigationService)
+        private readonly IPageDialogService _dialogService;
+        public GroceryListViewModel(INavigationService navigationService, IPageDialogService dialogService)
         {
             _navigationService = navigationService;
+            _dialogService = dialogService;
 
             AddShoppingListCommand = new DelegateCommand(OnAddShoppingList);
             NavigateToItemSelected = new DelegateCommand<GroceryList>(OnItemSelected);
+
+
+            OpenGroceryListDetailCommand = new DelegateCommand<GroceryList>(OnOpenGroceryListDetail);
             Initialization = InitializeAsync();
         }
 
@@ -31,6 +35,8 @@ namespace ShoppingList.Shared.ViewModels
         {
             get; set;
             }
+
+        public ICommand OpenGroceryListDetailCommand { get; }
         public Task Initialization { get; }
 
         public ObservableCollection<GroceryList> GroceryLists { get; private set; }
@@ -45,15 +51,67 @@ namespace ShoppingList.Shared.ViewModels
 
         public async void OnNavigatedTo(NavigationParameters parameters)
         {
-            if (parameters.Count <= 0) return;
-
             // TODO Push changes to API
-            var newGroceryList = new GroceryList { Name = (string)parameters.First().Value };
-            GroceryLists.Add(newGroceryList);
-            await MockShoppingListDataStore.AddAsync(newGroceryList);
+            if (parameters.Count <= 0) return;
+            var groceryList = parameters["GroceryList"] as GroceryList;
+
+            if (groceryList != null && groceryList.Id == 0)
+            {
+                // Temporary Id solution to not create duplications
+                groceryList.Id = GroceryLists.Count + 1;
+                GroceryLists.Add(groceryList);
+                await MockShoppingListDataStore.AddAsync(groceryList);
+            }
+            else
+            {
+                var index = GroceryLists.IndexOf(groceryList);
+                GroceryLists.Remove(groceryList);
+                GroceryLists.Insert(index, groceryList);
+                await MockShoppingListDataStore.UpdateAsync(groceryList);
+            }
         }
 
-        
+        private async Task DisplayActionSheet(GroceryList groceryList)
+        {
+            var navigationParameters = new NavigationParameters { { "GroceryList", groceryList } };
+
+            var editAction = ActionSheetButton.CreateButton(
+                "Edit",
+                () => _navigationService.NavigateAsync(nameof(GroceryListDetailPage), navigationParameters));
+
+            var deleteAction = ActionSheetButton.CreateButton(
+                "Delete",
+                async () =>
+                {
+                    var answer = await _dialogService.DisplayAlertAsync(
+                        string.Empty,
+                        "This will be permanently deleted, continue?",
+                        "OK",
+                        "CANCEL");
+
+                    if (answer)
+                    {
+                        GroceryLists.Remove(groceryList);
+                        await MockShoppingListDataStore.DeleteAsync(groceryList.Id);
+                    }
+                });
+
+            var cancelAction = ActionSheetButton.CreateCancelButton("Cancel", () => { });
+
+            await _dialogService.DisplayActionSheetAsync(string.Empty, editAction, deleteAction, cancelAction);
+        }
+
+        private async void OnOpenGroceryListDetail(GroceryList groceryList)
+        {
+            if (groceryList == null)
+            {
+                var newGroceryListParameter = new NavigationParameters { { "GroceryList", new GroceryList() } };
+                await _navigationService.NavigateAsync(nameof(GroceryListDetailPage), newGroceryListParameter, true);
+                return;
+            }
+
+            await DisplayActionSheet(groceryList);
+        }
 
         private async Task InitializeAsync()
         {
