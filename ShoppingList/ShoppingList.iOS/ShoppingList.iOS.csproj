@@ -198,6 +198,12 @@
   <ItemGroup>
     <BundleResource Include="Resources\ic-plus.png" />
   </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\btn_google_signin_dark_focus_web.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\btn_google_signin_dark_normal_web.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

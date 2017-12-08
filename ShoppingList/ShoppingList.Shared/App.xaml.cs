@@ -1,18 +1,8 @@
-﻿using System;
-using System.Diagnostics;
-using System.Threading.Tasks;
-using Autofac;
+﻿using Autofac;
 using Prism.Autofac;
-using Prism.Autofac.Navigation;
-using Prism.Events;
-using Prism.Navigation;
-using ShoppingList.Shared.Events;
-using ShoppingList.Shared.Models;
 using ShoppingList.Shared.Services;
 using ShoppingList.Shared.ViewModels;
 using ShoppingList.Shared.Views;
-using SimpleAuth;
-using SimpleAuth.Providers;
 
 namespace ShoppingList.Shared
 {

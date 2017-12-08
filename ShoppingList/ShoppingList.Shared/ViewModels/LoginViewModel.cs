@@ -1,20 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Windows.Input;
+﻿using System.Windows.Input;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Navigation;
 using Prism.Services;
 using ShoppingList.Shared.Events;
-using ShoppingList.Shared.Models;
 using ShoppingList.Shared.Services;
 using ShoppingList.Shared.Views;
-using SimpleAuth;
-using SimpleAuth.Providers;
 using Xamarin.Forms;
 
 namespace ShoppingList.Shared.ViewModels
@@ -24,21 +15,19 @@ namespace ShoppingList.Shared.ViewModels
         private readonly IPageDialogService _dialogService;
         private readonly IGoogleAuthService _googleAuthService;
         private readonly INavigationService _navigationService;
+        private readonly IEventAggregator _eventAggregator;
 
-        public LoginViewModel(INavigationService navigationService,
+        public LoginViewModel(INavigationService navigationService, IEventAggregator eventAggregator,
             IPageDialogService dialogService, IGoogleAuthService googleAuthService)
         {
             _dialogService = dialogService;
             _googleAuthService = googleAuthService;
             _navigationService = navigationService;
+            _eventAggregator = eventAggregator;
 
             LoginCommand = new DelegateCommand(TrySignIn);
 
-            MessagingCenter.Subscribe<LoginPage>(this, "LoginAppeared", (sender) =>
-            {
-                TrySignIn();
-            });
-            
+            _eventAggregator.GetEvent<OnStartLoginEvent>().Subscribe(TrySignIn);
         }
 
         public ICommand LoginCommand { get; }

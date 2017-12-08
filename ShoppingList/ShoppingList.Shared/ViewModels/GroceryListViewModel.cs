@@ -8,7 +8,6 @@ using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Prism.Events;
-using ShoppingList.Shared.Events;
 
 namespace ShoppingList.Shared.ViewModels
 {
