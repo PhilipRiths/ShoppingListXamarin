@@ -17,6 +17,50 @@
     <TableView
         BackgroundColor="White"
         Intent="Settings">
+        <TableSection>
+            <ViewCell>
+                <StackLayout
+                    Orientation="Horizontal"
+                    Spacing="0">
+                    <Image
+                        Margin="12"
+                        Aspect="AspectFit"
+                        Source="ic_online.png">
+                        <Image.Triggers>
+                            <DataTrigger
+                                Binding="{Binding IsConnected}"
+                                TargetType="Image"
+                                Value="true">
+                                <Setter Property="Source" Value="ic_online.png" />
+                            </DataTrigger>
+                            <DataTrigger
+                                Binding="{Binding IsConnected}"
+                                TargetType="Image"
+                                Value="false">
+                                <Setter Property="Source" Value="ic_offline.png" />
+                            </DataTrigger>
+                        </Image.Triggers>
+                    </Image>
+
+                    <Label VerticalOptions="Center">
+                        <Label.Triggers>
+                            <DataTrigger
+                                Binding="{Binding IsConnected}"
+                                TargetType="Label"
+                                Value="true">
+                                <Setter Property="Text" Value="You are online" />
+                            </DataTrigger>
+                            <DataTrigger
+                                Binding="{Binding IsConnected}"
+                                TargetType="Label"
+                                Value="false">
+                                <Setter Property="Text" Value="You are offline" />
+                            </DataTrigger>
+                        </Label.Triggers>
+                    </Label>
+                </StackLayout>
+            </ViewCell>
+        </TableSection>
         <TableSection Title="Logged in">
             <ViewCell>
                 <StackLayout
@@ -28,7 +72,7 @@
                             CommandParameter="name" />
                     </StackLayout.GestureRecognizers>
                     <Image
-                        Margin="8"
+                        Margin="12"
                         Aspect="AspectFit"
                         Source="ic_user.png" />
                     <StackLayout

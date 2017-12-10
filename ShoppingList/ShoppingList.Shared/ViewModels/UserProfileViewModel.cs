@@ -5,6 +5,8 @@ using System.Windows.Input;
 
 using Acr.UserDialogs;
 
+using Plugin.Connectivity.Abstractions;
+
 using Prism.Commands;
 using Prism.Events;
 using Prism.Services;
@@ -17,22 +19,37 @@ namespace ShoppingList.Shared.ViewModels
 {
     public class UserProfileViewModel : BaseViewModel, IAsyncInitialization
     {
+        private readonly IConnectivity _connectivity;
         private readonly IPageDialogService _dialogService;
         private readonly IEventAggregator _eventAggregator;
         private readonly IUserDialogs _userDialogs;
 
+        private bool _isConnected;
+
         public UserProfileViewModel(
             IEventAggregator eventAggregator,
             IPageDialogService dialogService,
-            IUserDialogs userDialogs)
+            IUserDialogs userDialogs,
+            IConnectivity connectivity)
         {
             _eventAggregator = eventAggregator;
             _dialogService = dialogService;
             _userDialogs = userDialogs;
+            _connectivity = connectivity;
+
             Initialization = InitializeAsync();
+
+            IsConnected = _connectivity.IsConnected;
+            _connectivity.ConnectivityChanged += OnConnectivityChanged;
 
             OpenEditCommand = new DelegateCommand<string>(OnOpenEdit);
             UserNotificationPreferenceChangedCommand = new DelegateCommand<object>(OnUserNotificationPreferenceChanged);
+        }
+
+        public bool IsConnected
+        {
+            get => _isConnected;
+            set => SetProperty(ref _isConnected, value);
         }
 
         public UserWrapper UserWrapper { get; private set; }
@@ -50,40 +67,9 @@ namespace ShoppingList.Shared.ViewModels
             UserWrapper = new UserWrapper(user);
         }
 
-        private void OnUserNotificationPreferenceChanged(object notificationType)
+        private void OnConnectivityChanged(object sender, ConnectivityChangedEventArgs e)
         {
-            // TODO Update the API
-            var notification = (NotificationType)notificationType;
-
-            switch (notification)
-            {
-                case NotificationType.GroceryItemAdded:
-                    _eventAggregator.GetEvent<UserNotificationPreferenceChangedEvent>()
-                        .Publish(
-                            new UserNotificationPreferenceChangedEventArgs
-                            {
-                                NotificationType = NotificationType.GroceryItemUpdated
-                            });
-                    break;
-                case NotificationType.GroceryItemUpdated:
-                    _eventAggregator.GetEvent<UserNotificationPreferenceChangedEvent>()
-                        .Publish(
-                            new UserNotificationPreferenceChangedEventArgs
-                            {
-                                NotificationType = NotificationType.GroceryItemAdded
-                            });
-                    break;
-                case NotificationType.GroceryItemDeleted:
-                    _eventAggregator.GetEvent<UserNotificationPreferenceChangedEvent>()
-                        .Publish(
-                            new UserNotificationPreferenceChangedEventArgs
-                            {
-                                NotificationType = NotificationType.GroceryItemAdded
-                            });
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
+            IsConnected = e.IsConnected;
         }
 
         private async void OnOpenEdit(string commandParameterValue)
@@ -104,6 +90,45 @@ namespace ShoppingList.Shared.ViewModels
 
                     // TODO Log error
                     break;
+            }
+        }
+
+        private void OnUserNotificationPreferenceChanged(object notificationType)
+        {
+            // TODO Update the API
+            var notification = (NotificationType)notificationType;
+
+            switch (notification)
+            {
+                case NotificationType.GroceryItemAdded:
+                    _eventAggregator.GetEvent<UserNotificationPreferenceChangedEvent>()
+                        .Publish(
+                            new UserNotificationPreferenceChangedEventArgs
+                            {
+                                NotificationType = NotificationType.GroceryItemUpdated
+                            });
+                    break;
+
+                case NotificationType.GroceryItemUpdated:
+                    _eventAggregator.GetEvent<UserNotificationPreferenceChangedEvent>()
+                        .Publish(
+                            new UserNotificationPreferenceChangedEventArgs
+                            {
+                                NotificationType = NotificationType.GroceryItemAdded
+                            });
+                    break;
+
+                case NotificationType.GroceryItemDeleted:
+                    _eventAggregator.GetEvent<UserNotificationPreferenceChangedEvent>()
+                        .Publish(
+                            new UserNotificationPreferenceChangedEventArgs
+                            {
+                                NotificationType = NotificationType.GroceryItemAdded
+                            });
+                    break;
+
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
         }
 

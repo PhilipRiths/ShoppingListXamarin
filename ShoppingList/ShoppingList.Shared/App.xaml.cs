@@ -2,6 +2,9 @@
 
 using Autofac;
 
+using Plugin.Connectivity;
+using Plugin.Connectivity.Abstractions;
+
 using Prism.Autofac;
 using Prism.Events;
 
@@ -24,7 +27,7 @@ namespace ShoppingList.Shared
             InitializeComponent();
 
             // Set the page you are working with:
-            NavigationService.NavigateAsync($"{nameof(NavigationPage)}/{nameof(GroceryListPage)}");
+            NavigationService.NavigateAsync($"{nameof(NavigationPage)}/{nameof(UserProfilePage)}");
         }
 
         protected override void RegisterTypes()
@@ -37,6 +40,9 @@ namespace ShoppingList.Shared
             Builder.RegisterTypeForNavigation<GroceryItemDetailPage, GroceryItemDetailViewModel>();
 
             Builder.RegisterType<EventAggregator>().As<IEventAggregator>().SingleInstance();
+
+            var connectivityInstance = CrossConnectivity.Current;
+            Builder.RegisterInstance(connectivityInstance).As<IConnectivity>();
 
             var userDialogsInstance = UserDialogs.Instance;
             Builder.RegisterInstance(userDialogsInstance).As<IUserDialogs>();
