@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using ShoppingListApi.Entities;
 using ShoppingListApi.Models;
 using ShoppingListApi.Services;
@@ -12,10 +13,12 @@ namespace ShoppingListApi.Controllers
     public class ShoppingListController : Controller
     {
         private IShoppingListRepository _shoppingListRepository;
+        private ILogger<ShoppingListController> _logger;
 
-        public ShoppingListController(IShoppingListRepository shoppingListRepository)
+        public ShoppingListController(IShoppingListRepository shoppingListRepository, ILogger<ShoppingListController> logger)
         {
             _shoppingListRepository = shoppingListRepository;
+            _logger = logger;
         }
 
         [HttpGet("Test")]
@@ -34,7 +37,7 @@ namespace ShoppingListApi.Controllers
             return Ok(shoppingLists);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id}", Name = "GetShoppingList")]
         public IActionResult GetShoppingList(Guid id)
         {
             if (!_shoppingListRepository.ShoppingListExists(id))
@@ -49,12 +52,12 @@ namespace ShoppingListApi.Controllers
             return new JsonResult(shoppingList);
         }
 
-        [HttpPost(Name = "CreateShoppingList")]
+        [HttpPost()]
         public IActionResult CreateShoppingList([FromBody] ShoppingListForCreationDto shoppingList)
         {
             if (shoppingList == null)
             {
-                return NotFound();
+                return BadRequest();
             }
 
             var shoppingListEntity = Mapper.Map<ShoppingList>(shoppingList);
@@ -68,7 +71,9 @@ namespace ShoppingListApi.Controllers
 
             var shoppingListToReturn = Mapper.Map<ShoppingListDto>(shoppingListEntity);
 
-            return Ok(shoppingListToReturn);
+            return CreatedAtRoute("GetShoppingList",
+                new { id = shoppingListToReturn.Id },
+                shoppingListToReturn);
         }
 
         [HttpDelete("{id}")]
@@ -87,6 +92,8 @@ namespace ShoppingListApi.Controllers
             {
                 throw new Exception($"Deleting shoppingList on {id} failed on save");
             }
+
+            _logger.LogInformation(100, $"ShoppingList {id} was deleted.");
 
             return NoContent();
         }

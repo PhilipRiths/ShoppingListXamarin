@@ -28,7 +28,7 @@ namespace ShoppingListApi.Controllers
             return Ok(shoppingItemEntity);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id}", Name = "GetShoppingItem")]
         public IActionResult GetShoppingItem(Guid id)
         {
             var shoppingItemFromRepo = _shoppingItemRepository.GetShoppingItem(id);
@@ -77,7 +77,9 @@ namespace ShoppingListApi.Controllers
 
             var shoppingItemToReturn = Mapper.Map<ShoppingItemDto>(shoppingItemEntity);
 
-            return Ok(shoppingItemToReturn);
+            return CreatedAtRoute("GetShoppingItem",
+                new { id = shoppingItemToReturn.Id },
+                shoppingItemToReturn);
         }
 
         [HttpPatch()]
