@@ -10,6 +10,10 @@
 
         public string Email { get; set; }
 
-        public string FullName => $"{FirstName} {LastName}";
+        public bool IsNotifyGroceryItemAdded { get; set; }
+
+        public bool IsNotifyGroceryItemUpdated { get; set; }
+
+        public bool IsNotifyGroceryItemDeleted { get; set; }
     }
 }
