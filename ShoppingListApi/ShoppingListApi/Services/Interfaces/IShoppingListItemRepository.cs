@@ -6,16 +6,16 @@ namespace ShoppingListApi.Services
 {
     public interface IShoppingListItemRepository
     {
-        IEnumerable<ShoppingListItem> GetShoppingListItems(Guid shoppingListId);
+        IEnumerable<ShoppingListItem> GetShoppingListsAndItemsByListId(Guid shoppingListId);
+
+        IEnumerable<ShoppingListItem> GetShoppingListsAndItemsByItemId(Guid shoppingItemId);
 
         bool ShoppingListExists(Guid shoppingListId);
 
-        IEnumerable<ShoppingListItem> GetAllShoppingListItems();
+        bool ShoppingItemExists(Guid shoppingItemId);
 
-        ShoppingListItem GetShoppingListItemById(Guid id);
+        IEnumerable<ShoppingListItem> GetAllShoppingListsAndItems();
 
         bool Save();
-
-        void EditShoppingItem(ShoppingItem shoppingItem);
     }
 }

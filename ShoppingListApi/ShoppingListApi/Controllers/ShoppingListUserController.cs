@@ -1,19 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
-using ShoppingListApi.Services;
-using AutoMapper;
-using ShoppingListApi.Models;
+using Microsoft.AspNetCore.Mvc;
 using ShoppingListApi.Entities;
+using ShoppingListApi.Models;
+using ShoppingListApi.Services;
+using System;
+using System.Collections.Generic;
 
 namespace ShoppingListApi.Controllers
 {
     [Authorize]
-    [Produces("application/json")]
     [Route("api/ShoppingListUser")]
     public class ShoppingListUserController : Controller
     {

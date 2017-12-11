@@ -16,7 +16,7 @@ namespace ShoppingListApi.Services
             _context = context;
         }
 
-        public IEnumerable<ShoppingListItem> GetAllShoppingListItems()
+        public IEnumerable<ShoppingListItem> GetAllShoppingListsAndItems()
         {
             return _context.ShoppingListItem
                 .OrderBy(o => o.ShoppingList.Name)
@@ -25,14 +25,16 @@ namespace ShoppingListApi.Services
                 .ToList();
         }
 
-        public ShoppingListItem GetShoppingListItemById(Guid id)
+        public IEnumerable<ShoppingListItem> GetShoppingListsAndItemsByItemId(Guid shoppingItemId)
         {
             return _context.ShoppingListItem
+                .Where(s => s.ShoppingItemId == shoppingItemId)
+                .Include(sl => sl.ShoppingList)
                 .Include(si => si.ShoppingItem)
-                .FirstOrDefault(si => si.ShoppingItemId == id);
+                .ToList();
         }
 
-        public IEnumerable<ShoppingListItem> GetShoppingListItems(Guid shoppingListId)
+        public IEnumerable<ShoppingListItem> GetShoppingListsAndItemsByListId(Guid shoppingListId)
         {
             return _context.ShoppingListItem
                 .Where(s => s.ShoppingListId == shoppingListId)
@@ -49,16 +51,6 @@ namespace ShoppingListApi.Services
         public bool ShoppingItemExists(Guid shoppingItemId)
         {
             return _context.ShoppingItems.Any(i => i.Id.Equals(shoppingItemId));
-        }
-
-        public void EditShoppingItem(ShoppingItem shoppingItem)
-        {
-            var shoppingItemFromRepo = _context.ShoppingItems.FirstOrDefault(i => i.Id == shoppingItem.Id);
-
-            shoppingItemFromRepo.Quantity = shoppingItem.Quantity;
-            shoppingItemFromRepo.Description = shoppingItem.Description;
-            shoppingItemFromRepo.IsFavorite = shoppingItem.IsFavorite;
-            shoppingItemFromRepo.IsBought = shoppingItem.IsBought;
         }
 
         public bool Save()

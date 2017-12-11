@@ -8,7 +8,6 @@ using System.Collections.Generic;
 
 namespace ShoppingListApi.Controllers
 {
-    [Produces("application/json")]
     [Route("api/ShoppingLists")]
     public class ShoppingListController : Controller
     {

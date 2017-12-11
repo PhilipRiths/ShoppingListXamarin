@@ -1,15 +1,14 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using ShoppingListApi.Entities;
 using ShoppingListApi.Models;
 using ShoppingListApi.Services;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace ShoppingListApi.Controllers
 {
-    [Produces("application/json")]
-    [Route("api/ShoppingListItems")]
+    [Route("api/ShoppingListItem")]
     public class ShoppingListItemController : Controller
     {
         private IShoppingListItemRepository _shoppingListItemRepository;
@@ -20,22 +19,16 @@ namespace ShoppingListApi.Controllers
         }
 
         [HttpGet()]
-        public IActionResult GetAllShoppingListItems()
+        public IActionResult GetAllShoppingListsAndItems()
         {
-            var allItemsFromRepo = _shoppingListItemRepository.GetAllShoppingListItems();
+            var allItemsFromRepo = _shoppingListItemRepository.GetAllShoppingListsAndItems();
 
             var allItems = Mapper.Map<IEnumerable<ShoppingListItemDto>>(allItemsFromRepo);
-
-            //foreach (var item in allItems)
-            //{
-            //    item.ShoppingItem = Mapper.Map<ShoppingItem>(item.ShoppingItem);
-            //    item.ShoppingList = Mapper.Map<ShoppingList>(item.ShoppingList);
-            //}
 
             return Ok(allItems);
         }
 
-        [HttpGet("{shoppingListId}")]
+        [HttpGet("listItems/{shoppingListId}")]
         public IActionResult GetAllItemsOnShoppingList(Guid shoppingListId)
         {
             if (!_shoppingListItemRepository.ShoppingListExists(shoppingListId))
@@ -43,31 +36,30 @@ namespace ShoppingListApi.Controllers
                 return NotFound();
             }
 
-            var itemsForShoppingListFromRepo = _shoppingListItemRepository.GetShoppingListItems(shoppingListId);
+            var itemsForShoppingListFromRepo = _shoppingListItemRepository.GetShoppingListsAndItemsByListId(shoppingListId);
 
             var itemsForShoppingList = Mapper.Map<IEnumerable<ShoppingListItemDto>>(itemsForShoppingListFromRepo);
 
-            return new JsonResult(itemsForShoppingList);
+            var listOfItems = itemsForShoppingList.Select(sl => sl.ShoppingItem).ToList();
+
+            return Ok(listOfItems);
         }
 
-        [HttpPatch()]
-        public IActionResult PartiallyUpdateShoppingListItem([FromBody] ShoppingItemForEditDto shoppingItem)
+        [HttpGet("itemLists/{shoppingItemId}")]
+        public IActionResult GetAllListsOnShoppingItem(Guid shoppingItemId)
         {
-            if (shoppingItem == null)
+            if (!_shoppingListItemRepository.ShoppingItemExists(shoppingItemId))
             {
                 return NotFound();
             }
 
-            var shoppingItemEntity = Mapper.Map<ShoppingItem>(shoppingItem);
+            var listsForShoppingItemFromRepo = _shoppingListItemRepository.GetShoppingListsAndItemsByItemId(shoppingItemId);
 
-            _shoppingListItemRepository.EditShoppingItem(shoppingItemEntity);
+            var listsForShoppingItem = Mapper.Map<IEnumerable<ShoppingListItemDto>>(listsForShoppingItemFromRepo);
 
-            if (!_shoppingListItemRepository.Save())
-            {
-                throw new Exception($"Updating shoppingItem on {shoppingItem.Id} failed on save");
-            }
+            var listOfLists = listsForShoppingItem.Select(sl => sl.ShoppingList).ToList();
 
-            return NoContent();
+            return Ok(listOfLists);
         }
     }
 }
