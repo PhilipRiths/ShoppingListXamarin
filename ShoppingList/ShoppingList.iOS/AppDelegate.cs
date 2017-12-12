@@ -23,9 +23,17 @@ namespace ShoppingList.iOS
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
             global::Xamarin.Forms.Forms.Init();
+            SimpleAuth.Providers.Google.Init();
             LoadApplication(new App());
 
             return base.FinishedLaunching(app, options);
+        }
+
+        public override bool OpenUrl(UIApplication app, NSUrl url, NSDictionary options)
+        {
+            if (SimpleAuth.Native.OpenUrl(app, url, options))
+                return true;
+            return base.OpenUrl(app, url, options);
         }
     }
 
