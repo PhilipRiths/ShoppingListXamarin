@@ -1,6 +1,7 @@
 ﻿using Acr.UserDialogs;
 
 using Android.App;
+using Android.Content;
 using Android.Content.PM;
 using Android.OS;
 
@@ -28,10 +29,16 @@ namespace ShoppingList.Droid
             base.OnCreate(bundle);
 
             global::Xamarin.Forms.Forms.Init(this, bundle);
-
+            SimpleAuth.Providers.Google.Init(this.Application);
             UserDialogs.Init(this);
 
             LoadApplication(new App());
+        }
+
+        protected override void OnActivityResult(int requestCode, Result resultCode, Intent data)
+        {
+            base.OnActivityResult(requestCode, resultCode, data);
+            SimpleAuth.Native.OnActivityResult(requestCode, resultCode, data);
         }
     }
 

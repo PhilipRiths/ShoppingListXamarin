@@ -14,8 +14,6 @@ namespace ShoppingList.Shared.Views
            
             InitializeComponent();
         }
-
-
     
     }
 }
