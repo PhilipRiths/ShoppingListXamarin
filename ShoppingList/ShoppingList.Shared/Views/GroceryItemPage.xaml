@@ -39,9 +39,7 @@
                         <ColumnDefinition Width="auto"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
                     <Entry  Text="{Binding GroceryItem.Name}" Placeholder="New item" PlaceholderColor="White" FontSize="Medium" />
-                    <!--<Button
-                    Command="{Binding CancelCommand}"
-                    Text="Cancel" />-->
+
                     <Button
                     Command="{Binding SaveCommand}"
                     Text="Save" 

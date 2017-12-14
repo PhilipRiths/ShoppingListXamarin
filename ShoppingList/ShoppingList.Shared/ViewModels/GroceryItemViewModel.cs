@@ -15,8 +15,10 @@ namespace ShoppingList.Shared.ViewModels
         public ObservableCollection<GroceryItem> Item { get; set; }
         public ObservableCollection<GroceryItem> ItemsInBasket { get; set; }
         public GroceryList GroceryList { get; set; }
+        public GroceryItem GroceryItem { get; set; }
         public ICommand MoveItemFromBasket { get; set; }
         public ICommand RemoveItemFromBasket { get; set; }
+        public ICommand SaveCommand { get; set; }
         public GroceryItemViewModel(INavigationService navigationService)
         {
             _navigationService = navigationService;
@@ -26,7 +28,16 @@ namespace ShoppingList.Shared.ViewModels
             MoveItemToBasket = new DelegateCommand<GroceryItem>(OnMoveItemToBasket);
             MoveItemFromBasket = new DelegateCommand<GroceryItem>(OnMoveItemFromBasket);
             RemoveItemFromBasket = new DelegateCommand<GroceryItem>(OnDelete);
+            SaveCommand = new DelegateCommand(OnSaveExecute);
+            GroceryItem = new GroceryItem();
+            
+        }
 
+        private void OnSaveExecute()
+        {
+            var newGroceryItem = new GroceryItem();
+            newGroceryItem.Name = GroceryItem.Name;
+            Item.Add(newGroceryItem);
         }
 
         private void OnDelete(GroceryItem item)
