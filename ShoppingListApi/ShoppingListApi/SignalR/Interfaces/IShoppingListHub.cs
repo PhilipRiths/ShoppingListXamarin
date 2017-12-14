@@ -2,7 +2,7 @@
 using System;
 using System.Threading.Tasks;
 
-namespace ShoppingListApi
+namespace ShoppingListApi.SignalR.Interfaces
 {
     public interface IShoppingListHub
     {

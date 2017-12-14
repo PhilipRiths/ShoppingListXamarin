@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ShoppingListApi.Data;
 using ShoppingListApi.Entities;
+using ShoppingListApi.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -2,7 +2,7 @@
 using ShoppingListApi.Entities;
 using System.Collections.Generic;
 
-namespace ShoppingListApi.Services
+namespace ShoppingListApi.Services.Interfaces
 {
     public interface IShoppingListUserRepository
     {

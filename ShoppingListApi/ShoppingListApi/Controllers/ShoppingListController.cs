@@ -4,6 +4,7 @@ using Microsoft.Extensions.Logging;
 using ShoppingListApi.Entities;
 using ShoppingListApi.Models;
 using ShoppingListApi.Services;
+using ShoppingListApi.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 

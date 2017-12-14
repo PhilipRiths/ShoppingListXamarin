@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using ShoppingListApi.Entities;
 using ShoppingListApi.Models;
 using ShoppingListApi.Services;
+using ShoppingListApi.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 
@@ -46,7 +47,7 @@ namespace ShoppingListApi.Controllers
         }
 
         [HttpPost("CreateShoppingListUser")]
-        public IActionResult CreateShoppingListUser([FromBody] ShoppingUserForCreationDto shoppingListUser) // Should I create this Dto?
+        public IActionResult CreateShoppingListUser([FromBody] ShoppingListUserForCreationDto shoppingListUser) // Should I create this Dto?
         {
             if (shoppingListUser == null)
             {

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using ShoppingListApi.Models;
 using ShoppingListApi.Services;
+using ShoppingListApi.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;

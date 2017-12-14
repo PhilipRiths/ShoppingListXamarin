@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace ShoppingListApi.Models
 {
-    public class ShoppingUserForCreationDto
+    public class ShoppingListUserForCreationDto
     {
         public Guid Id { get; set; }
 

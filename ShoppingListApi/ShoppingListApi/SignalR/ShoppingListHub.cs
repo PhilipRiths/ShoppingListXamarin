@@ -1,10 +1,12 @@
 ﻿using Microsoft.AspNetCore.SignalR;
 using ShoppingListApi.Entities;
 using ShoppingListApi.Services;
+using ShoppingListApi.Services.Interfaces;
+using ShoppingListApi.SignalR.Interfaces;
 using System;
 using System.Threading.Tasks;
 
-namespace ShoppingListApi
+namespace ShoppingListApi.SignalR
 {
     public class ShoppingListHub : Hub, IShoppingListHub
     {
