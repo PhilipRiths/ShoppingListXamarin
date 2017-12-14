@@ -26,6 +26,7 @@ namespace ShoppingList.Shared.ViewModels
             MoveItemToBasket = new DelegateCommand<GroceryItem>(OnMoveItemToBasket);
             MoveItemFromBasket = new DelegateCommand<GroceryItem>(OnMoveItemFromBasket);
             RemoveItemFromBasket = new DelegateCommand<GroceryItem>(OnDelete);
+            RemoveItemCommand = new DelegateCommand<GroceryItem>(OnRemoveGroceryListItemExecute);
 
         }
 
@@ -38,6 +39,13 @@ namespace ShoppingList.Shared.ViewModels
         {
             ItemsInBasket.Remove(item);
             Item.Add(item);
+        }
+
+        private void OnRemoveGroceryListItemExecute(GroceryItem item)
+        {
+            GroceryList.Items.Remove(item);
+            Item.Remove(item);
+            //TODO: Update API async
         }
 
         private void OnMoveItemToBasket(GroceryItem item)
@@ -53,7 +61,10 @@ namespace ShoppingList.Shared.ViewModels
         }
 
         public ICommand NewItemCommand { get; }
+
         public ICommand MoveItemToBasket { get; set; }
+
+        public ICommand RemoveItemCommand { get; }
 
         public void OnNavigatedFrom(NavigationParameters parameters)
         {

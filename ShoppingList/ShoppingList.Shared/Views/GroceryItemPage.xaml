@@ -32,11 +32,18 @@
                       IsPullToRefreshEnabled="true"
                       IsRefreshing="{Binding IsBusy, Mode=OneWay}"
                       CachingStrategy="RecycleElement"
-                      >
+                      x:Name="GroceryItemList">
                 <ListView.ItemTemplate>
                <DataTemplate>
                     <ViewCell>
-                        <ContentView BackgroundColor="Orange" >
+                        <ViewCell.ContextActions>
+                            <MenuItem Text="Delete" 
+                                      Command="{Binding Path=BindingContext.RemoveItemCommand, 
+                                      Source={x:Reference Name=GroceryItemList}}" 
+                                      CommandParameter="{Binding .}"
+                                      IsDestructive="True"/>
+                        </ViewCell.ContextActions>
+                            <ContentView BackgroundColor="Orange" >
                             <Grid>
                                   
                                 <Grid.ColumnDefinitions>
