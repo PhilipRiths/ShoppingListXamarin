@@ -46,12 +46,14 @@ namespace ShoppingListApi.Services
 
         public bool ShoppingListExists(Guid shoppingListId)
         {
-            return _context.ShoppingLists.Any(s => s.Id.Equals(shoppingListId));
+            return _context.ShoppingListItem
+                .Any(s => s.ShoppingListId == shoppingListId);
         }
 
         public bool ShoppingItemExists(Guid shoppingItemId)
         {
-            return _context.ShoppingItems.Any(i => i.Id.Equals(shoppingItemId));
+            return _context.ShoppingListItem
+                .Any(s => s.ShoppingItemId == shoppingItemId);
         }
 
         public bool Save()

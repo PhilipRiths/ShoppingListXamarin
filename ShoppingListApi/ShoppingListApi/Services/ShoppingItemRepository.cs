@@ -57,7 +57,6 @@ namespace ShoppingListApi.Services
 
             shoppingItemFromRepo.Quantity = shoppingItem.Quantity;
             shoppingItemFromRepo.Description = shoppingItem.Description;
-            shoppingItemFromRepo.IsFavorite = shoppingItem.IsFavorite;
             shoppingItemFromRepo.IsBought = shoppingItem.IsBought;
         }
 

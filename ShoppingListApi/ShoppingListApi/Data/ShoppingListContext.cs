@@ -41,6 +41,8 @@ namespace ShoppingListApi.Data
 
         public DbSet<ShoppingListUser> ShoppingListUser { get; set; }
 
-        public DbSet<Connection> Connections { get; set; }
+        public DbSet<FavoriteItem> FavoriteItems { get; set; }
+
+        // public DbSet<Connection> Connections { get; set; }
     }
 }

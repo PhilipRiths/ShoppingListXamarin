@@ -11,9 +11,10 @@ using System;
 namespace ShoppingListApi.Migrations
 {
     [DbContext(typeof(ShoppingListContext))]
-    partial class ShoppingListContextModelSnapshot : ModelSnapshot
+    [Migration("20171214134658_AddingFavoriteItemsToUser")]
+    partial class AddingFavoriteItemsToUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

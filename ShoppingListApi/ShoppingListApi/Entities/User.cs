@@ -26,5 +26,7 @@ namespace ShoppingListApi.Entities
         public string GoogleId { get; set; }
 
         public ICollection<ShoppingListUser> ShoppingLists { get; set; } = new List<ShoppingListUser>();
+
+        public ICollection<FavoriteItem> FavoriteItems { get; set; } = new List<FavoriteItem>();
     }
 }

@@ -115,8 +115,19 @@ namespace ShoppingListApi.Entities
                 }
             };
 
+            var shoppingItems = new List<ShoppingItem>
+            {
+                new ShoppingItem
+                {
+                    Id = new Guid("563310ef-0dd1-48bc-9619-ba86aa6ead26"),
+                    Name = "OutsideListItem",
+                    IsBought = true
+                }
+            };
+
             context.Users.AddRange(users);
             context.ShoppingLists.AddRange(shoppingLists);
+            context.ShoppingItems.AddRange(shoppingItems);
             context.SaveChanges();
         }
     }
