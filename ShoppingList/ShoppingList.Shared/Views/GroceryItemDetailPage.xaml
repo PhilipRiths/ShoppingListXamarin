@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="ShoppingList.Shared.Views.GroceryItemDetailPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+ 
+    <ContentPage.Content>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <StackLayout Spacing="20" Padding="15">
+            <Label Text="New item" FontSize="Medium" />
+            <Entry Text="{Binding GroceryItem.Name}" FontSize="Small" />
+        </StackLayout>
+        <StackLayout
+            Grid.Row="1"
+            HorizontalOptions="Center"
+            Orientation="Horizontal"
+            VerticalOptions="Center">
+            <Button
+                Command="{Binding CancelCommand}"
+                Text="Cancel" />
+            <Button
+                Command="{Binding SaveCommand}"
+                Text="Save" />
+        </StackLayout>
+        </Grid>
+    </ContentPage.Content>
+        
+</ContentPage>

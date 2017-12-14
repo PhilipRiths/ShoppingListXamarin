@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="ShoppingList.Shared.Views.GroceryItemPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:mvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
+    mvvm:ViewModelLocator.AutowireViewModel="True"
+    Title="Shopping items">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem  Text="New item"
+                      Command="{Binding NewItemCommand}"
+                      Icon="ic_plus.png"/>
+    </ContentPage.ToolbarItems>
+   
+       <StackLayout>
+            <ListView ItemsSource="{Binding Item}"
+                      VerticalOptions="FillAndExpand"
+                      HasUnevenRows="true"
+                      IsPullToRefreshEnabled="true"
+                      IsRefreshing="{Binding IsBusy, Mode=OneWay}"
+                      CachingStrategy="RecycleElement">
+                <ListView.ItemTemplate>
+               <DataTemplate>
+                   <ViewCell>
+                       <StackLayout Padding="10">
+                           <Label Text="{Binding Name}" 
+                                  LineBreakMode="NoWrap" 
+                                  Style="{DynamicResource ListItemTextStyle}" 
+                                  FontSize="16" />
+                       </StackLayout>
+                   </ViewCell>
+               </DataTemplate>
+                    
+           </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
+
+</ContentPage>
