@@ -11,7 +11,7 @@ namespace ShoppingListApi.Services
     public class ShoppingListRepository : IShoppingListRepository
     {
         private ShoppingListContext _context;
-        private static readonly ReaderWriterLockSlim ProductsLock = new ReaderWriterLockSlim();
+        private static readonly ReaderWriterLockSlim ShoppingListsLock = new ReaderWriterLockSlim();
 
         public ShoppingListRepository()
         {
@@ -22,20 +22,6 @@ namespace ShoppingListApi.Services
             _context = context;
         }
 
-        public void AddShoppingList(ShoppingList shoppingList)
-        {
-            shoppingList.Id = Guid.NewGuid();
-            _context.ShoppingLists.Add(shoppingList);
-
-            if (shoppingList.ShoppingItems.Any())
-            {
-                foreach (var item in shoppingList.ShoppingItems)
-                {
-                    item.Id = Guid.NewGuid();
-                }
-            }
-        }
-
         public IEnumerable<ShoppingList> GetShoppingLists()
         {
             return _context.ShoppingLists
@@ -44,6 +30,29 @@ namespace ShoppingListApi.Services
                 .Include(c => c.CreatedBy)
                 .Include(l => l.LastEditedBy)
                 .ToList();
+        }
+
+        public void AddShoppingList(ShoppingList shoppingList)
+        {
+            ShoppingListsLock.EnterWriteLock();
+
+            try
+            {
+                shoppingList.Id = Guid.NewGuid();
+                _context.ShoppingLists.Add(shoppingList);
+            }
+            finally
+            {
+                ShoppingListsLock.ExitWriteLock();
+            }
+
+            //if (shoppingList.ShoppingItems.Any())
+            //{
+            //    foreach (var item in shoppingList.ShoppingItems)
+            //    {
+            //        item.Id = Guid.NewGuid();
+            //    }
+            //}
         }
 
         public ShoppingList GetShoppingList(Guid id)
@@ -58,7 +67,16 @@ namespace ShoppingListApi.Services
 
         public void DeleteShoppingList(ShoppingList shoppingList)
         {
-            _context.ShoppingLists.Remove(shoppingList);
+            ShoppingListsLock.EnterWriteLock();
+
+            try
+            {
+                _context.ShoppingLists.Remove(shoppingList);
+            }
+            finally
+            {
+                ShoppingListsLock.ExitWriteLock();
+            }
         }
 
         public void DeleteShoppingListItemContainingShoppingList(Guid shoppingListId)
@@ -84,10 +102,19 @@ namespace ShoppingListApi.Services
 
         public void EditShoppingList(ShoppingList shoppingList)
         {
-            var shoppingListFromRepo = _context.ShoppingLists.FirstOrDefault(s => s.Id == shoppingList.Id);
+            ShoppingListsLock.EnterWriteLock();
 
-            shoppingListFromRepo.Name = shoppingList.Name;
-            shoppingListFromRepo.LastEdited = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
+            try
+            {
+                var shoppingListFromRepo = _context.ShoppingLists.FirstOrDefault(s => s.Id == shoppingList.Id);
+
+                shoppingListFromRepo.Name = shoppingList.Name;
+                shoppingListFromRepo.LastEdited = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
+            }
+            finally
+            {
+                ShoppingListsLock.ExitWriteLock();
+            }
         }
     }
 }

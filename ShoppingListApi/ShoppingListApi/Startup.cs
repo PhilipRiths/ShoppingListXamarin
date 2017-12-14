@@ -49,6 +49,8 @@ namespace ShoppingListApi
             services.AddScoped<IShoppingListItemRepository, ShoppingListItemRepository>();
             services.AddScoped<IShoppingListUserRepository, ShoppingListUserRepository>();
 
+            services.AddScoped<IShoppingListHub, ShoppingListHub>();
+
             //AddIdentityServer registers the IdentityServer services in DI. It also registers an in-memory store for runtime state. This is useful for development scenarios. For production scenarios you need a persistent or shared store like a database or cache for that. See the EntityFramework quickstart for more information.
             //The AddDeveloperSigningCredential extension creates temporary key material for signing tokens. Again this might be useful to get started, but needs to be replaced by some persistent key material for production scenarios.
             services.AddIdentityServer()
@@ -73,7 +75,7 @@ namespace ShoppingListApi
         {
             app.UseSignalR(routes =>
             {
-                routes.MapHub<ShoppingListMessageHub>("ShoppingListMessageHub");
+                routes.MapHub<ShoppingListHub>("ShoppingListHub");
             });
 
             //In Configure the middleware is added to the HTTP pipeline.
@@ -134,6 +136,7 @@ namespace ShoppingListApi
             app.UseAuthentication();
 
             app.UseStaticFiles();
+            app.UseMvcWithDefaultRoute();
 
             app.UseMvc();
         }
