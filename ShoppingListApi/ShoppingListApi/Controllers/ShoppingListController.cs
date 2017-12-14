@@ -14,11 +14,16 @@ namespace ShoppingListApi.Controllers
     {
         private IShoppingListRepository _shoppingListRepository;
         private ILogger<ShoppingListController> _logger;
+        // private IShoppingListHub _shoppingListHub;
 
-        public ShoppingListController(IShoppingListRepository shoppingListRepository, ILogger<ShoppingListController> logger)
+        public ShoppingListController(IShoppingListRepository shoppingListRepository,
+            ILogger<ShoppingListController> logger
+            // IShoppingListHub shoppingListHub
+            )
         {
             _shoppingListRepository = shoppingListRepository;
             _logger = logger;
+            // _shoppingListHub = shoppingListHub;
         }
 
         [HttpGet("Test")]
@@ -69,6 +74,8 @@ namespace ShoppingListApi.Controllers
                 throw new Exception("Creating an shoppingList failed on save.");
             }
 
+            // _shoppingListHub.AddShoppingList(shoppingListEntity);
+
             var shoppingListToReturn = Mapper.Map<ShoppingListDto>(shoppingListEntity);
 
             return CreatedAtRoute("GetShoppingList",
@@ -114,6 +121,8 @@ namespace ShoppingListApi.Controllers
             {
                 throw new Exception($"Updating shoppingList on {shoppingList.Id} failed on save");
             }
+
+            // await _shoppingListHub.UpdateProduct(shoppingListEntity);
 
             return NoContent();
         }
