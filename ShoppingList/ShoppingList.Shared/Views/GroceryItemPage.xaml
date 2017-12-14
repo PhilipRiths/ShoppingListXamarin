@@ -38,7 +38,7 @@
                         <ColumnDefinition Width="*"></ColumnDefinition>
                         <ColumnDefinition Width="auto"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
-                    <Entry  Text="{Binding GroceryItem.Name}" Placeholder="New item" PlaceholderColor="White" FontSize="Medium" />
+                    <Entry  Text="{Binding GroceryItem.Name}" TextColor="White" Placeholder="New item" PlaceholderColor="White" FontSize="Medium" />
 
                     <Button
                     Command="{Binding SaveCommand}"
@@ -92,7 +92,7 @@
 
                 </ListView.ItemTemplate>
             </ListView>
-            <Label Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" Text="Items in basket" FontSize="24" TextColor="White" ></Label>
+            <Label Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" Text="Items in basket" FontSize="18" TextColor="White" ></Label>
             <ListView Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3"  ItemsSource="{Binding ItemsInBasket}"
                   VerticalOptions="FillAndExpand"
                   HasUnevenRows="true"
