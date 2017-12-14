@@ -12,7 +12,8 @@
             </Grid.RowDefinitions>
             <StackLayout Spacing="20" Padding="15">
             <Label Text="New item" FontSize="Medium" />
-            <Entry Text="{Binding GroceryItem.Name}" FontSize="Small" />
+             
+            <Entry Text="{Binding GroceryItem.Name}" Placeholder="New Item" FontSize="Small" />
         </StackLayout>
         <StackLayout
             Grid.Row="1"

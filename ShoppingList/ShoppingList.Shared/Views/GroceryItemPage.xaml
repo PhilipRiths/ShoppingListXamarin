@@ -7,7 +7,7 @@
     xmlns:helpers="clr-namespace:ShoppingList.Shared.Helpers;assembly=ShoppingList.Shared"
     mvvm:ViewModelLocator.AutowireViewModel="True"
     x:Name="ItemsPage"
-    BackgroundColor="Black"
+    BackgroundColor="DarkSlateGray"
     Title="Shopping items">
     <ContentPage.ToolbarItems>
         <ToolbarItem  Text="New item"
@@ -15,18 +15,41 @@
                       Icon="ic_plus.png"/>
     </ContentPage.ToolbarItems>
 
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="Auto" />
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"></RowDefinition>
-            <RowDefinition Height="Auto"></RowDefinition>
-        </Grid.RowDefinitions>
-        <StackLayout>
-            <ListView ItemsSource="{Binding Item}"
+    <StackLayout>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="200"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+            </Grid.RowDefinitions>
+
+
+
+            <ContentView Grid.Row="0" >
+                <Grid>
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="auto"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Entry  Text="{Binding GroceryItem.Name}" Placeholder="New item" PlaceholderColor="White" FontSize="Medium" />
+                    <!--<Button
+                    Command="{Binding CancelCommand}"
+                    Text="Cancel" />-->
+                    <Button
+                    Command="{Binding SaveCommand}"
+                    Text="Save" 
+                    BackgroundColor="Red"
+                    Grid.Column="1"/>
+                </Grid>
+            </ContentView>
+            <ListView Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" ItemsSource="{Binding Item}"
                       VerticalOptions="FillAndExpand"
                       HasUnevenRows="true"
                       IsPullToRefreshEnabled="true"
@@ -34,91 +57,91 @@
                       CachingStrategy="RecycleElement"
                       >
                 <ListView.ItemTemplate>
-               <DataTemplate>
-                    <ViewCell>
-                        <ContentView BackgroundColor="Orange" >
-                            <Grid>
-                                  
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition Width="Auto" />
-                                </Grid.ColumnDefinitions>
+                    <DataTemplate>
+                        <ViewCell>
+                            <ContentView BackgroundColor="Orange" >
+                                <Grid>
+
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
 
                                     <!--<StackLayout Padding="10" Orientation="Horizontal" HorizontalOptions="Fill" BackgroundColor="Orange">-->
-                                <Label Margin="10" HorizontalOptions="Start"  Text="{Binding Name} " 
+                                    <Label Margin="10" HorizontalOptions="Start"  Text="{Binding Name} " 
                                   LineBreakMode="NoWrap" 
                                   Style="{DynamicResource ListItemTextStyle}" 
                                   FontSize="16" 
                                   />
 
-                                <Image Grid.Column="1" Source="basket_fill.png" HorizontalOptions="End">
-                                    <Image.GestureRecognizers>
-                                        <TapGestureRecognizer
+                                    <Image Grid.Column="1" Source="basket_fill.png" HorizontalOptions="End">
+                                        <Image.GestureRecognizers>
+                                            <TapGestureRecognizer
                                         Command="{Binding BindingContext.MoveItemToBasket, Source={x:Reference ItemsPage}}"
                                         CommandParameter="{Binding .}" />
-                                    </Image.GestureRecognizers>
-                                </Image>
-                                <Image Grid.Column="2" Source="heart.png" HorizontalOptions="End" ></Image>
+                                        </Image.GestureRecognizers>
+                                    </Image>
+                                    <Image Grid.Column="2" Source="heart.png" HorizontalOptions="End" ></Image>
 
 
-                            </Grid>
+                                </Grid>
                             </ContentView>
 
-                    </ViewCell>
-               </DataTemplate>
-                    
-                    
-           </ListView.ItemTemplate>
+                        </ViewCell>
+                    </DataTemplate>
+
+
+                </ListView.ItemTemplate>
             </ListView>
-           <Label Text="Items in basket" FontSize="24" TextColor="White" ></Label>
-        <ListView Grid.Row="1" ItemsSource="{Binding ItemsInBasket}"
+            <Label Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" Text="Items in basket" FontSize="24" TextColor="White" ></Label>
+            <ListView Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3"  ItemsSource="{Binding ItemsInBasket}"
                   VerticalOptions="FillAndExpand"
                   HasUnevenRows="true"
                   IsPullToRefreshEnabled="true"
                   IsRefreshing="{Binding IsBusy, Mode=OneWay}"
                   CachingStrategy="RecycleElement"
         >
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <ViewCell>
-                        <ContentView BackgroundColor="LawnGreen">
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition Width="Auto" />
-                                </Grid.ColumnDefinitions>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <ContentView BackgroundColor="LawnGreen">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
 
-                                <Label Margin="10" HorizontalOptions="Start"  Text="{Binding Name} " 
+                                    <Label Margin="10" HorizontalOptions="Start"  Text="{Binding Name} " 
                                    LineBreakMode="NoWrap" 
                                    Style="{DynamicResource ListItemTextStyle}" 
                                    FontSize="16" 
                             />
-                          
-                            <Image Grid.Column="1" Source="arrow_up_bold.png" HorizontalOptions="End" >
-                                <Image.GestureRecognizers>
-                                    <TapGestureRecognizer
+
+                                    <Image Grid.Column="1" Source="arrow_up_bold.png" HorizontalOptions="End" >
+                                        <Image.GestureRecognizers>
+                                            <TapGestureRecognizer
                                         Command="{Binding BindingContext.MoveItemFromBasket, Source={x:Reference ItemsPage}}"
                                         CommandParameter="{Binding .}" />
-                                </Image.GestureRecognizers>
-                            </Image>
-                            <Image Grid.Column="2" Source="delete.png" HorizontalOptions="End" >
-                                <Image.GestureRecognizers>
-                                    <TapGestureRecognizer
+                                        </Image.GestureRecognizers>
+                                    </Image>
+                                    <Image Grid.Column="2" Source="delete.png" HorizontalOptions="End" >
+                                        <Image.GestureRecognizers>
+                                            <TapGestureRecognizer
                                         Command="{Binding BindingContext.RemoveItemFromBasket, Source={x:Reference ItemsPage}}"
                                         CommandParameter="{Binding .}" />
-                                </Image.GestureRecognizers>
-                            </Image>
-                 
+                                        </Image.GestureRecognizers>
+                                    </Image>
+
                                 </Grid>
                             </ContentView>
-   
-       </ViewCell>
+
+                        </ViewCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
-           </StackLayout>
-</Grid>
 
+        </Grid>
+    </StackLayout>
 </ContentPage>
