@@ -6,6 +6,8 @@
 
         public string Name { get; set; }
 
+        public int Quantity { get; set; } = 1;
+
         public bool InBasket { get; set; }
     }
 }

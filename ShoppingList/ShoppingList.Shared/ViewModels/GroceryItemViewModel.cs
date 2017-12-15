@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Windows.Input;
 using Prism.Commands;
 using Prism.Navigation;
+using Prism.Services;
 using ShoppingList.Shared.Models;
 using ShoppingList.Shared.Views;
 using Xamarin.Forms;
@@ -12,6 +13,7 @@ namespace ShoppingList.Shared.ViewModels
     public class GroceryItemViewModel : BaseViewModel, INavigationAware
     {
         private INavigationService _navigationService;
+        private readonly IPageDialogService _dialogService;
         public ObservableCollection<GroceryItem> Item { get; set; }
         public ObservableCollection<GroceryItem> ItemsInBasket { get; set; }
         public GroceryList GroceryList { get; set; }
@@ -19,9 +21,10 @@ namespace ShoppingList.Shared.ViewModels
         public ICommand MoveItemFromBasket { get; set; }
         public ICommand RemoveItemFromBasket { get; set; }
         public ICommand SaveCommand { get; set; }
-        public GroceryItemViewModel(INavigationService navigationService)
+        public GroceryItemViewModel(INavigationService navigationService, IPageDialogService dialogService)
         {
             _navigationService = navigationService;
+            _dialogService = dialogService;
             Item = new ObservableCollection<GroceryItem>();
             ItemsInBasket = new ObservableCollection<GroceryItem>();
             NewItemCommand = new DelegateCommand(OnCreateItem);
@@ -30,7 +33,29 @@ namespace ShoppingList.Shared.ViewModels
             RemoveItemFromBasket = new DelegateCommand<GroceryItem>(OnDelete);
             SaveCommand = new DelegateCommand(OnSaveExecute);
             GroceryItem = new GroceryItem();
-            
+            RemoveItemCommand = new DelegateCommand<GroceryItem>(OnRemoveGroceryListItemExecute);
+            EditItemCommand = new DelegateCommand<GroceryItem>(OnEditGroceryListItemExecute);
+        }
+
+        private void OnEditGroceryListItemExecute(GroceryItem obj)
+        {
+            var navigationParameters = new NavigationParameters{ { "GroceryListItem", obj } };
+            _navigationService.NavigateAsync(nameof(GroceryItemDetailPage), navigationParameters);
+        }
+
+
+        private async void OnRemoveGroceryListItemExecute(GroceryItem item)
+        {
+            var result = await _dialogService.DisplayAlertAsync("", 
+                "Are you sure you want to delete this item?", 
+                "OK",
+                "Cancel");
+            if (result)
+            {
+                GroceryList.Items.Remove(item);
+                Item.Remove(item);
+            }
+            //TODO: Update API async
         }
 
         private void OnSaveExecute()
@@ -65,6 +90,8 @@ namespace ShoppingList.Shared.ViewModels
 
         public ICommand NewItemCommand { get; }
         public ICommand MoveItemToBasket { get; set; }
+        public DelegateCommand<GroceryItem> RemoveItemCommand { get; }
+        public DelegateCommand<GroceryItem> EditItemCommand { get; }
 
         public void OnNavigatedFrom(NavigationParameters parameters)
         {
