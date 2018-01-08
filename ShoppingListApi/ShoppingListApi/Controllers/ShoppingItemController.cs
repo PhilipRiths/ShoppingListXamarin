@@ -1,14 +1,15 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ShoppingListApi.Entities;
 using ShoppingListApi.Models;
-using ShoppingListApi.Services;
 using ShoppingListApi.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 
 namespace ShoppingListApi.Controllers
 {
+    [Authorize]
     [Route("api/ShoppingItems")]
     public class ShoppingItemController : Controller
     {
