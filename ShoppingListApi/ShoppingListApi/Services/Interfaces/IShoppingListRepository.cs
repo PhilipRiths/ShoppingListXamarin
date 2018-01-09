@@ -1,5 +1,4 @@
 ﻿using ShoppingListApi.Entities;
-using System;
 using System.Collections.Generic;
 
 namespace ShoppingListApi.Services.Interfaces
@@ -10,9 +9,9 @@ namespace ShoppingListApi.Services.Interfaces
 
         IEnumerable<ShoppingList> GetShoppingLists();
 
-        ShoppingList GetShoppingList(Guid id);
+        ShoppingList GetShoppingList(int Id);
 
-        bool ShoppingListExists(Guid shoppingListId);
+        bool ShoppingListExists(int shoppingListId);
 
         void EditShoppingList(ShoppingList shoppingList);
 
@@ -20,6 +19,6 @@ namespace ShoppingListApi.Services.Interfaces
 
         void DeleteShoppingList(ShoppingList shoppingListFromRepo);
 
-        void DeleteShoppingListItemContainingShoppingList(Guid shoppingListId);
+        void DeleteShoppingListItemContainingShoppingList(int shoppingListId);
     }
 }

@@ -1,9 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using ShoppingListApi.Models;
-using ShoppingListApi.Services;
 using ShoppingListApi.Services.Interfaces;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -30,7 +28,7 @@ namespace ShoppingListApi.Controllers
         }
 
         [HttpGet("listItems/{shoppingListId}")]
-        public IActionResult GetAllItemsOnShoppingList(Guid shoppingListId)
+        public IActionResult GetAllItemsOnShoppingList(int shoppingListId)
         {
             if (!_shoppingListItemRepository.ShoppingListExists(shoppingListId))
             {
@@ -47,7 +45,7 @@ namespace ShoppingListApi.Controllers
         }
 
         [HttpGet("itemLists/{shoppingItemId}")]
-        public IActionResult GetAllListsOnShoppingItem(Guid shoppingItemId)
+        public IActionResult GetAllListsOnShoppingItem(int shoppingItemId)
         {
             if (!_shoppingListItemRepository.ShoppingItemExists(shoppingItemId))
             {

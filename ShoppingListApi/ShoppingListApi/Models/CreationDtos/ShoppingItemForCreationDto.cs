@@ -1,12 +1,11 @@
 ﻿using ShoppingListApi.Entities;
-using System;
 using System.Collections.Generic;
 
 namespace ShoppingListApi.Models
 {
     public class ShoppingItemForCreationDto
     {
-        public Guid Id { get; set; }
+        public int Id { get; set; }
 
         public string Name { get; set; }
 

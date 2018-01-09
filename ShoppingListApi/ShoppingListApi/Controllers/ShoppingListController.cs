@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using ShoppingListApi.Entities;
 using ShoppingListApi.Models;
-using ShoppingListApi.Services;
 using ShoppingListApi.Services.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -44,7 +43,7 @@ namespace ShoppingListApi.Controllers
         }
 
         [HttpGet("{id}", Name = "GetShoppingList")]
-        public IActionResult GetShoppingList(Guid id)
+        public IActionResult GetShoppingList(int id)
         {
             if (!_shoppingListRepository.ShoppingListExists(id))
             {
@@ -85,7 +84,7 @@ namespace ShoppingListApi.Controllers
         }
 
         [HttpDelete("{id}")]
-        public IActionResult DeleteShoppingList(Guid id)
+        public IActionResult DeleteShoppingList(int id)
         {
             var shoppingListFromRepo = _shoppingListRepository.GetShoppingList(id);
             if (shoppingListFromRepo == null)

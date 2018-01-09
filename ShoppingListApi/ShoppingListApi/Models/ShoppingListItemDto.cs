@@ -1,15 +1,13 @@
-﻿using System;
-
-namespace ShoppingListApi.Models
+﻿namespace ShoppingListApi.Models
 {
     public class ShoppingListItemDto
     {
-        public Guid Id { get; set; }
+        public int Id { get; set; }
 
-        public Guid ShoppingListId { get; set; }
+        public int ShoppingListId { get; set; }
         public ShoppingListDto ShoppingList { get; set; }
 
-        public Guid ShoppingItemId { get; set; }
+        public int ShoppingItemId { get; set; }
         public ShoppingItemDto ShoppingItem { get; set; }
     }
 }

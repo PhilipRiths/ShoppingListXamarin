@@ -1,7 +1,6 @@
 ﻿using ShoppingListApi.Data;
 using ShoppingListApi.Entities;
 using ShoppingListApi.Services.Interfaces;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -18,7 +17,7 @@ namespace ShoppingListApi.Services
 
         public void AddShoppingItem(ShoppingItem shoppingItem)
         {
-            shoppingItem.Id = Guid.NewGuid();
+            // shoppingItem.Id = Guid.NewGuid();
             _context.ShoppingItems.Add(shoppingItem);
         }
 
@@ -29,7 +28,7 @@ namespace ShoppingListApi.Services
                 .ToList();
         }
 
-        public ShoppingItem GetShoppingItem(Guid id)
+        public ShoppingItem GetShoppingItem(int id)
         {
             return _context.ShoppingItems
                 .FirstOrDefault(si => si.Id == id);
@@ -40,7 +39,7 @@ namespace ShoppingListApi.Services
             _context.ShoppingItems.Remove(shoppingItem);
         }
 
-        public void DeleteShoppingListItemContainingShoppingItem(Guid shoppingItemId)
+        public void DeleteShoppingListItemContainingShoppingItem(int shoppingItemId)
         {
             foreach (var listItem in _context.ShoppingListItem)
             {

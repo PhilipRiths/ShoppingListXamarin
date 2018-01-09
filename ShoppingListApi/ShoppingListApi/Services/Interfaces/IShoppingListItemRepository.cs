@@ -1,18 +1,17 @@
 ﻿using ShoppingListApi.Entities;
-using System;
 using System.Collections.Generic;
 
 namespace ShoppingListApi.Services.Interfaces
 {
     public interface IShoppingListItemRepository
     {
-        IEnumerable<ShoppingListItem> GetShoppingListsAndItemsByListId(Guid shoppingListId);
+        IEnumerable<ShoppingListItem> GetShoppingListsAndItemsByListId(int shoppingListId);
 
-        IEnumerable<ShoppingListItem> GetShoppingListsAndItemsByItemId(Guid shoppingItemId);
+        IEnumerable<ShoppingListItem> GetShoppingListsAndItemsByItemId(int shoppingItemId);
 
-        bool ShoppingListExists(Guid shoppingListId);
+        bool ShoppingListExists(int shoppingListId);
 
-        bool ShoppingItemExists(Guid shoppingItemId);
+        bool ShoppingItemExists(int shoppingItemId);
 
         IEnumerable<ShoppingListItem> GetAllShoppingListsAndItems();
 

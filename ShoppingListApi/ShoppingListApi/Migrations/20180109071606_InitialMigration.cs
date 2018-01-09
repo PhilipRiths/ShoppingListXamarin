@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using System;
 using System.Collections.Generic;
 
@@ -12,40 +13,65 @@ namespace ShoppingListApi.Migrations
                 name: "ShoppingItems",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(nullable: false),
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Description = table.Column<string>(maxLength: 400, nullable: true),
                     IsBought = table.Column<bool>(nullable: false),
-                    IsFavorite = table.Column<bool>(nullable: false),
                     Name = table.Column<string>(maxLength: 50, nullable: false),
                     Quantity = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ShoppingItems", x => x.Id);
+                    table.UniqueConstraint("AK_ShoppingItems_Name", x => x.Name);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Users",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(nullable: false),
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     FirstName = table.Column<string>(maxLength: 50, nullable: false),
+                    GoogleId = table.Column<string>(nullable: false),
                     LastName = table.Column<string>(maxLength: 50, nullable: false),
                     Mail = table.Column<string>(maxLength: 50, nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Users", x => x.Id);
+                    table.UniqueConstraint("AK_Users_GoogleId", x => x.GoogleId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "FavoriteItems",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Name = table.Column<string>(maxLength: 50, nullable: false),
+                    UserId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_FavoriteItems", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_FavoriteItems_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
                 name: "ShoppingLists",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(nullable: false),
-                    CreatedById = table.Column<Guid>(nullable: true),
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    CreatedById = table.Column<int>(nullable: true),
                     LastEdited = table.Column<DateTime>(nullable: false),
-                    LastEditedById = table.Column<Guid>(nullable: true),
+                    LastEditedById = table.Column<int>(nullable: true),
                     Name = table.Column<string>(maxLength: 50, nullable: false)
                 },
                 constraints: table =>
@@ -69,9 +95,10 @@ namespace ShoppingListApi.Migrations
                 name: "ShoppingListItem",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(nullable: false),
-                    ShoppingItemId = table.Column<Guid>(nullable: false),
-                    ShoppingListId = table.Column<Guid>(nullable: false)
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    ShoppingItemId = table.Column<int>(nullable: false),
+                    ShoppingListId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -94,9 +121,10 @@ namespace ShoppingListApi.Migrations
                 name: "ShoppingListUser",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(nullable: false),
-                    ShoppingListId = table.Column<Guid>(nullable: false),
-                    UserId = table.Column<Guid>(nullable: false)
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    ShoppingListId = table.Column<int>(nullable: false),
+                    UserId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -114,6 +142,11 @@ namespace ShoppingListApi.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_FavoriteItems_UserId",
+                table: "FavoriteItems",
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ShoppingListItem_ShoppingItemId",
@@ -148,6 +181,9 @@ namespace ShoppingListApi.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "FavoriteItems");
+
             migrationBuilder.DropTable(
                 name: "ShoppingListItem");
 

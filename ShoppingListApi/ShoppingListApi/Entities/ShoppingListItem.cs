@@ -1,17 +1,18 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ShoppingListApi.Entities
 {
     public class ShoppingListItem
     {
         [Key]
-        public Guid Id { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int Id { get; set; }
 
-        public Guid ShoppingListId { get; set; }
+        public int ShoppingListId { get; set; }
         public ShoppingList ShoppingList { get; set; }
 
-        public Guid ShoppingItemId { get; set; }
+        public int ShoppingItemId { get; set; }
         public ShoppingItem ShoppingItem { get; set; }
     }
 }

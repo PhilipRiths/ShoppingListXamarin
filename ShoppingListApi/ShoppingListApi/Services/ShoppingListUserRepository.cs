@@ -2,7 +2,6 @@
 using ShoppingListApi.Data;
 using ShoppingListApi.Entities;
 using ShoppingListApi.Services.Interfaces;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -14,12 +13,12 @@ namespace ShoppingListApi.Services
 
         public ShoppingListUserRepository(ShoppingListContext context)
         {
-            _context = context; 
+            _context = context;
         }
-         
+
         public void AddShoppingListUser(ShoppingListUser shoppingListUser)
         {
-            shoppingListUser.Id = Guid.NewGuid();
+            // shoppingListUser.Id = Guid.NewGuid();
             _context.ShoppingListUser.Add(shoppingListUser);
         }
 
@@ -28,7 +27,7 @@ namespace ShoppingListApi.Services
             return _context.ShoppingListUser
                 .OrderBy(slu => slu.User.FirstName)
                 .Include(slu => slu.ShoppingList)
-                .Include(slu => slu.User); 
+                .Include(slu => slu.User);
         }
 
         public ShoppingListUser GetShoppingListUser(string googleId)
@@ -38,7 +37,7 @@ namespace ShoppingListApi.Services
                 .Include(slu => slu.User.ShoppingLists)
                 .SingleOrDefault();
         }
-        
+
         public void EditShoppingListUser(ShoppingListUser shoppingListUser)
         {
             var shoppingListUserFromRepo = _context.ShoppingListUser.FirstOrDefault(slu => slu.Id == shoppingListUser.Id);

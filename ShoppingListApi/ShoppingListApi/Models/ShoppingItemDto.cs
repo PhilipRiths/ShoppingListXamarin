@@ -1,10 +1,8 @@
-﻿using System;
-
-namespace ShoppingListApi.Models
+﻿namespace ShoppingListApi.Models
 {
     public class ShoppingItemDto
     {
-        public Guid Id { get; set; }
+        public int Id { get; set; }
 
         public string Name { get; set; }
 

@@ -11,8 +11,8 @@ using System;
 namespace ShoppingListApi.Migrations
 {
     [DbContext(typeof(ShoppingListContext))]
-    [Migration("20171214134658_AddingFavoriteItemsToUser")]
-    partial class AddingFavoriteItemsToUser
+    [Migration("20180109071606_InitialMigration")]
+    partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -23,14 +23,14 @@ namespace ShoppingListApi.Migrations
 
             modelBuilder.Entity("ShoppingListApi.Entities.FavoriteItem", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(50);
 
-                    b.Property<Guid>("UserId");
+                    b.Property<int>("UserId");
 
                     b.HasKey("Id");
 
@@ -41,7 +41,7 @@ namespace ShoppingListApi.Migrations
 
             modelBuilder.Entity("ShoppingListApi.Entities.ShoppingItem", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("Description")
@@ -64,14 +64,14 @@ namespace ShoppingListApi.Migrations
 
             modelBuilder.Entity("ShoppingListApi.Entities.ShoppingList", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<Guid?>("CreatedById");
+                    b.Property<int?>("CreatedById");
 
                     b.Property<DateTime>("LastEdited");
 
-                    b.Property<Guid?>("LastEditedById");
+                    b.Property<int?>("LastEditedById");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -88,12 +88,12 @@ namespace ShoppingListApi.Migrations
 
             modelBuilder.Entity("ShoppingListApi.Entities.ShoppingListItem", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<Guid>("ShoppingItemId");
+                    b.Property<int>("ShoppingItemId");
 
-                    b.Property<Guid>("ShoppingListId");
+                    b.Property<int>("ShoppingListId");
 
                     b.HasKey("Id");
 
@@ -106,12 +106,12 @@ namespace ShoppingListApi.Migrations
 
             modelBuilder.Entity("ShoppingListApi.Entities.ShoppingListUser", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<Guid>("ShoppingListId");
+                    b.Property<int>("ShoppingListId");
 
-                    b.Property<Guid>("UserId");
+                    b.Property<int>("UserId");
 
                     b.HasKey("Id");
 
@@ -124,7 +124,7 @@ namespace ShoppingListApi.Migrations
 
             modelBuilder.Entity("ShoppingListApi.Entities.User", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("FirstName")

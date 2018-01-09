@@ -39,7 +39,7 @@ namespace ShoppingListApi.Services
 
             try
             {
-                shoppingList.Id = Guid.NewGuid();
+                // shoppingList.Id = Guid.NewGuid();
                 _context.ShoppingLists.Add(shoppingList);
             }
             finally
@@ -56,7 +56,7 @@ namespace ShoppingListApi.Services
             //}
         }
 
-        public ShoppingList GetShoppingList(Guid id)
+        public ShoppingList GetShoppingList(int id)
         {
             return _context.ShoppingLists
                 .Include(si => si.ShoppingItems)
@@ -80,7 +80,7 @@ namespace ShoppingListApi.Services
             }
         }
 
-        public void DeleteShoppingListItemContainingShoppingList(Guid shoppingListId)
+        public void DeleteShoppingListItemContainingShoppingList(int shoppingListId)
         {
             foreach (var listItem in _context.ShoppingListItem)
             {
@@ -96,7 +96,7 @@ namespace ShoppingListApi.Services
             return (_context.SaveChanges() >= 0);
         }
 
-        public bool ShoppingListExists(Guid shoppingListId)
+        public bool ShoppingListExists(int shoppingListId)
         {
             return _context.ShoppingLists.Any(s => s.Id.Equals(shoppingListId));
         }

@@ -2,7 +2,6 @@
 using ShoppingListApi.Data;
 using ShoppingListApi.Entities;
 using ShoppingListApi.Services.Interfaces;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -26,7 +25,7 @@ namespace ShoppingListApi.Services
                 .ToList();
         }
 
-        public IEnumerable<ShoppingListItem> GetShoppingListsAndItemsByItemId(Guid shoppingItemId)
+        public IEnumerable<ShoppingListItem> GetShoppingListsAndItemsByItemId(int shoppingItemId)
         {
             return _context.ShoppingListItem
                 .Where(s => s.ShoppingItemId == shoppingItemId)
@@ -35,7 +34,7 @@ namespace ShoppingListApi.Services
                 .ToList();
         }
 
-        public IEnumerable<ShoppingListItem> GetShoppingListsAndItemsByListId(Guid shoppingListId)
+        public IEnumerable<ShoppingListItem> GetShoppingListsAndItemsByListId(int shoppingListId)
         {
             return _context.ShoppingListItem
                 .Where(s => s.ShoppingListId == shoppingListId)
@@ -44,13 +43,13 @@ namespace ShoppingListApi.Services
                 .ToList();
         }
 
-        public bool ShoppingListExists(Guid shoppingListId)
+        public bool ShoppingListExists(int shoppingListId)
         {
             return _context.ShoppingListItem
                 .Any(s => s.ShoppingListId == shoppingListId);
         }
 
-        public bool ShoppingItemExists(Guid shoppingItemId)
+        public bool ShoppingItemExists(int shoppingItemId)
         {
             return _context.ShoppingListItem
                 .Any(s => s.ShoppingItemId == shoppingItemId);
