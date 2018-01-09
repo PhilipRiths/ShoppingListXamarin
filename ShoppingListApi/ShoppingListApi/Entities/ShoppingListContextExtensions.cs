@@ -1,6 +1,7 @@
 ﻿using ShoppingListApi.Data;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace ShoppingListApi.Entities
 {
@@ -8,15 +9,15 @@ namespace ShoppingListApi.Entities
     {
         public static void EnsureSeedDataForContext(this ShoppingListContext context)
         {
-            //if (context.Users.Any() || context.ShoppingLists.Any())
-            //{
-            //    return;
-            //}
+            if (context.Users.Any() || context.ShoppingLists.Any())
+            {
+                return;
+            }
 
-            context.Users.RemoveRange(context.Users);
-            context.ShoppingItems.RemoveRange(context.ShoppingItems);
-            context.ShoppingLists.RemoveRange(context.ShoppingLists);
-            context.SaveChanges();
+            //context.Users.RemoveRange(context.Users);
+            //context.ShoppingItems.RemoveRange(context.ShoppingItems);
+            //context.ShoppingLists.RemoveRange(context.ShoppingLists);
+            //context.SaveChanges();
 
             // init seed data
 
