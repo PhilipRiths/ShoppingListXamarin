@@ -141,8 +141,8 @@ namespace ShoppingListApi
 
             app.UseAuthentication();
 
-            app.UseStaticFiles();
-            app.UseMvcWithDefaultRoute();
+            //app.UseStaticFiles();
+            //app.UseMvcWithDefaultRoute();
 
             app.UseMvc();
         }

@@ -30,7 +30,6 @@ namespace ShoppingListApi.Services
             return _context.ShoppingListItem
                 .Where(s => s.ShoppingItemId == shoppingItemId)
                 .Include(sl => sl.ShoppingList)
-                .Include(si => si.ShoppingItem)
                 .ToList();
         }
 
@@ -38,7 +37,6 @@ namespace ShoppingListApi.Services
         {
             return _context.ShoppingListItem
                 .Where(s => s.ShoppingListId == shoppingListId)
-                .Include(sl => sl.ShoppingList)
                 .Include(si => si.ShoppingItem)
                 .ToList();
         }
