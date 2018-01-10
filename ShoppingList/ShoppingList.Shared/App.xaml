@@ -8,9 +8,8 @@
     <prism:PrismApplication.Resources>
         <ResourceDictionary>
             <Style TargetType="NavigationPage">
-                <Setter Property="BarBackgroundColor" Value="White" />
-                <Setter Property="BarTextColor" Value="Black" />
-                <Setter Property="HasBackButton" Value="True" />
+                <Setter Property="BarBackgroundColor" Value="Default" />
+                <Setter Property="BarTextColor" Value="Default" />
             </Style>
         </ResourceDictionary>
     </prism:PrismApplication.Resources>
