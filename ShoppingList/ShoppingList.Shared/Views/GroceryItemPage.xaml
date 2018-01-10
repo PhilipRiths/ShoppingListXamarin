@@ -38,7 +38,7 @@
                         <ColumnDefinition Width="*"></ColumnDefinition>
                         <ColumnDefinition Width="auto"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
-                    <Entry  Text="{Binding GroceryItem.Name}" TextColor="White" Placeholder="New item" PlaceholderColor="White" FontSize="Medium" />
+                    <Entry  Text="{Binding GroceryItem.Name, Mode=TwoWay}" TextColor="White" Placeholder="New item" PlaceholderColor="White" FontSize="Medium" />
 
                     <Button
                     Command="{Binding SaveCommand}"
@@ -47,12 +47,11 @@
                     Grid.Column="1"/>
                 </Grid>
             </ContentView>
-            <ListView Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" ItemsSource="{Binding Item}"
+            <ListView Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" ItemsSource="{Binding Item, Mode=TwoWay}"
                       VerticalOptions="FillAndExpand"
                       HasUnevenRows="true"
                       IsPullToRefreshEnabled="true"
                       IsRefreshing="{Binding IsBusy, Mode=OneWay}"
-                      CachingStrategy="RecycleElement"
                       x:Name="GroceryItemList">
                 <ListView.ItemTemplate>
                     <DataTemplate>
@@ -78,7 +77,7 @@
                                     </Grid.ColumnDefinitions>
 
                                     <!--<StackLayout Padding="10" Orientation="Horizontal" HorizontalOptions="Fill" BackgroundColor="Orange">-->
-                                    <Label Margin="10" HorizontalOptions="Start"  Text="{Binding Name} " 
+                                    <Label Margin="10" HorizontalOptions="Start"  Text="{Binding Name, Mode=TwoWay} " 
                                   LineBreakMode="NoWrap" 
                                   Style="{DynamicResource ListItemTextStyle}" 
                                   FontSize="16" 

@@ -22,14 +22,14 @@
                  Orientation="Vertical">
                  <Entry 
                      x:Name="ItemNameEntry"
-                     Text="{Binding GroceryItem.Name, Mode=TwoWay}" 
+                     Text="{Binding ItemName, Mode=TwoWay}" 
                      Placeholder="Edit name.." 
                      FontSize="Small" >
                      <Entry.Behaviors>
                          <validation:EntryValidatorBehavior
                              x:Name="EntryItemNameValidator"
                              CheckEmpty="True"
-                             MaxLength="20" 
+                             MaxLength="30" 
                              IsValid="{Binding BindingContext.IsValidEntry, 
                              Source={x:Reference ItemDetailPage}, Mode=TwoWay}"/>
                      </Entry.Behaviors>
@@ -47,15 +47,15 @@
                     <Entry 
                         x:Name="ItemQuantityEntry"
                         Keyboard="Numeric" 
-                        Text="{Binding GroceryItem.Quantity, Mode=TwoWay}" 
+                        Text="{Binding ItemQuantity, Mode=TwoWay}" 
                         Placeholder="Change quantity" 
                         FontSize="Small" >
                         <Entry.Behaviors>
                             <validation:EntryValidatorBehavior
                                 x:Name="EntryItemQuantityValidator"
                                 CheckEmpty="True"
-                                MaxLength="20" 
-                                IsValid="{Binding BindingContext.IsValidEntry, 
+                                MaxLength="20"
+                                IsValid="{Binding BindingContext.IsValidItemQuantityEntry, 
                                 Source={x:Reference ItemDetailPage}, Mode=TwoWay}"/>
                         </Entry.Behaviors>
                     </Entry>
