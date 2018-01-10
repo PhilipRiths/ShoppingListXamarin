@@ -25,108 +25,11 @@ namespace ShoppingList.Shared.ViewModels
             _dialogService = dialogService;
             _groceryItem = new GroceryItem();
             Item = new ObservableCollection<GroceryItem>();
-            ItemsInBasket = new ObservableCollection<GroceryItem>();
             NewItemCommand = new DelegateCommand(OnCreateItem);
-            MoveItemToBasket = new DelegateCommand<GroceryItem>(OnMoveItemToBasket);
-            MoveItemFromBasket = new DelegateCommand<GroceryItem>(OnMoveItemFromBasket);
-            RemoveItemFromBasket = new DelegateCommand<GroceryItem>(OnDelete);
             SaveCommand = new DelegateCommand(OnSaveExecute);
             RemoveItemCommand = new DelegateCommand<GroceryItem>(OnRemoveGroceryListItemExecute);
             EditItemCommand = new DelegateCommand<GroceryItem>(OnEditGroceryListItemExecute);
         }
-
-        private void OnEditGroceryListItemExecute(GroceryItem obj)
-        {
-            var navigationParameters = new NavigationParameters{ { "GroceryListItem", obj }, {"ItemsList", GroceryList}, {"ObservableItemsList", Item} };
-            _navigationService.NavigateAsync(nameof(GroceryItemDetailPage), navigationParameters);
-        }
-
-
-        private async void OnRemoveGroceryListItemExecute(GroceryItem item)
-        {
-            var result = await _dialogService.DisplayAlertAsync("", 
-                $"Are you sure you want to delete the item {item.Name}", 
-                "OK",
-                "Cancel");
-            if (result)
-            {
-                GroceryList.Items.Remove(item);
-                Item.Remove(item);
-            }
-            //TODO: Update API async
-        }
-
-        private void OnSaveExecute()
-        {
-            var newGroceryItem = new GroceryItem();
-            newGroceryItem.Name = GroceryItem.Name;
-            newGroceryItem.Quantity = 1;
-            Item.Add(newGroceryItem);
-            GroceryList.Items.Add(newGroceryItem);
-            //TODO: Update API async
-        }
-
-        private void OnDelete(GroceryItem item)
-        {
-            ItemsInBasket.Remove(item);
-        }
-
-        private void OnMoveItemFromBasket(GroceryItem item)
-        {
-            ItemsInBasket.Remove(item);
-            Item.Add(item);
-        }
-
-        private void OnMoveItemToBasket(GroceryItem item)
-        {
-            Item.Remove(item);
-            ItemsInBasket.Add(item);
-        }
-
-        private async void OnCreateItem()
-        {
-            var navParams = new NavigationParameters { { Title = "GroceryList", GroceryList } };
-            await _navigationService.NavigateAsync($"{nameof(GroceryItemDetailPage)}", navParams, true);
-        }
-        public ObservableCollection<GroceryItem> Item
-        {
-            get { return _item; }
-            set
-            {
-                _item = value;
-                RaisePropertyChanged();
-            }
-        }
-
-        public ObservableCollection<GroceryItem> ItemsInBasket { get; set; }
-
-        public GroceryList GroceryList
-        {
-            get { return _groceryList; }
-            set
-            {
-                _groceryList = value;
-                RaisePropertyChanged();
-            }
-        }
-
-        public GroceryItem GroceryItem
-        {
-            get { return _groceryItem; }
-            set
-            {
-                _groceryItem = value;
-                RaisePropertyChanged();
-            }
-        }
-
-        public ICommand MoveItemFromBasket { get; set; }
-        public ICommand RemoveItemFromBasket { get; set; }
-        public ICommand SaveCommand { get; set; }
-        public ICommand NewItemCommand { get; }
-        public ICommand MoveItemToBasket { get; set; }
-        public DelegateCommand<GroceryItem> RemoveItemCommand { get; }
-        public DelegateCommand<GroceryItem> EditItemCommand { get; }
 
         public void OnNavigatedFrom(NavigationParameters parameters)
         {
@@ -154,5 +57,81 @@ namespace ShoppingList.Shared.ViewModels
                 GroceryList = groceryList;
             }
         }
+
+
+        public ObservableCollection<GroceryItem> Item
+        {
+            get { return _item; }
+            set
+            {
+                _item = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public GroceryList GroceryList
+        {
+            get { return _groceryList; }
+            set
+            {
+                _groceryList = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public GroceryItem GroceryItem
+        {
+            get { return _groceryItem; }
+            set
+            {
+                _groceryItem = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public ICommand SaveCommand { get; set; }
+        public ICommand NewItemCommand { get; }
+        public DelegateCommand<GroceryItem> RemoveItemCommand { get; }
+        public DelegateCommand<GroceryItem> EditItemCommand { get; }
+
+
+        private void OnEditGroceryListItemExecute(GroceryItem obj)
+        {
+            var navigationParameters = new NavigationParameters { { "GroceryListItem", obj }, { "ItemsList", GroceryList }, { "ObservableItemsList", Item } };
+            _navigationService.NavigateAsync(nameof(GroceryItemDetailPage), navigationParameters);
+        }
+
+        private async void OnRemoveGroceryListItemExecute(GroceryItem item)
+        {
+            var result = await _dialogService.DisplayAlertAsync("",
+                $"Are you sure you want to delete the item {item.Name}",
+                "OK",
+                "Cancel");
+            if (result)
+            {
+                GroceryList.Items.Remove(item);
+                Item.Remove(item);
+            }
+            //TODO: Update API async
+        }
+
+        private void OnSaveExecute()
+        {
+            var newGroceryItem = new GroceryItem();
+            newGroceryItem.Name = GroceryItem.Name;
+            newGroceryItem.Quantity = 1;
+            Item.Add(newGroceryItem);
+            GroceryList.Items.Add(newGroceryItem);
+            GroceryItem = new GroceryItem();
+            //TODO: Update API async
+        }
+
+
+        private async void OnCreateItem()
+        {
+            var navParams = new NavigationParameters { { Title = "GroceryList", GroceryList } };
+            await _navigationService.NavigateAsync($"{nameof(GroceryItemDetailPage)}", navParams, true);
+        }
+
     }
 }
