@@ -96,9 +96,13 @@ namespace ShoppingList.Shared.ViewModels
                     }
                 });
 
+            var sharingAction = ActionSheetButton.CreateButton(
+                "Sharing",
+                () => _navigationService.NavigateAsync(nameof(SharedListPage)));
+
             var cancelAction = ActionSheetButton.CreateCancelButton("Cancel", () => { });
 
-            await _dialogService.DisplayActionSheetAsync(string.Empty, editAction, deleteAction, cancelAction);
+            await _dialogService.DisplayActionSheetAsync(string.Empty, editAction, deleteAction, sharingAction, cancelAction);
         }
 
         private async void OnOpenGroceryListDetail(GroceryList groceryList)
