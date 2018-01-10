@@ -19,7 +19,6 @@ namespace ShoppingList.Shared.ViewModels
         private int _itemQuantity;
         private ObservableCollection<GroceryItem> _items;
         private GroceryList _groceryList;
-        private bool _isValidItemQuantityEntry;
 
         public MockGroceryListDataStore Store { get; set; }
 
@@ -47,24 +46,7 @@ namespace ShoppingList.Shared.ViewModels
                 RaisePropertyChanged();
             }
         }
-
-        public bool IsValidItemQuantityEntry
-        {
-            get { return _isValidItemQuantityEntry; }
-            set
-            {
-                if (ItemQuantity > 0)
-                {
-                    _isValidItemQuantityEntry = true;
-                }
-                else
-                {
-                    _isValidItemQuantityEntry = false;
-                }
-                RaisePropertyChanged();
-            }
-        }
-
+        
         public string ItemName
         {
             get { return _itemName; }

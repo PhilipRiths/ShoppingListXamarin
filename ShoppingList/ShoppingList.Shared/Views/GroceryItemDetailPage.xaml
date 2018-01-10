@@ -55,6 +55,7 @@
                                 x:Name="EntryItemQuantityValidator"
                                 CheckEmpty="True"
                                 MaxLength="20"
+                                MinNumber="1"
                                 IsValid="{Binding BindingContext.IsValidItemQuantityEntry, 
                                 Source={x:Reference ItemDetailPage}, Mode=TwoWay}"/>
                         </Entry.Behaviors>

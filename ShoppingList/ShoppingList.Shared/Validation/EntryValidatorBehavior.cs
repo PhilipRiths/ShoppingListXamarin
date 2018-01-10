@@ -25,6 +25,12 @@ namespace ShoppingList.Shared.Validation
             typeof(EntryValidatorBehavior),
             0);
 
+        public static readonly BindableProperty MinNumberProperty = BindableProperty.Create(
+            nameof(MinNumber),
+            typeof(int),
+            typeof(EntryValidatorBehavior),
+            0);
+
         public static readonly BindableProperty CheckEmptyProperty = BindableProperty.Create(
             nameof(CheckEmpty),
             typeof(bool),
@@ -47,6 +53,12 @@ namespace ShoppingList.Shared.Validation
         {
             get => (int)GetValue(MaxLengthProperty);
             set => SetValue(MaxLengthProperty, value);
+        }
+
+        public int MinNumber
+        {
+            get => (int)GetValue(MinNumberProperty);
+            set => SetValue(MinNumberProperty, value);
         }
 
         public bool IsValid
@@ -89,6 +101,16 @@ namespace ShoppingList.Shared.Validation
 
         private void OnTextChanged(object sender, TextChangedEventArgs e)
         {
+            var resulTryParse = int.TryParse(e.NewTextValue, out int result);
+            if (resulTryParse && result < MinNumber)
+            {
+                IsValid = false;
+                Message = $"Number must be greater than {MinNumber}";
+
+                ((Entry)sender).TextColor = Color.Red;
+                return;
+            }
+
             if (CheckEmpty)
             {
                 IsValid = !string.IsNullOrWhiteSpace(e.NewTextValue);
