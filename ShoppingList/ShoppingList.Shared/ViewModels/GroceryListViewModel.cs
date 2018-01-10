@@ -1,23 +1,22 @@
-﻿using System;
-using System.Collections.ObjectModel;
-using System.Linq;
+﻿using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
 using Prism.Commands;
 using Prism.Navigation;
 using Prism.Services;
+
 using ShoppingList.Shared.Helpers;
 using ShoppingList.Shared.Models;
 using ShoppingList.Shared.Views;
-using Xamarin.Forms;
 
 namespace ShoppingList.Shared.ViewModels
 {
     public class GroceryListViewModel : BaseViewModel, IAsyncInitialization, INavigatedAware
     {
-        private readonly INavigationService _navigationService;
         private readonly IPageDialogService _dialogService;
+        private readonly INavigationService _navigationService;
+
         public GroceryListViewModel(INavigationService navigationService, IPageDialogService dialogService)
         {
             _navigationService = navigationService;
@@ -26,23 +25,22 @@ namespace ShoppingList.Shared.ViewModels
             AddShoppingListCommand = new DelegateCommand(OnAddShoppingList);
             NavigateToItemSelected = new DelegateCommand<GroceryList>(OnItemSelected);
 
-
             OpenGroceryListDetailCommand = new DelegateCommand<GroceryList>(OnOpenGroceryListDetail);
             Initialization = InitializeAsync();
         }
 
-        public GroceryItem GroceryItem
-        {
-            get; set;
-            }
+        public GroceryItem GroceryItem { get; set; }
 
         public ICommand OpenGroceryListDetailCommand { get; }
+
         public Task Initialization { get; }
 
         public ObservableCollection<GroceryList> GroceryLists { get; private set; }
+
         public GroceryList GroceryList { get; set; }
 
         public ICommand AddShoppingListCommand { get; }
+
         public ICommand NavigateToItemSelected { get; }
 
         public void OnNavigatedFrom(NavigationParameters parameters)
@@ -82,23 +80,48 @@ namespace ShoppingList.Shared.ViewModels
             var deleteAction = ActionSheetButton.CreateButton(
                 "Delete",
                 async () =>
-                {
-                    var answer = await _dialogService.DisplayAlertAsync(
-                        string.Empty,
-                        "This will be permanently deleted, continue?",
-                        "OK",
-                        "CANCEL");
-
-                    if (answer)
                     {
-                        GroceryLists.Remove(groceryList);
-                        await MockShoppingListDataStore.DeleteAsync(groceryList.Id);
-                    }
-                });
+                        var answer = await _dialogService.DisplayAlertAsync(
+                                         string.Empty,
+                                         "This will be permanently deleted, continue?",
+                                         "OK",
+                                         "CANCEL");
+
+                        if (answer)
+                        {
+                            GroceryLists.Remove(groceryList);
+                            await MockShoppingListDataStore.DeleteAsync(groceryList.Id);
+                        }
+                    });
+
+            var sharingAction = ActionSheetButton.CreateButton(
+                "Sharing",
+                async () => await _navigationService.NavigateAsync(nameof(SharedListPage)));
 
             var cancelAction = ActionSheetButton.CreateCancelButton("Cancel", () => { });
 
-            await _dialogService.DisplayActionSheetAsync(string.Empty, editAction, deleteAction, cancelAction);
+            await _dialogService.DisplayActionSheetAsync(
+                string.Empty,
+                editAction,
+                deleteAction,
+                sharingAction,
+                cancelAction);
+        }
+
+        private async Task InitializeAsync()
+        {
+            GroceryLists = new ObservableCollection<GroceryList>(await MockShoppingListDataStore.GetAllAsync());
+        }
+
+        private async void OnAddShoppingList()
+        {
+            await _navigationService.NavigateAsync(nameof(GroceryListDetailPage), null, true);
+        }
+
+        private async void OnItemSelected(GroceryList groceryList)
+        {
+            var navParams = new NavigationParameters { { Title = "ItemList", groceryList } };
+            await _navigationService.NavigateAsync($"{nameof(GroceryItemPage)}", navParams, true);
         }
 
         private async void OnOpenGroceryListDetail(GroceryList groceryList)
@@ -111,23 +134,6 @@ namespace ShoppingList.Shared.ViewModels
             }
 
             await DisplayActionSheet(groceryList);
-        }
-
-        private async Task InitializeAsync()
-        {
-            GroceryLists = new ObservableCollection<GroceryList>(await MockShoppingListDataStore.GetAllAsync());
-        }
-
-        private async void OnAddShoppingList()
-        {
-            await _navigationService.NavigateAsync(nameof(GroceryListDetailPage), null, true);
-        }
-        private async void OnItemSelected(GroceryList groceryList)
-        {
-            var navParams = new NavigationParameters { { Title = "ItemList", groceryList } };
-            await _navigationService.NavigateAsync($"{nameof(GroceryItemPage)}", navParams , true);
-            
-
         }
     }
 }
