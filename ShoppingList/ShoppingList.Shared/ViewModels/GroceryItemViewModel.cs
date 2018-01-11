@@ -134,7 +134,7 @@ namespace ShoppingList.Shared.ViewModels
             {
                 Item.Remove(item);
                 item.InBasket = false;
-                Item.Insert(0, item);
+                Item.Add(item);
             }
         }
 
