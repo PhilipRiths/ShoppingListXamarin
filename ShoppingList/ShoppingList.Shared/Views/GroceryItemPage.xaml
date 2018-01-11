@@ -5,47 +5,63 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:mvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
     xmlns:helpers="clr-namespace:ShoppingList.Shared.Helpers;assembly=ShoppingList.Shared"
+    xmlns:global="clr-namespace:;assembly=ShoppingList.Shared"
     mvvm:ViewModelLocator.AutowireViewModel="True"
     x:Name="ItemsPage"
     Title="Shopping items">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <global:IntEnumConverter x:Key="IntEnumConverter"/>
+        </ResourceDictionary>
+    </ContentPage.Resources>
     <ContentPage.ToolbarItems>
         <ToolbarItem  Text="New item"
                       Command="{Binding NewItemCommand}"
                       Icon="ic_plus.png"/>
     </ContentPage.ToolbarItems>
 
-    <StackLayout>
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"></RowDefinition>
-                <RowDefinition Height="200"></RowDefinition>
-                <RowDefinition Height="Auto"></RowDefinition>
-                <RowDefinition Height="Auto"></RowDefinition>
-            </Grid.RowDefinitions>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
 
 
 
-            <ContentView Grid.Row="0" >
-                <Grid>
+        <ContentView Grid.Row="0" >
+            <Grid>
 
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"></ColumnDefinition>
-                        <ColumnDefinition Width="auto"></ColumnDefinition>
-                    </Grid.ColumnDefinitions>
-                    <Entry  Text="{Binding GroceryItem.Name, Mode=TwoWay}" TextColor="Black" Placeholder="New item.." PlaceholderColor="Gray" FontSize="Medium" />
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="30" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
 
-                    <Button
-                    Command="{Binding SaveCommand}"
-                    Text="Save" 
-                    Grid.Column="1"/>
-                </Grid>
-            </ContentView>
-            <ListView Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" ItemsSource="{Binding Item, Mode=TwoWay}"
+                <Entry Grid.Column="0" Text="{Binding GroceryItem.Name, Mode=TwoWay}" 
+                           TextColor="Black" 
+                           Placeholder="New item.." 
+                           PlaceholderColor="Gray" 
+                           FontSize="Medium" />
+
+                <Picker Grid.Column="1" ItemsSource="{Binding NewItemQuantities}" 
+                            SelectedIndex="{Binding SelectedNewItemQuantity, Mode=TwoWay}"/>
+
+                <Picker Grid.Column="2" ItemsSource="{Binding ItemMeasurements}" 
+                            SelectedIndex="{Binding SelectedNewItemMeasurement, Converter={StaticResource IntEnumConverter},Mode=TwoWay}"/>
+
+                <Button Command="{Binding SaveCommand}"
+                            Text="Save" 
+                            Grid.Column="3"/>
+            </Grid>
+        </ContentView>
+        <ContentView Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" >
+            <ListView  ItemsSource="{Binding Item, Mode=TwoWay}"
                       VerticalOptions="FillAndExpand"
                       HasUnevenRows="true"
                       IsPullToRefreshEnabled="true"
@@ -65,31 +81,38 @@
                                           CommandParameter="{Binding .}"
                                           IsDestructive="True"/>
                             </ViewCell.ContextActions>
-                            <ContentView >
 
 
-                                <Grid Padding="10">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="Auto" />
-                                    </Grid.ColumnDefinitions>
+                            <Grid Padding="10">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
 
-                                    <Label Grid.Column="0" HorizontalOptions="Start" 
+                                <Label Grid.Column="0" HorizontalOptions="Start" 
                                            TextColor="Black" 
                                            Text="{Binding Name, Mode=TwoWay} " 
                                         LineBreakMode="NoWrap" 
                                         Style="{DynamicResource ListItemTextStyle}" 
-                                        FontSize="16" 
-                                  />
-                                    <Label Grid.Column="1" HorizontalOptions="End" 
+                                        FontSize="16" />
+
+                                <Label Grid.Column="1" HorizontalOptions="End" 
                                        TextColor="Black" 
                                        Text="{Binding Quantity, Mode=TwoWay}" 
                                        LineBreakMode="NoWrap" 
                                        Style="{DynamicResource ListItemTextStyle}" 
                                        FontSize="16" />
-                                </Grid>
 
-                            </ContentView>
+                                <Label Grid.Column="2" HorizontalOptions="End" 
+                                           TextColor="Black" 
+                                           Text="{Binding Measurement, Mode=TwoWay}" 
+                                           LineBreakMode="NoWrap" 
+                                           Style="{DynamicResource ListItemTextStyle}" 
+                                           FontSize="16" />
+                            </Grid>
+
+
 
                         </ViewCell>
                     </DataTemplate>
@@ -97,6 +120,6 @@
 
                 </ListView.ItemTemplate>
             </ListView>
-          </Grid>
-    </StackLayout>
+        </ContentView>
+    </Grid>
 </ContentPage>
