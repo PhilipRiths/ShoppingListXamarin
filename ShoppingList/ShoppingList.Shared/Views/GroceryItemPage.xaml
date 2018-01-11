@@ -15,9 +15,9 @@
         </ResourceDictionary>
     </ContentPage.Resources>
     <ContentPage.ToolbarItems>
-        <!--<ToolbarItem  Text="New item"
-                      Command="{Binding NewItemCommand}"
-                      Icon="ic_plus.png"/>-->
+        <ToolbarItem  Text="Go back"
+                      Command="{Binding NavigateBackCommand}"
+                     />
     </ContentPage.ToolbarItems>
 
     <StackLayout>

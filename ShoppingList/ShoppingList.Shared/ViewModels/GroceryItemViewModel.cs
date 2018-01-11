@@ -34,11 +34,16 @@ namespace ShoppingList.Shared.ViewModels
             NewItemCommand = new DelegateCommand(OnCreateItem);
             SaveCommand = new DelegateCommand(OnSaveExecute);
             StrikeOver = new DelegateCommand<GroceryItem>(OnStrikeExecute);
+            NavigateBackCommand = new DelegateCommand(OnNavigateExecute);
             RemoveItemCommand = new DelegateCommand<GroceryItem>(OnRemoveGroceryListItemExecute);
             EditItemCommand = new DelegateCommand<GroceryItem>(OnEditGroceryListItemExecute);
         }
 
-     
+        private async void OnNavigateExecute()
+        {
+            await _navigationService.NavigateAsync($"{nameof(GroceryListPage)}");
+        }
+
 
         public void OnNavigatedFrom(NavigationParameters parameters)
         {
@@ -138,6 +143,7 @@ namespace ShoppingList.Shared.ViewModels
         public ICommand SaveCommand { get; set; }
         public ICommand NewItemCommand { get; }
         public ICommand StrikeOver { get; set; }
+        public ICommand NavigateBackCommand { get; set; }
         public DelegateCommand<GroceryItem> RemoveItemCommand { get; }
         public DelegateCommand<GroceryItem> EditItemCommand { get; }
 
