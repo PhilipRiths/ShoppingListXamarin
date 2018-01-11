@@ -55,7 +55,7 @@
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
-                            <ViewCell.ContextActions>
+                            <!--<ViewCell.ContextActions>
                                 <MenuItem Text="Edit" 
                                           Command="{Binding Path=BindingContext.EditItemCommand, 
                                           Source={x:Reference Name=GroceryItemList}}"
@@ -66,13 +66,15 @@
                                           CommandParameter="{Binding .}"
                                           IsDestructive="True"/>
                                 
-                            </ViewCell.ContextActions>
+                            </ViewCell.ContextActions>-->
                             <ContentView >
 
 
                                 <Grid Padding="10">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
                                         <ColumnDefinition Width="Auto" />
                                         <ColumnDefinition Width="Auto" />
                                     </Grid.ColumnDefinitions>
@@ -96,7 +98,21 @@
                                              VerticalOptions="Center"
                                              Opacity="0.5"
                                              Color="Red" />
-                                    <Image Grid.Column="2" Source="check.png" HorizontalOptions="End">
+                                    <Image Grid.Column="2" Source="delete.png" HorizontalOptions="End">
+                                        <Image.GestureRecognizers>
+                                            <TapGestureRecognizer
+                                                Command="{Binding BindingContext.RemoveItemCommand, Source={x:Reference GroceryItemList}}"
+                                                CommandParameter="{Binding .}" />
+                                        </Image.GestureRecognizers>
+                                    </Image>
+                                    <Image Grid.Column="3" Source="pencil.png" HorizontalOptions="End">
+                                        <Image.GestureRecognizers>
+                                            <TapGestureRecognizer
+                                                Command="{Binding BindingContext.EditItemCommand, Source={x:Reference GroceryItemList}}"
+                                                CommandParameter="{Binding .}" />
+                                        </Image.GestureRecognizers>
+                                    </Image>
+                                    <Image Grid.Column="4" Source="check.png" HorizontalOptions="End">
                                         <Image.GestureRecognizers>
                                             <TapGestureRecognizer
                                              Command="{Binding BindingContext.StrikeOver, Source={x:Reference GroceryItemList}}"
