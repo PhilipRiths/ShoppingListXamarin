@@ -125,7 +125,7 @@ namespace ShoppingList.Shared.ViewModels
         private async void OnItemSelected(GroceryList groceryList)
         {
             var navParams = new NavigationParameters { { Title = "ItemList", groceryList } };
-            await _navigationService.NavigateAsync($"{nameof(GroceryItemPage)}", navParams , true);
+            await _navigationService.NavigateAsync($"{nameof(NavigationPage)}/{nameof(GroceryItemPage)}", navParams , true);
             
 
         }

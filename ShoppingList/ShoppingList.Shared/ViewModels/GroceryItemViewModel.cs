@@ -14,7 +14,9 @@ namespace ShoppingList.Shared.ViewModels
         private INavigationService _navigationService;
         public ObservableCollection<GroceryItem> Item { get; set; }
         public ObservableCollection<GroceryItem> ItemsInBasket { get; set; }
+        public ObservableCollection<string> GroceryListNames  = new ObservableCollection<string>();
         public GroceryList GroceryList { get; set; }
+        
         public GroceryItem GroceryItem { get; set; }
         public ICommand MoveItemFromBasket { get; set; }
         public ICommand RemoveItemFromBasket { get; set; }
@@ -30,7 +32,9 @@ namespace ShoppingList.Shared.ViewModels
             RemoveItemFromBasket = new DelegateCommand<GroceryItem>(OnDelete);
             SaveCommand = new DelegateCommand(OnSaveExecute);
             GroceryItem = new GroceryItem();
-            
+           
+
+
         }
 
         private void OnSaveExecute()
@@ -75,6 +79,7 @@ namespace ShoppingList.Shared.ViewModels
         {
             var groceryList = parameters["ItemList"] as GroceryList;
             GroceryList = groceryList;
+            GroceryListNames.Add(GroceryList.Name);
             foreach (var item in groceryList.Items)
             {
                 Item.Add(item);
