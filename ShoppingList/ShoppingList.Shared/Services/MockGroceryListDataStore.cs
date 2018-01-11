@@ -56,8 +56,10 @@
         {
             try
             {
-                var restClient = new RestClient();
-                restClient._endPoint = "https://localhost:5000/api/ShoppingLists";
+                var restClient = new RestClient
+                {
+                    _endPoint = "https://localhost:5000/api/ShoppingLists"
+                };
                 var groceryLists = restClient.MakeRequest();
                 var Lists = JsonConvert.DeserializeObject<dynamic>(groceryLists);
 
