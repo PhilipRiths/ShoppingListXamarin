@@ -16,6 +16,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\ShoppingList.DataAccess\ShoppingList.DataAccess.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Update="Views\GroceryListDetailPage.xaml.cs">
       <DependentUpon>GroceryListDetailPage.xaml</DependentUpon>
     </Compile>

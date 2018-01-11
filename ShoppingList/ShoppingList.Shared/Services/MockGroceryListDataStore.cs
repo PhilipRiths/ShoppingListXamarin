@@ -1,12 +1,12 @@
 ﻿namespace ShoppingList.Shared.Services
 {
+    using Newtonsoft.Json;
+    using ShoppingList.DataAccess.ApiService;
+    using ShoppingList.Shared.Models;
     using System;
     using System.Collections.Generic;
-    using System.Collections.ObjectModel;
     using System.Linq;
     using System.Threading.Tasks;
-
-    using ShoppingList.Shared.Models;
 
     public class MockGroceryListDataStore : IDataStore<GroceryList>
     {
@@ -54,34 +54,55 @@
 
         private void LoadShoppingLists()
         {
-            var grocyList1 = new GroceryList
+            try
             {
-                Id = 1,
-                Name = "Babas lista",
-                Items = new List<GroceryItem>
+                var restClient = new RestClient();
+                restClient._endPoint = "https://localhost:5000/api/ShoppingLists";
+                var groceryLists = restClient.MakeRequest();
+                var Lists = JsonConvert.DeserializeObject<dynamic>(groceryLists);
+
+                foreach (var list in Lists)
+                {
+                    _groceryLists.Add(
+                            new GroceryList
+                            {
+                                Id = list.Id,
+                                Name = list.Name
+                            }
+                        );
+                }
+            }
+            catch (Exception e)
+            {
+                var grocyList1 = new GroceryList
+                {
+                    Id = 1,
+                    Name = "Babas lista",
+                    Items = new List<GroceryItem>
                 {
                     new GroceryItem { Id = 1, Name = "Banan", InBasket = false },
                     new GroceryItem { Id = 2, Name = "Äpple", InBasket = false },
                     new GroceryItem { Id = 3, Name = "Yoghurt", InBasket = false },
                     new GroceryItem { Id = 4, Name = "Kanel", InBasket = false },
                 }
-            };
+                };
 
-            var grocyList2 = new GroceryList
-            {
-                Id = 2,
-                Name = "Babas lista2",
-                Items = new List<GroceryItem>
+                var grocyList2 = new GroceryList
+                {
+                    Id = 2,
+                    Name = "Babas lista2",
+                    Items = new List<GroceryItem>
                 {
                     new GroceryItem { Id = 5, Name = "Avokado", InBasket = false },
                     new GroceryItem { Id = 6, Name = "Spetskål", InBasket = false },
                     new GroceryItem { Id = 7, Name = "Gurka", InBasket = false },
                     new GroceryItem { Id = 8, Name = "Keso", InBasket = false },
                 }
-            };
+                };
 
-            _groceryLists.Add(grocyList1);
-            _groceryLists.Add(grocyList2);
+                _groceryLists.Add(grocyList1);
+                _groceryLists.Add(grocyList2);
+            }
         }
     }
 }
