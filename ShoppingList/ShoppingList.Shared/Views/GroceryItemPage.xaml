@@ -57,7 +57,7 @@
                     <Button
                     Command="{Binding SaveCommand}"
                     Text="Save" 
-                    Grid.Column="1"/>
+                    Grid.Column="3"/>
                 </Grid>
             </ContentView>
             <ListView Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" ItemsSource="{Binding Item, Mode=TwoWay}"
