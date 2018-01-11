@@ -15,9 +15,9 @@
         </ResourceDictionary>
     </ContentPage.Resources>
     <ContentPage.ToolbarItems>
-        <ToolbarItem  Text="New item"
+        <!--<ToolbarItem  Text="New item"
                       Command="{Binding NewItemCommand}"
-                      Icon="ic_plus.png"/>
+                      Icon="ic_plus.png"/>-->
     </ContentPage.ToolbarItems>
 
     <StackLayout>
