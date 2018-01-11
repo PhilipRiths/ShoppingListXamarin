@@ -9,5 +9,17 @@
         public int Quantity { get; set; } = 1;
 
         public bool InBasket { get; set; }
+
+        public ItemMeasurement Measurement { get; set; }
+    }
+
+    public enum ItemMeasurement
+    {
+        pcs,
+        dL,
+        L,
+        g,
+        kg,
+        m,
     }
 }

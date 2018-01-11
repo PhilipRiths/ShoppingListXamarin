@@ -6,9 +6,14 @@
     xmlns:validation="clr-namespace:ShoppingList.Shared.Validation;assembly=ShoppingList.Shared"
     xmlns:mvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
     xmlns:vm="clr-namespace:ShoppingList.Shared.ViewModels"
+    xmlns:global="clr-namespace:;assembly=ShoppingList.Shared"
     x:Name="ItemDetailPage"
     mvvm:ViewModelLocator.AutowireViewModel="True">
- 
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <global:IntEnumConverter x:Key="IntEnumConverter"/>
+        </ResourceDictionary>
+    </ContentPage.Resources>
     <ContentPage.Content>
         <Grid>
             <Grid.RowDefinitions>
@@ -20,7 +25,7 @@
              <StackLayout
                  HorizontalOptions="Center"
                  Orientation="Vertical">
-                 <Entry 
+                 <Entry
                      x:Name="ItemNameEntry"
                      Text="{Binding ItemName, Mode=TwoWay}" 
                      Placeholder="Edit name.." 
@@ -34,7 +39,7 @@
                              Source={x:Reference ItemDetailPage}, Mode=TwoWay}"/>
                      </Entry.Behaviors>
                     </Entry>
-                 <Label
+                    <Label
                      Margin="4,0,0,0"
                      RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToView,
                                                                   ElementName=ItemNameEntry,
@@ -43,13 +48,20 @@
                                                                   Constant=-6}"
                      Text="{Binding Message, Source={x:Reference EntryItemNameValidator}}"
                      TextColor="Red" />
-
+                 <StackLayout Orientation="Horizontal">
+                     <Grid>
+                         <Grid.ColumnDefinitions>
+                             <ColumnDefinition Width="*" />
+                             <ColumnDefinition Width="40"/>
+                         </Grid.ColumnDefinitions>
+                     
                     <Entry 
                         x:Name="ItemQuantityEntry"
                         Keyboard="Numeric" 
                         Text="{Binding ItemQuantity, Mode=TwoWay}" 
                         Placeholder="Change quantity" 
-                        FontSize="Small" >
+                        FontSize="Small"
+                        Grid.Column="0">
                         <Entry.Behaviors>
                             <validation:EntryValidatorBehavior
                                 x:Name="EntryItemQuantityValidator"
@@ -60,7 +72,11 @@
                                 Source={x:Reference ItemDetailPage}, Mode=TwoWay}"/>
                         </Entry.Behaviors>
                     </Entry>
-                 <Label
+                        <Picker Grid.Column="1" ItemsSource="{Binding ItemMeasurements}" 
+                                 SelectedIndex="{Binding SelectedItemMeasurement, Converter={StaticResource IntEnumConverter}}"/>
+                        </Grid>
+                    </StackLayout>
+                    <Label
                      Margin="4,0,0,0"
                      RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToView,
                                                                   ElementName=ItemQuantityEntry,
