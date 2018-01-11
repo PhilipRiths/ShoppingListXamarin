@@ -18,6 +18,7 @@ namespace ShoppingList.Shared.ViewModels
         private GroceryItem _groceryItem;
         private ObservableCollection<GroceryItem> _item;
 
+
         
         public GroceryItemViewModel(INavigationService navigationService, IPageDialogService dialogService)
         {
@@ -27,9 +28,12 @@ namespace ShoppingList.Shared.ViewModels
             Item = new ObservableCollection<GroceryItem>();
             NewItemCommand = new DelegateCommand(OnCreateItem);
             SaveCommand = new DelegateCommand(OnSaveExecute);
+            StrikeOver = new DelegateCommand<GroceryItem>(OnStrikeExecute);
             RemoveItemCommand = new DelegateCommand<GroceryItem>(OnRemoveGroceryListItemExecute);
             EditItemCommand = new DelegateCommand<GroceryItem>(OnEditGroceryListItemExecute);
         }
+
+     
 
         public void OnNavigatedFrom(NavigationParameters parameters)
         {
@@ -91,6 +95,7 @@ namespace ShoppingList.Shared.ViewModels
 
         public ICommand SaveCommand { get; set; }
         public ICommand NewItemCommand { get; }
+        public ICommand StrikeOver { get; set; }
         public DelegateCommand<GroceryItem> RemoveItemCommand { get; }
         public DelegateCommand<GroceryItem> EditItemCommand { get; }
 
@@ -113,6 +118,22 @@ namespace ShoppingList.Shared.ViewModels
                 Item.Remove(item);
             }
             //TODO: Update API async
+        }
+
+        private void OnStrikeExecute(GroceryItem item)
+        {
+            if (item.InBasket == false)
+            {
+                Item.Remove(item);
+                item.InBasket = true;
+                Item.Add(item);
+            }
+            else
+            {
+                Item.Remove(item);
+                item.InBasket = false;
+                Item.Add(item);
+            }
         }
 
         private void OnSaveExecute()

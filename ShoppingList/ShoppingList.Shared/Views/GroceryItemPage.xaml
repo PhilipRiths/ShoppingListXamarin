@@ -50,6 +50,7 @@
                       HasUnevenRows="true"
                       IsPullToRefreshEnabled="true"
                       IsRefreshing="{Binding IsBusy, Mode=OneWay}"
+                      CachingStrategy="RecycleElement"
                       x:Name="GroceryItemList">
                 <ListView.ItemTemplate>
                     <DataTemplate>
@@ -64,6 +65,7 @@
                                           Source={x:Reference Name=GroceryItemList}}" 
                                           CommandParameter="{Binding .}"
                                           IsDestructive="True"/>
+                                
                             </ViewCell.ContextActions>
                             <ContentView >
 
@@ -71,6 +73,7 @@
                                 <Grid Padding="10">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
                                         <ColumnDefinition Width="Auto" />
                                     </Grid.ColumnDefinitions>
 
@@ -87,6 +90,19 @@
                                        LineBreakMode="NoWrap" 
                                        Style="{DynamicResource ListItemTextStyle}" 
                                        FontSize="16" />
+                                    <BoxView Grid.Column="0"
+                                             HeightRequest="3"
+                                             IsVisible="{Binding InBasket, Mode=TwoWay}"
+                                             VerticalOptions="Center"
+                                             Opacity="0.5"
+                                             Color="Red" />
+                                    <Image Grid.Column="2" Source="check.png" HorizontalOptions="End">
+                                        <Image.GestureRecognizers>
+                                            <TapGestureRecognizer
+                                             Command="{Binding BindingContext.StrikeOver, Source={x:Reference GroceryItemList}}"
+                                            CommandParameter="{Binding .}" />
+                                        </Image.GestureRecognizers>
+                                    </Image>
                                 </Grid>
 
                             </ContentView>
