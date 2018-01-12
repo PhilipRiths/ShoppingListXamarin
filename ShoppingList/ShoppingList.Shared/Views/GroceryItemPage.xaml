@@ -70,18 +70,7 @@
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
-                            <!--<ViewCell.ContextActions>
-                                <MenuItem Text="Edit" 
-                                          Command="{Binding Path=BindingContext.EditItemCommand, 
-                                          Source={x:Reference Name=GroceryItemList}}"
-                                          CommandParameter="{Binding .}"/>
-                                <MenuItem Text="Delete"
-                                          Command="{Binding Path=BindingContext.RemoveItemCommand, 
-                                          Source={x:Reference Name=GroceryItemList}}" 
-                                          CommandParameter="{Binding .}"
-                                          IsDestructive="True"/>
-                                
-                            </ViewCell.ContextActions>-->
+
                             <ContentView >
 
 
