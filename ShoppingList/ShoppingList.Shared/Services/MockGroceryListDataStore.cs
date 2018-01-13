@@ -11,10 +11,12 @@
     public class MockGroceryListDataStore : IDataStore<GroceryList>
     {
         private readonly List<GroceryList> _groceryLists;
+        private readonly MockUserDataStore _users;
 
         public MockGroceryListDataStore()
         {
             _groceryLists = new List<GroceryList>();
+            _users = new MockUserDataStore();
             LoadShoppingLists();
         }
 
@@ -52,7 +54,7 @@
             return await Task.FromResult(true);
         }
 
-        private void LoadShoppingLists()
+        private async void LoadShoppingLists()
         {
             var grocyList1 = new GroceryList
             {
@@ -64,7 +66,8 @@
                     new GroceryItem { Id = 2, Name = "Äpple", InBasket = false },
                     new GroceryItem { Id = 3, Name = "Yoghurt", InBasket = false },
                     new GroceryItem { Id = 4, Name = "Kanel", InBasket = false },
-                }
+                },
+                Users = new List<User> { await _users.GetAsync(1), await _users.GetAsync(2) }
             };
 
             var grocyList2 = new GroceryList
@@ -77,7 +80,8 @@
                     new GroceryItem { Id = 6, Name = "Spetskål", InBasket = false },
                     new GroceryItem { Id = 7, Name = "Gurka", InBasket = false },
                     new GroceryItem { Id = 8, Name = "Keso", InBasket = false },
-                }
+                },
+                Users = new List<User>(await _users.GetAllAsync())
             };
 
             _groceryLists.Add(grocyList1);
