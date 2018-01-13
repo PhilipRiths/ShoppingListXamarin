@@ -34,12 +34,13 @@
                 TextColor="Gray" />
             <Entry
                 Placeholder="Enter users email..."
-                Text="{Binding TestLabel}" />
+                Text="{Binding Email}" />
             <StackLayout
                 Padding="30,0"
                 Orientation="Horizontal">
                 <Button
                     BackgroundColor="Transparent"
+                    Command="{Binding CancelCommand}"
                     HorizontalOptions="StartAndExpand"
                     Text="CANCEL" />
                 <Button
