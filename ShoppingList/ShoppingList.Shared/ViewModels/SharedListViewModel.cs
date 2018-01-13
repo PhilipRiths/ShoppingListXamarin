@@ -19,10 +19,10 @@ namespace ShoppingList.Shared.ViewModels
             Initialization = InitializeAsync();
 
             AddSharedListUserCommand = new DelegateCommand(OnAddSharedListUser);
-            DeleteSharedListUserCommand = new DelegateCommand(OnDeleteSharedListUser);
+            DeleteSharedListUserCommand = new DelegateCommand<UserWrapper>(OnDeleteSharedListUser);
         }
 
-        public DelegateCommand DeleteSharedListUserCommand { get; }
+        public DelegateCommand<UserWrapper> DeleteSharedListUserCommand { get; }
 
         public DelegateCommand AddSharedListUserCommand { get; }
 
@@ -43,22 +43,28 @@ namespace ShoppingList.Shared.ViewModels
             }
         }
 
-        private void OnAddSharedListUser()
+        private async void OnAddSharedListUser()
         {
             // TODO Save user to this shared list and update UI
-            _dialogService.DisplayAlertAsync(
+            await _dialogService.DisplayAlertAsync(
                 string.Empty,
-                $"You are now sharing this list with {Users[1].FullName}",
+                $"You are now sharing this list with {Users[1].FullName}.",
                 "OK");
+
+            // TODO open new window too add user.
         }
 
-        private void OnDeleteSharedListUser()
+        private async void OnDeleteSharedListUser(UserWrapper selectedUser)
         {
-            // TODO Delete user from this shared list and update UI
-            _dialogService.DisplayAlertAsync(
+            // TODO Implement API instead of Mock
+            Users.Remove(selectedUser);
+
+            await _dialogService.DisplayAlertAsync(
                 string.Empty,
-                $"User {Users[1].FullName} was successfully removed from this list",
+                $"You are no longer sharing this list with {selectedUser.FullName}.",
                 "OK");
+
+            await MockUserDataStore.DeleteUserByEmailAsync(selectedUser.Email);
         }
     }
 }

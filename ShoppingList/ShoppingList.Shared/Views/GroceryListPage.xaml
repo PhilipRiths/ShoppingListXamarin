@@ -4,10 +4,10 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:helpers="clr-namespace:ShoppingList.Shared.Helpers;assembly=ShoppingList.Shared"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
     xmlns:vm="clr-namespace:ShoppingList.Shared.ViewModels;assembly=ShoppingList.Shared"
-    xmlns:helpers="clr-namespace:ShoppingList.Shared.Helpers;assembly=ShoppingList.Shared"
     x:Name="ContentPage"
     Title="Grocery Lists"
     d:DataContext="{d:DesignInstance vm:GroceryListViewModel}"
@@ -21,19 +21,20 @@
             Text="New" />
     </ContentPage.ToolbarItems>
 
-    <ListView ItemsSource="{Binding GroceryLists}"
-              VerticalOptions="FillAndExpand"
-              HasUnevenRows="true"
-              RefreshCommand="{Binding LoadItemsCommand}"
-              IsPullToRefreshEnabled="true"
-              IsRefreshing="{Binding IsBusy, Mode=OneWay}"
-              CachingStrategy="RecycleElement"
-              helpers:ItemTappedAttached.Command="{Binding NavigateToItemSelected, Mode=TwoWay}">
+    <ListView
+        helpers:ItemTappedAttached.Command="{Binding NavigateToItemSelected, Mode=TwoWay}"
+        CachingStrategy="RecycleElement"
+        HasUnevenRows="true"
+        IsPullToRefreshEnabled="true"
+        ItemsSource="{Binding GroceryLists}"
+        RefreshCommand="{Binding LoadItemsCommand}"
+        VerticalOptions="FillAndExpand"
+        IsRefreshing="{Binding IsBusy, Mode=OneWay}">
         <ListView.ItemTemplate>
             <DataTemplate>
                 <ViewCell>
                     <ContentView>
-                        <Grid>
+                        <Grid Margin="10,0">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="Auto" />
@@ -41,7 +42,8 @@
 
                             <Label
                                 Grid.Column="0"
-                                Margin="10,0,0,0"
+                                Margin="0,12"
+                                FontSize="15"
                                 Text="{Binding Name}"
                                 VerticalTextAlignment="Center" />
                             <Image

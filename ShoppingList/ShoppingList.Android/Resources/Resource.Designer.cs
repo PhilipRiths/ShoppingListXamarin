@@ -2644,40 +2644,40 @@ namespace ShoppingList.Droid
 			public const int common_google_signin_btn_text_light_normal_background = 2130837615;
 			
 			// aapt resource value: 0x7f020070
-			public const int delete = 2130837616;
+			public const int design_bottom_navigation_item_background = 2130837616;
 			
 			// aapt resource value: 0x7f020071
-			public const int design_bottom_navigation_item_background = 2130837617;
+			public const int design_fab_background = 2130837617;
 			
 			// aapt resource value: 0x7f020072
-			public const int design_fab_background = 2130837618;
+			public const int design_ic_visibility = 2130837618;
 			
 			// aapt resource value: 0x7f020073
-			public const int design_ic_visibility = 2130837619;
+			public const int design_ic_visibility_off = 2130837619;
 			
 			// aapt resource value: 0x7f020074
-			public const int design_ic_visibility_off = 2130837620;
+			public const int design_password_eye = 2130837620;
 			
 			// aapt resource value: 0x7f020075
-			public const int design_password_eye = 2130837621;
+			public const int design_snackbar_background = 2130837621;
 			
 			// aapt resource value: 0x7f020076
-			public const int design_snackbar_background = 2130837622;
+			public const int googleg_disabled_color_18 = 2130837622;
 			
 			// aapt resource value: 0x7f020077
-			public const int googleg_disabled_color_18 = 2130837623;
+			public const int googleg_standard_color_18 = 2130837623;
 			
 			// aapt resource value: 0x7f020078
-			public const int googleg_standard_color_18 = 2130837624;
+			public const int heart = 2130837624;
 			
 			// aapt resource value: 0x7f020079
-			public const int heart = 2130837625;
+			public const int ic_audiotrack_dark = 2130837625;
 			
 			// aapt resource value: 0x7f02007a
-			public const int ic_audiotrack_dark = 2130837626;
+			public const int ic_audiotrack_light = 2130837626;
 			
 			// aapt resource value: 0x7f02007b
-			public const int ic_audiotrack_light = 2130837627;
+			public const int ic_delete = 2130837627;
 			
 			// aapt resource value: 0x7f02007c
 			public const int ic_dialog_close_dark = 2130837628;
