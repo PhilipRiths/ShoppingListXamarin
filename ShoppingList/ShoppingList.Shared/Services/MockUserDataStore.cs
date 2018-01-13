@@ -6,7 +6,7 @@ using ShoppingList.Shared.Models;
 
 namespace ShoppingList.Shared.Services
 {
-    public class MockUserDataStore : IDataStore<User>
+    public class MockUserDataStore : IDataStore<User>, IUserDataStore
     {
         private readonly List<User> _users;
 
@@ -26,6 +26,13 @@ namespace ShoppingList.Shared.Services
         public async Task<bool> DeleteAsync(int id)
         {
             _users.Remove(_users.FirstOrDefault(u => u.Id == id));
+
+            return await Task.FromResult(true);
+        }
+
+        public async Task<bool> DeleteUserByEmailAsync(string email)
+        {
+            _users.Remove(_users.FirstOrDefault(u => u.Email == email));
 
             return await Task.FromResult(true);
         }
