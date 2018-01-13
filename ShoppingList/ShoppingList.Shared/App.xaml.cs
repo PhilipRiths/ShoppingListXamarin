@@ -1,14 +1,12 @@
 ﻿using Acr.UserDialogs;
 
-using Autofac;
-
 using Plugin.Connectivity;
-using Plugin.Connectivity.Abstractions;
 
 using Prism;
 using Prism.Autofac;
 using Prism.Events;
 using Prism.Ioc;
+using Prism.Plugin.Popups;
 
 using ShoppingList.Shared.Services;
 using ShoppingList.Shared.ViewModels;
@@ -35,6 +33,8 @@ namespace ShoppingList.Shared
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
+            containerRegistry.RegisterPopupNavigationService();
+
             containerRegistry.RegisterForNavigation<NavigationPage>();
             containerRegistry.RegisterForNavigation<UserProfilePage, UserProfileViewModel>();
             containerRegistry.RegisterForNavigation<GroceryListPage, GroceryListViewModel>();
@@ -43,6 +43,8 @@ namespace ShoppingList.Shared
             containerRegistry.RegisterForNavigation<GroceryItemDetailPage, GroceryItemDetailViewModel>();
             containerRegistry.RegisterForNavigation<SharedListPage, SharedListViewModel>();
             containerRegistry.RegisterForNavigation<LoginPage, LoginViewModel>();
+
+            containerRegistry.RegisterForNavigation<AddSharedListUserPopup, AddSharedListUserPopupViewModel>();
 
             containerRegistry.RegisterSingleton<IEventAggregator, EventAggregator>();
             containerRegistry.RegisterSingleton<IGoogleAuthService, GoogleAuthService>();
