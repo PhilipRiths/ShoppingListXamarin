@@ -25,7 +25,7 @@
             <DataTemplate>
                 <ViewCell>
                     <ContentView>
-                        <Grid>
+                        <Grid Margin="10,0">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="Auto" />
@@ -33,7 +33,6 @@
 
                             <StackLayout
                                 Grid.Column="0"
-                                Margin="10,0"
                                 Spacing="0"
                                 VerticalOptions="Center">
                                 <Label Text="{Binding FullName}" />
@@ -42,7 +41,7 @@
 
                             <Image
                                 Grid.Column="1"
-                                Source="menu_dots.png">
+                                Source="ic_delete.png">
                                 <Image.GestureRecognizers>
                                     <TapGestureRecognizer
                                         Command="{Binding BindingContext.DeleteSharedListUserCommand, Source={x:Reference ContentPage}}"
