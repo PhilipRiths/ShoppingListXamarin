@@ -28,7 +28,7 @@ namespace ShoppingList.Shared
             InitializeComponent();
 
             // Set the page you are working with:
-            NavigationService.NavigateAsync($"{nameof(NavigationPage)}/{nameof(SharedListPage)}");
+            NavigationService.NavigateAsync($"{nameof(NavigationPage)}/{nameof(GroceryListPage)}");
         }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)

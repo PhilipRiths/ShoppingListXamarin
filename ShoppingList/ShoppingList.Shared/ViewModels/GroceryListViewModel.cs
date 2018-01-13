@@ -97,7 +97,7 @@ namespace ShoppingList.Shared.ViewModels
 
             var sharingAction = ActionSheetButton.CreateButton(
                 "Sharing",
-                async () => await _navigationService.NavigateAsync(nameof(SharedListPage)));
+                async () => await _navigationService.NavigateAsync(nameof(SharedListPage), navigationParameters));
 
             var cancelAction = ActionSheetButton.CreateCancelButton("Cancel", () => { });
 

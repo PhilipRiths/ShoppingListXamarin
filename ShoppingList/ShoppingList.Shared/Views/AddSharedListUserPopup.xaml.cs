@@ -17,7 +17,7 @@ namespace ShoppingList.Shared.Views
         // Invoked after custom animation end
         protected override Task OnAppearingAnimationEnd()
         {
-            return Content.FadeTo(0.7);
+            return Content.FadeTo(0.8);
         }
 
         // Method for animation child in PopupPage
@@ -30,15 +30,8 @@ namespace ShoppingList.Shared.Views
         protected override bool OnBackButtonPressed()
         {
             // Prevent hide popup
-            //return base.OnBackButtonPressed();
+            // return base.OnBackButtonPressed();
             return true;
-        }
-
-        // Invoked when background is clicked
-        protected override bool OnBackgroundClicked()
-        {
-            // Return default value - CloseWhenBackgroundIsClicked
-            return base.OnBackgroundClicked();
         }
     }
 }

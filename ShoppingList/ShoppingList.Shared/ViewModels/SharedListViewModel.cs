@@ -1,30 +1,32 @@
 ﻿using System.Collections.ObjectModel;
-using System.Threading.Tasks;
 
 using Prism.Commands;
 using Prism.Navigation;
 using Prism.Services;
 
-using ShoppingList.Shared.Helpers;
+using ShoppingList.Shared.Models;
 using ShoppingList.Shared.Views;
 using ShoppingList.Shared.Wrappers;
 
 namespace ShoppingList.Shared.ViewModels
 {
-    public class SharedListViewModel : BaseViewModel, IAsyncInitialization
+    public class SharedListViewModel : BaseViewModel, INavigatingAware
     {
-        private readonly INavigationService _navigationService;
         private readonly IPageDialogService _dialogService;
+        private readonly INavigationService _navigationService;
 
         public SharedListViewModel(INavigationService navigationService, IPageDialogService dialogService)
         {
             _navigationService = navigationService;
             _dialogService = dialogService;
-            Initialization = InitializeAsync();
 
             AddSharedListUserCommand = new DelegateCommand(OnAddSharedListUser);
             DeleteSharedListUserCommand = new DelegateCommand<UserWrapper>(OnDeleteSharedListUser);
+
+            Users = new ObservableCollection<UserWrapper>();
         }
+
+        public GroceryList SelectedGroceryList { get; set; }
 
         public DelegateCommand<UserWrapper> DeleteSharedListUserCommand { get; }
 
@@ -32,37 +34,39 @@ namespace ShoppingList.Shared.ViewModels
 
         public ObservableCollection<UserWrapper> Users { get; private set; }
 
-        public Task Initialization { get; }
-
-        private async Task InitializeAsync()
+        public async void OnNavigatingTo(NavigationParameters parameters)
         {
-            Users = new ObservableCollection<UserWrapper>();
-
-            // TODO Get users from API that are related to the shared list for the logged in user
-            var users = await MockUserDataStore.GetAllAsync();
-
-            foreach (var user in users)
+            if (parameters["GroceryList"] is GroceryList selectedGroceryList)
             {
-                Users.Add(new UserWrapper(user));
+                SelectedGroceryList = selectedGroceryList;
+
+                if (SelectedGroceryList.Users != null)
+                {
+                    foreach (var user in SelectedGroceryList.Users)
+                    {
+                        Users.Add(new UserWrapper(user));
+                    }
+                }
+            }
+
+            if (parameters["NewSharedListUser"] is User newSharedListUser)
+            {
+                Users.Add(new UserWrapper(newSharedListUser));
+
+                // TODO Add to API
+                await MockUserDataStore.AddAsync(newSharedListUser);
             }
         }
 
         private async void OnAddSharedListUser()
         {
-            // TODO Save user to this shared list and update UI
-            //await _dialogService.DisplayAlertAsync(
-            //    string.Empty,
-            //    $"You are now sharing this list with {Users[1].FullName}.",
-            //    "OK");
+            var navigationParameters = new NavigationParameters { { "SelectedGroceryList", SelectedGroceryList } };
 
-            await _navigationService.NavigateAsync($"{nameof(AddSharedListUserPopup)}");
-
-            // TODO open new window too add user.
+            await _navigationService.NavigateAsync(nameof(AddSharedListUserPopup), navigationParameters);
         }
 
         private async void OnDeleteSharedListUser(UserWrapper selectedUser)
         {
-            // TODO Implement API instead of Mock
             Users.Remove(selectedUser);
 
             await _dialogService.DisplayAlertAsync(
@@ -70,7 +74,8 @@ namespace ShoppingList.Shared.ViewModels
                 $"You are no longer sharing this list with {selectedUser.FullName}.",
                 "OK");
 
-            await MockUserDataStore.DeleteUserByEmailAsync(selectedUser.Email);
+            // TODO Implement API instead of Mock
+            await MockUserDataStore.DeleteByEmailAsync(selectedUser.Email);
         }
     }
 }

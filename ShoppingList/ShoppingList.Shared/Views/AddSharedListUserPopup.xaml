@@ -33,16 +33,16 @@
                 FontAttributes="Italic"
                 Text="Note: User must be registered with the App to take part in sharing!"
                 TextColor="Gray" />
-
             <Entry
                 x:Name="EmailEntry"
+                Keyboard="Email"
                 Placeholder="Enter users email...">
                 <Entry.Behaviors>
                     <behaviors:EntryValidatorBehavior
                         x:Name="EntryValidator"
                         CheckEmpty="True"
                         IsEmail="True"
-                        MaxLength="20" />
+                        MaxLength="50" />
                 </Entry.Behaviors>
             </Entry>
             <Label
@@ -65,6 +65,7 @@
                     IsEnabled="{Binding IsValid, Source={x:Reference EntryValidator}}"
                     Text="SAVE" />
             </StackLayout>
+
         </StackLayout>
     </ContentView>
 </pages:PopupPage>

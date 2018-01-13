@@ -25,7 +25,7 @@
             <DataTemplate>
                 <ViewCell>
                     <ContentView>
-                        <Grid Margin="10,0">
+                        <Grid Margin="10,5">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="Auto" />
@@ -35,8 +35,12 @@
                                 Grid.Column="0"
                                 Spacing="0"
                                 VerticalOptions="Center">
-                                <Label Text="{Binding FullName}" />
-                                <Label Text="{Binding Email}" />
+                                <Label
+                                    FontAttributes="Bold"
+                                    Text="{Binding FullName}" />
+                                <Label
+                                    Text="{Binding Email}"
+                                    TextColor="DarkGray" />
                             </StackLayout>
 
                             <Image
