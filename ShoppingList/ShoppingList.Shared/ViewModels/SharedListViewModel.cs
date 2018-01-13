@@ -2,19 +2,23 @@
 using System.Threading.Tasks;
 
 using Prism.Commands;
+using Prism.Navigation;
 using Prism.Services;
 
 using ShoppingList.Shared.Helpers;
+using ShoppingList.Shared.Views;
 using ShoppingList.Shared.Wrappers;
 
 namespace ShoppingList.Shared.ViewModels
 {
     public class SharedListViewModel : BaseViewModel, IAsyncInitialization
     {
+        private readonly INavigationService _navigationService;
         private readonly IPageDialogService _dialogService;
 
-        public SharedListViewModel(IPageDialogService dialogService)
+        public SharedListViewModel(INavigationService navigationService, IPageDialogService dialogService)
         {
+            _navigationService = navigationService;
             _dialogService = dialogService;
             Initialization = InitializeAsync();
 
@@ -46,10 +50,12 @@ namespace ShoppingList.Shared.ViewModels
         private async void OnAddSharedListUser()
         {
             // TODO Save user to this shared list and update UI
-            await _dialogService.DisplayAlertAsync(
-                string.Empty,
-                $"You are now sharing this list with {Users[1].FullName}.",
-                "OK");
+            //await _dialogService.DisplayAlertAsync(
+            //    string.Empty,
+            //    $"You are now sharing this list with {Users[1].FullName}.",
+            //    "OK");
+
+            await _navigationService.NavigateAsync($"{nameof(AddSharedListUserPopup)}");
 
             // TODO open new window too add user.
         }

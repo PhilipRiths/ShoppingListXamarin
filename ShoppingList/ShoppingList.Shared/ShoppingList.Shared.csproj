@@ -17,6 +17,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Views\AddSharedListUserPopup.xaml.cs">
+      <DependentUpon>AddSharedListUserPopup.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Views\GroceryListDetailPage.xaml.cs">
       <DependentUpon>GroceryListDetailPage.xaml</DependentUpon>
     </Compile>
@@ -35,6 +38,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Update="Views\AddSharedListUserPopup.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Views\SharedListPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>

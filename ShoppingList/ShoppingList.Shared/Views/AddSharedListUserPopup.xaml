@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<pages:PopupPage
+    x:Class="ShoppingList.Shared.Views.AddSharedListUserPopup"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:animations="clr-namespace:Rg.Plugins.Popup.Animations;assembly=Rg.Plugins.Popup"
+    xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
+    xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
+    prism:ViewModelLocator.AutowireViewModel="True"
+    CloseWhenBackgroundIsClicked="False">
+    <!--  Animations  -->
+    <pages:PopupPage.Animation>
+        <animations:ScaleAnimation
+            DurationIn="400"
+            DurationOut="300"
+            EasingIn="SinOut"
+            EasingOut="SinIn"
+            HasBackgroundAnimation="True"
+            PositionIn="Center"
+            PositionOut="Center"
+            ScaleIn="1.2"
+            ScaleOut="0.8" />
+    </pages:PopupPage.Animation>
+    <!--  Content  -->
+    <ContentView VerticalOptions="Center">
+        <StackLayout
+            Padding="20,50"
+            BackgroundColor="White"
+            HorizontalOptions="FillAndExpand"
+            VerticalOptions="Center">
+            <Label
+                FontAttributes="Italic"
+                Text="Tip: User must be registered with the App to take part in sharing!"
+                TextColor="Gray" />
+            <Entry
+                Placeholder="Enter users email..."
+                Text="{Binding TestLabel}" />
+            <StackLayout
+                Padding="30,0"
+                Orientation="Horizontal">
+                <Button
+                    BackgroundColor="Transparent"
+                    HorizontalOptions="StartAndExpand"
+                    Text="CANCEL" />
+                <Button
+                    BackgroundColor="Transparent"
+                    Text="OK" />
+            </StackLayout>
+        </StackLayout>
+    </ContentView>
+</pages:PopupPage>
