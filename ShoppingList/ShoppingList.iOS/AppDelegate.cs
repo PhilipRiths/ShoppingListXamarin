@@ -2,7 +2,9 @@
 
 using Foundation;
 
+using Prism;
 using Prism.Autofac;
+using Prism.Ioc;
 
 using ShoppingList.Shared;
 
@@ -39,7 +41,7 @@ namespace ShoppingList.iOS
 
     public class iOSInitializer : IPlatformInitializer
     {
-        public void RegisterTypes(ContainerBuilder builder)
+        public void RegisterTypes(IContainerRegistry containerRegistry)
         {
         }
     }

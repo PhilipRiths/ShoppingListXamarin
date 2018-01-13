@@ -7,7 +7,9 @@ using Android.OS;
 
 using Autofac;
 
+using Prism;
 using Prism.Autofac;
+using Prism.Ioc;
 
 using ShoppingList.Shared;
 
@@ -44,7 +46,7 @@ namespace ShoppingList.Droid
 
     public class AndroidInitializer : IPlatformInitializer
     {
-        public void RegisterTypes(ContainerBuilder builder)
+        public void RegisterTypes(IContainerRegistry containerRegistry)
         {
         }
     }
