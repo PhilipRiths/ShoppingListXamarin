@@ -1,9 +1,5 @@
-﻿using System.Threading.Tasks;
-
-using Prism.Commands;
+﻿using Prism.Commands;
 using Prism.Navigation;
-
-using ShoppingList.Shared.Helpers;
 
 namespace ShoppingList.Shared.ViewModels
 {
@@ -16,10 +12,18 @@ namespace ShoppingList.Shared.ViewModels
             _navigationService = navigationService;
 
             CancelCommand = new DelegateCommand(() => _navigationService.GoBackAsync());
+            SaveCommannd = new DelegateCommand<string>(OnSave);
         }
 
         public DelegateCommand CancelCommand { get; }
 
-        public string Email { get; set; }
+        public DelegateCommand<string> SaveCommannd { get; }
+
+        private async void OnSave(string email)
+        {
+            var navigationParameter = new NavigationParameters { { "Email", email } };
+
+            await _navigationService.GoBackAsync(navigationParameter);
+        }
     }
 }

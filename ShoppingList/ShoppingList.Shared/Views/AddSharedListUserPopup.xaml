@@ -4,6 +4,7 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:animations="clr-namespace:Rg.Plugins.Popup.Animations;assembly=Rg.Plugins.Popup"
+    xmlns:behaviors="clr-namespace:ShoppingList.Shared.Validation"
     xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
     xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
     prism:ViewModelLocator.AutowireViewModel="True"
@@ -30,11 +31,25 @@
             VerticalOptions="Center">
             <Label
                 FontAttributes="Italic"
-                Text="Tip: User must be registered with the App to take part in sharing!"
+                Text="Note: User must be registered with the App to take part in sharing!"
                 TextColor="Gray" />
+
             <Entry
-                Placeholder="Enter users email..."
-                Text="{Binding Email}" />
+                x:Name="EmailEntry"
+                Placeholder="Enter users email...">
+                <Entry.Behaviors>
+                    <behaviors:EntryValidatorBehavior
+                        x:Name="EntryValidator"
+                        CheckEmpty="True"
+                        IsEmail="True"
+                        MaxLength="20" />
+                </Entry.Behaviors>
+            </Entry>
+            <Label
+                Margin="4,0,0,0"
+                Text="{Binding Message, Source={x:Reference EntryValidator}}"
+                TextColor="Red" />
+
             <StackLayout
                 Padding="30,0"
                 Orientation="Horizontal">
@@ -45,7 +60,10 @@
                     Text="CANCEL" />
                 <Button
                     BackgroundColor="Transparent"
-                    Text="OK" />
+                    Command="{Binding SaveCommannd}"
+                    CommandParameter="{Binding Text, Source={x:Reference EmailEntry}}"
+                    IsEnabled="{Binding IsValid, Source={x:Reference EntryValidator}}"
+                    Text="SAVE" />
             </StackLayout>
         </StackLayout>
     </ContentView>
