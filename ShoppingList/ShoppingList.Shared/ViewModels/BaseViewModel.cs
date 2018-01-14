@@ -17,7 +17,7 @@ namespace ShoppingList.Shared.ViewModels
             MockUserDataStore = new MockUserDataStore();
         }
 
-        public IDataStore<GroceryList> MockShoppingListDataStore { get; }
+        public MockGroceryListDataStore MockShoppingListDataStore { get; }
 
         public MockUserDataStore MockUserDataStore { get; }
 
