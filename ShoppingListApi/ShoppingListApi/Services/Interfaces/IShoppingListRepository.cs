@@ -20,5 +20,7 @@ namespace ShoppingListApi.Services.Interfaces
         void DeleteShoppingList(ShoppingList shoppingListFromRepo);
 
         void DeleteShoppingListItemContainingShoppingList(int shoppingListId);
+
+        void DeleteShoppingListUserContainingShoppingList(int shoppingListId);
     }
 }

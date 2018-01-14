@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows.Input;
 using Prism.Commands;
 using Prism.Navigation;
@@ -17,16 +19,21 @@ namespace ShoppingList.Shared.ViewModels
         private GroceryList _groceryList;
         private GroceryItem _groceryItem;
         private ObservableCollection<GroceryItem> _item;
+        private int _selectedNewItemQuantity;
+        private ItemMeasurement _selectedNewItemMeasurement;
+        private List<int> _newItemQuantities;
 
-        
+
         public GroceryItemViewModel(INavigationService navigationService, IPageDialogService dialogService)
         {
             _navigationService = navigationService;
             _dialogService = dialogService;
             _groceryItem = new GroceryItem();
             Item = new ObservableCollection<GroceryItem>();
+            NewItemQuantities = new List<int>();
             NewItemCommand = new DelegateCommand(OnCreateItem);
             SaveCommand = new DelegateCommand(OnSaveExecute);
+            StrikeOver = new DelegateCommand<GroceryItem>(OnStrikeExecute);
             RemoveItemCommand = new DelegateCommand<GroceryItem>(OnRemoveGroceryListItemExecute);
             EditItemCommand = new DelegateCommand<GroceryItem>(OnEditGroceryListItemExecute);
         }
@@ -69,6 +76,7 @@ namespace ShoppingList.Shared.ViewModels
             }
         }
 
+
         public GroceryList GroceryList
         {
             get { return _groceryList; }
@@ -89,22 +97,63 @@ namespace ShoppingList.Shared.ViewModels
             }
         }
 
+        public List<int> NewItemQuantities
+        {
+            get { return _newItemQuantities; }
+            set
+            {
+                _newItemQuantities = value;
+                for (int i = 1; i <= 10; i++)
+                {
+                    _newItemQuantities.Add(i);
+                }
+
+            }
+        }
+
+        public int SelectedNewItemQuantity
+        {
+            get { return _selectedNewItemQuantity; }
+            set
+            {
+                _selectedNewItemQuantity = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public List<string> ItemMeasurements => Enum.GetNames(typeof(ItemMeasurement)).ToList();
+
+        public ItemMeasurement SelectedNewItemMeasurement
+        {
+            get { return _selectedNewItemMeasurement; }
+            set
+            {
+                _selectedNewItemMeasurement = value;
+                RaisePropertyChanged();
+            }
+        }
+
         public ICommand SaveCommand { get; set; }
         public ICommand NewItemCommand { get; }
+        public ICommand StrikeOver { get; set; }
+        public ICommand NavigateBackCommand { get; set; }
         public DelegateCommand<GroceryItem> RemoveItemCommand { get; }
         public DelegateCommand<GroceryItem> EditItemCommand { get; }
 
 
         private void OnEditGroceryListItemExecute(GroceryItem obj)
         {
-            var navigationParameters = new NavigationParameters { { "GroceryListItem", obj }, { "ItemsList", GroceryList }, { "ObservableItemsList", Item } };
+            var navigationParameters = new NavigationParameters
+            {
+                { "GroceryListItem", obj }, { "ItemsList", GroceryList }, { "ObservableItemsList", Item }
+            };
             _navigationService.NavigateAsync(nameof(GroceryItemDetailPage), navigationParameters);
         }
 
         private async void OnRemoveGroceryListItemExecute(GroceryItem item)
         {
             var result = await _dialogService.DisplayAlertAsync("",
-                $"Are you sure you want to delete the item {item.Name}",
+                $"Are you sure you want to delete the item {item.Name}?",
                 "OK",
                 "Cancel");
             if (result)
@@ -115,17 +164,58 @@ namespace ShoppingList.Shared.ViewModels
             //TODO: Update API async
         }
 
-        private void OnSaveExecute()
+        private void OnStrikeExecute(GroceryItem item)
         {
-            var newGroceryItem = new GroceryItem();
-            newGroceryItem.Name = GroceryItem.Name;
-            newGroceryItem.Quantity = 1;
-            Item.Add(newGroceryItem);
-            GroceryList.Items.Add(newGroceryItem);
-            GroceryItem = new GroceryItem();
-            //TODO: Update API async
+            if (item.InBasket == false)
+            {
+                Item.Remove(item);
+                item.InBasket = true;
+                Item.Add(item);
+               
+               
+            }
+            else
+            {
+                Item.Remove(item);
+                item.InBasket = false;
+                Item.Add(item);
+            }
         }
 
+        private void OnSaveExecute()
+        {
+            var newGroceryItem = CreateGroceryItem();
+            if (newGroceryItem != null)
+            {
+                Item.Add(newGroceryItem);
+                GroceryList.Items.Add(newGroceryItem);
+                GroceryItem = new GroceryItem();
+
+                SelectedNewItemQuantity = 0;
+                SelectedNewItemMeasurement = ItemMeasurement.pcs;
+                //TODO: Update API async
+            }
+            else
+            {
+                _dialogService.DisplayAlertAsync("Oops!", "You need a name for the item.", "OK");
+            }
+
+            
+        }
+
+        private GroceryItem CreateGroceryItem()
+        {
+            if (string.IsNullOrEmpty(GroceryItem.Name))
+            {
+                return null;
+            }
+
+            var newGroceryItem = new GroceryItem();
+            newGroceryItem.Name = GroceryItem.Name;
+            newGroceryItem.Quantity = SelectedNewItemQuantity + 1;
+            newGroceryItem.Measurement = SelectedNewItemMeasurement;
+            return newGroceryItem;
+        }
 
         private async void OnCreateItem()
         {

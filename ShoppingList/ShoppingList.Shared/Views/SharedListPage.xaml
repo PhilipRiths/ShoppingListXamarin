@@ -25,7 +25,7 @@
             <DataTemplate>
                 <ViewCell>
                     <ContentView>
-                        <Grid>
+                        <Grid Margin="10,5">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="Auto" />
@@ -33,16 +33,19 @@
 
                             <StackLayout
                                 Grid.Column="0"
-                                Margin="10,0"
                                 Spacing="0"
                                 VerticalOptions="Center">
-                                <Label Text="{Binding FullName}" />
-                                <Label Text="{Binding Email}" />
+                                <Label
+                                    FontAttributes="Bold"
+                                    Text="{Binding FullName}" />
+                                <Label
+                                    Text="{Binding Email}"
+                                    TextColor="DarkGray" />
                             </StackLayout>
 
                             <Image
                                 Grid.Column="1"
-                                Source="menu_dots.png">
+                                Source="ic_delete.png">
                                 <Image.GestureRecognizers>
                                     <TapGestureRecognizer
                                         Command="{Binding BindingContext.DeleteSharedListUserCommand, Source={x:Reference ContentPage}}"

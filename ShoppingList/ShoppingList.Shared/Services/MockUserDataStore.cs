@@ -6,7 +6,7 @@ using ShoppingList.Shared.Models;
 
 namespace ShoppingList.Shared.Services
 {
-    public class MockUserDataStore : IDataStore<User>
+    public class MockUserDataStore : IDataStore<User>, IUserDataStore
     {
         private readonly List<User> _users;
 
@@ -30,6 +30,13 @@ namespace ShoppingList.Shared.Services
             return await Task.FromResult(true);
         }
 
+        public async Task<bool> DeleteByEmailAsync(string email)
+        {
+            _users.Remove(_users.FirstOrDefault(u => u.Email == email));
+
+            return await Task.FromResult(true);
+        }
+
         public async Task<IEnumerable<User>> GetAllAsync(bool forceRefresh = false)
         {
             return await Task.FromResult(_users);
@@ -38,6 +45,11 @@ namespace ShoppingList.Shared.Services
         public async Task<User> GetAsync(int id)
         {
             return await Task.FromResult(_users.FirstOrDefault(s => s.Id == id));
+        }
+
+        public async Task<User> GetByEmailAsync(string email)
+        {
+            return await Task.FromResult(_users.FirstOrDefault(u => u.Email == email));
         }
 
         public async Task<bool> UpdateAsync(User user)
@@ -91,10 +103,22 @@ namespace ShoppingList.Shared.Services
                 IsNotifyGroceryItemDeleted = true
             };
 
+            var user5 = new User
+            {
+                Id = 5,
+                FirstName = "A",
+                LastName = "A",
+                Email = "a@a.com",
+                IsNotifyGroceryItemAdded = true,
+                IsNotifyGroceryItemUpdated = true,
+                IsNotifyGroceryItemDeleted = true
+            };
+
             _users.Add(user1);
             _users.Add(user2);
             _users.Add(user3);
             _users.Add(user4);
+            _users.Add(user5);
         }
     }
 }

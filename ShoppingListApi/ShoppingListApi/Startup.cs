@@ -124,6 +124,9 @@ namespace ShoppingListApi
                 cfg.CreateMap<Entities.ShoppingItem, Models.ShoppingItemDto>();
                 cfg.CreateMap<Models.ShoppingItemDto, Entities.ShoppingItem>();
 
+                cfg.CreateMap<Entities.ShoppingItem, Models.ShoppingItemForCreationDto>();
+                cfg.CreateMap<Models.ShoppingItemForCreationDto, Entities.ShoppingItem>();
+
                 cfg.CreateMap<Entities.User, Models.UserDto>();
                 //.ForMember(dest => dest.Name, opt => opt.MapFrom(src =>
                 //    $"{src.FirstName} {src.LastName}"));

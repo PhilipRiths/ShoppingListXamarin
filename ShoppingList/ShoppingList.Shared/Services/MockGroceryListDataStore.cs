@@ -1,20 +1,24 @@
-﻿namespace ShoppingList.Shared.Services
+﻿using ShoppingList.Shared.Wrappers;
+
+namespace ShoppingList.Shared.Services
 {
     using Newtonsoft.Json;
-    using ShoppingList.DataAccess.ApiService;
+    using ShoppingList.Shared.ApiService;
     using ShoppingList.Shared.Models;
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
 
-    public class MockGroceryListDataStore : IDataStore<GroceryList>
+    public class MockGroceryListDataStore : IDataStore<GroceryList>, IGroceryListDataStore
     {
         private readonly List<GroceryList> _groceryLists;
+        private readonly MockUserDataStore _users;
 
         public MockGroceryListDataStore()
         {
             _groceryLists = new List<GroceryList>();
+            _users = new MockUserDataStore();
             LoadShoppingLists();
         }
 
@@ -53,6 +57,16 @@
             };
 
             await restClient.MakeRequest();
+
+            return await Task.FromResult(true);
+        }
+
+        public async Task<bool> DeleteSharedListUser(int listId, UserWrapper selectedUser)
+        {
+            var groceryListFromDb = _groceryLists.Find(g => g.Id == listId);
+            var user = groceryListFromDb.Users.FirstOrDefault(u => u.Email == selectedUser.Email);
+
+            groceryListFromDb.Users.Remove(user);
 
             return await Task.FromResult(true);
         }
@@ -104,26 +118,30 @@
                 {
                     Id = 1,
                     Name = "Babas lista",
+                    Owner = await _users.GetAsync(1),
                     Items = new List<GroceryItem>
                 {
                     new GroceryItem { Id = 1, Name = "Banan", InBasket = false },
                     new GroceryItem { Id = 2, Name = "Äpple", InBasket = false },
                     new GroceryItem { Id = 3, Name = "Yoghurt", InBasket = false },
                     new GroceryItem { Id = 4, Name = "Kanel", InBasket = false },
-                }
+                },
+                    Users = new List<User> { await _users.GetAsync(1), await _users.GetAsync(2) }
                 };
 
                 var grocyList2 = new GroceryList
                 {
                     Id = 2,
                     Name = "Babas lista2",
+                    Owner = await _users.GetAsync(2),
                     Items = new List<GroceryItem>
                 {
                     new GroceryItem { Id = 5, Name = "Avokado", InBasket = false },
                     new GroceryItem { Id = 6, Name = "Spetskål", InBasket = false },
                     new GroceryItem { Id = 7, Name = "Gurka", InBasket = false },
                     new GroceryItem { Id = 8, Name = "Keso", InBasket = false },
-                }
+                },
+                    Users = new List<User>(await _users.GetAllAsync())
                 };
 
                 _groceryLists.Add(grocyList1);

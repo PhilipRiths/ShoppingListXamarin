@@ -1,12 +1,13 @@
 ﻿using Acr.UserDialogs;
 
-using Autofac;
-
 using Plugin.Connectivity;
-using Plugin.Connectivity.Abstractions;
 
+using Prism;
 using Prism.Autofac;
 using Prism.Events;
+using Prism.Ioc;
+using Prism.Plugin.Popups;
+
 using ShoppingList.Shared.Services;
 using ShoppingList.Shared.ViewModels;
 using ShoppingList.Shared.Views;
@@ -30,26 +31,29 @@ namespace ShoppingList.Shared
             NavigationService.NavigateAsync($"{nameof(NavigationPage)}/{nameof(GroceryListPage)}");
         }
 
-        protected override void RegisterTypes()
+        protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            Builder.RegisterTypeForNavigation<NavigationPage>();
-            Builder.RegisterTypeForNavigation<UserProfilePage, UserProfileViewModel>();
-            Builder.RegisterTypeForNavigation<GroceryListPage, GroceryListViewModel>();
-            Builder.RegisterTypeForNavigation<GroceryListDetailPage, GroceryListDetailViewModel>();
-            Builder.RegisterTypeForNavigation<GroceryItemPage, GroceryItemViewModel>();
-            Builder.RegisterTypeForNavigation<GroceryItemDetailPage, GroceryItemDetailViewModel>();
-            Builder.RegisterTypeForNavigation<SharedListPage, SharedListViewModel>();
-            Builder.RegisterTypeForNavigation<LoginPage, LoginViewModel>();
+            containerRegistry.RegisterPopupNavigationService();
 
+            containerRegistry.RegisterForNavigation<NavigationPage>();
+            containerRegistry.RegisterForNavigation<UserProfilePage, UserProfileViewModel>();
+            containerRegistry.RegisterForNavigation<GroceryListPage, GroceryListViewModel>();
+            containerRegistry.RegisterForNavigation<GroceryItemPage, GroceryItemViewModel>();
+            containerRegistry.RegisterForNavigation<GroceryItemDetailPage, GroceryItemDetailViewModel>();
+            containerRegistry.RegisterForNavigation<SharedListPage, SharedListViewModel>();
+            containerRegistry.RegisterForNavigation<LoginPage, LoginViewModel>();
 
-            Builder.RegisterType<EventAggregator>().As<IEventAggregator>().SingleInstance();
-            Builder.RegisterType<GoogleAuthService>().As<IGoogleAuthService>().SingleInstance();
+            containerRegistry.RegisterForNavigation<AddSharedListUserPopup, AddSharedListUserPopupViewModel>();
+            containerRegistry.RegisterForNavigation<GroceryListDetailPopup, GroceryListDetailPopupViewModel>();
+
+            containerRegistry.RegisterSingleton<IEventAggregator, EventAggregator>();
+            containerRegistry.RegisterSingleton<IGoogleAuthService, GoogleAuthService>();
 
             var connectivityInstance = CrossConnectivity.Current;
-            Builder.RegisterInstance(connectivityInstance).As<IConnectivity>();
+            containerRegistry.RegisterInstance(connectivityInstance);
 
             var userDialogsInstance = UserDialogs.Instance;
-            Builder.RegisterInstance(userDialogsInstance).As<IUserDialogs>();
+            containerRegistry.RegisterInstance(userDialogsInstance);
         }
     }
 }

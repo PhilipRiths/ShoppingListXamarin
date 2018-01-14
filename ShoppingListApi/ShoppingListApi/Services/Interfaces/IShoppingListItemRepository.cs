@@ -15,6 +15,10 @@ namespace ShoppingListApi.Services.Interfaces
 
         IEnumerable<ShoppingListItem> GetAllShoppingListsAndItems();
 
+        void AddShoppingItemForShoppingList(int shoppingListId, ShoppingItem shoppingItem);
+
+        void AddShoppingListForShoppingItem(int shoppingItemId, ShoppingList shoppingList);
+
         bool Save();
     }
 }

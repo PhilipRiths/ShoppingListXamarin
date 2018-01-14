@@ -60,7 +60,7 @@ namespace ShoppingListApi.Controllers
             return NoContent();
         }
 
-        [HttpPost(Name = "CreateShoppingItem")]
+        [HttpPost()]
         public IActionResult CreateShoppingItem([FromBody] ShoppingItemForCreationDto shoppingItem)
         {
             if (shoppingItem == null)

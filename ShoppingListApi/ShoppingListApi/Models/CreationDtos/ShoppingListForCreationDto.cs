@@ -6,8 +6,6 @@ namespace ShoppingListApi.Models
 {
     public class ShoppingListForCreationDto
     {
-        public int Id { get; set; }
-
         public string Name { get; set; }
 
         public ICollection<ShoppingListItem> ShoppingItems { get; set; } = new List<ShoppingListItem>();

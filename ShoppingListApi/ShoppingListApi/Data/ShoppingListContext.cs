@@ -28,7 +28,7 @@ namespace ShoppingListApi.Data
             // Unique constraints
             modelBuilder.Entity<User>().HasAlternateKey(u => u.GoogleId);
             // modelBuilder.Entity<ShoppingList>().HasAlternateKey(s => s.Name);
-            modelBuilder.Entity<ShoppingItem>().HasAlternateKey(s => s.Name);
+            // modelBuilder.Entity<ShoppingItem>().HasAlternateKey(s => s.Name);
         }
 
         public DbSet<ShoppingList> ShoppingLists { get; set; }

@@ -17,9 +17,9 @@ namespace ShoppingList.Shared.ViewModels
             MockUserDataStore = new MockUserDataStore();
         }
 
-        public IDataStore<GroceryList> MockShoppingListDataStore { get; }
+        public MockGroceryListDataStore MockShoppingListDataStore { get; }
 
-        public IDataStore<User> MockUserDataStore { get; }
+        public MockUserDataStore MockUserDataStore { get; }
 
         public bool IsBusy
         {
@@ -32,7 +32,5 @@ namespace ShoppingList.Shared.ViewModels
             get => _title;
             set => SetProperty(ref _title, value);
         }
-
-   
     }
 }

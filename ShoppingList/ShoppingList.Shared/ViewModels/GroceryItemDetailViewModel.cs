@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows.Input;
 using Prism.Commands;
 using Prism.Navigation;
@@ -19,6 +21,7 @@ namespace ShoppingList.Shared.ViewModels
         private int _itemQuantity;
         private ObservableCollection<GroceryItem> _items;
         private GroceryList _groceryList;
+        private ItemMeasurement _selectedItemMeasurement;
 
         public MockGroceryListDataStore Store { get; set; }
 
@@ -29,84 +32,7 @@ namespace ShoppingList.Shared.ViewModels
             SaveCommand = new DelegateCommand(OnSaveExecute);
             CancelCommand = new DelegateCommand(OnCancelExecute);
         }
-
-        private async void OnCancelExecute()
-        {
-            await _navigationService.GoBackAsync();
-        }
-
-        public ICommand CancelCommand { get; set; }
-
-        public bool IsValidEntry
-        {
-            get { return _isValidEntry; }
-            set
-            {
-                _isValidEntry = value;
-                RaisePropertyChanged();
-            }
-        }
         
-        public string ItemName
-        {
-            get { return _itemName; }
-            set
-            {
-                _itemName = value;
-                RaisePropertyChanged();
-            }
-        }
-
-        public int ItemQuantity
-        {
-            get { return _itemQuantity; }
-            set
-            {
-                _itemQuantity = value;
-                RaisePropertyChanged();
-            }
-        }
-
-        public ObservableCollection<GroceryItem> Items
-        {
-            get { return _items; }
-            set
-            {
-                _items = value;
-                RaisePropertyChanged();
-            }
-        }
-
-        public GroceryList GroceryList
-        {
-            get { return _groceryList; }
-            set
-            {
-                _groceryList = value;
-                RaisePropertyChanged();
-            }
-        }
-
-        private async void OnSaveExecute()
-        {
-            //TODO: This method should save the current editable grocery item
-            GroceryItem.Name = ItemName;
-            GroceryItem.Quantity = ItemQuantity;
-            var navParams = new NavigationParameters{{"ItemsList", GroceryList}};
-            await _navigationService.GoBackAsync(navParams);
-        }
-        
-        public ICommand SaveCommand { get; set; }
-
-        public GroceryItem GroceryItem
-        {
-            get { return _groceryItem; }
-            set
-            {
-                _groceryItem = value;
-                RaisePropertyChanged();
-            }
-        }
 
         public void OnNavigatingTo(NavigationParameters parameters)
         {
@@ -136,12 +62,104 @@ namespace ShoppingList.Shared.ViewModels
             GroceryItem = groceryItem;
             ItemName = groceryItem.Name;
             ItemQuantity = groceryItem.Quantity;
+            SelectedItemMeasurement = groceryItem.Measurement;
 
             var itemsList = parameters["ObservableItemsList"] as ObservableCollection<GroceryItem>;
             Items = itemsList;
 
             var groceryList = parameters["ItemsList"] as GroceryList;
             GroceryList = groceryList;
+        }
+
+        public ICommand CancelCommand { get; set; }
+
+        public ICommand SaveCommand { get; set; }
+
+        public GroceryItem GroceryItem
+        {
+            get { return _groceryItem; }
+            set
+            {
+                _groceryItem = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public bool IsValidEntry
+        {
+            get { return _isValidEntry; }
+            set
+            {
+                _isValidEntry = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public string ItemName
+        {
+            get { return _itemName; }
+            set
+            {
+                _itemName = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public int ItemQuantity
+        {
+            get { return _itemQuantity; }
+            set
+            {
+                _itemQuantity = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public ItemMeasurement SelectedItemMeasurement
+        {
+            get { return _selectedItemMeasurement; }
+            set
+            {
+                _selectedItemMeasurement = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public ObservableCollection<GroceryItem> Items
+        {
+            get { return _items; }
+            set
+            {
+                _items = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public GroceryList GroceryList
+        {
+            get { return _groceryList; }
+            set
+            {
+                _groceryList = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public List<string> ItemMeasurements => Enum.GetNames(typeof(ItemMeasurement)).ToList();
+
+
+        private async void OnSaveExecute()
+        {
+            GroceryItem.Name = ItemName;
+            GroceryItem.Quantity = ItemQuantity;
+            GroceryItem.Measurement = SelectedItemMeasurement;
+            var navParams = new NavigationParameters { { "ItemsList", GroceryList } };
+            await _navigationService.GoBackAsync(navParams);
+        }
+
+        private async void OnCancelExecute()
+        {
+            await _navigationService.GoBackAsync();
         }
     }
 }

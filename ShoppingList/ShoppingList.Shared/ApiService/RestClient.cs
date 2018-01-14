@@ -3,7 +3,7 @@ using System;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace ShoppingList.DataAccess.ApiService
+namespace ShoppingList.Shared.ApiService
 {
     public enum httpVerb
     {

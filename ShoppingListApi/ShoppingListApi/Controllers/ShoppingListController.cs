@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using ShoppingListApi.Entities;
@@ -9,6 +10,7 @@ using System.Collections.Generic;
 
 namespace ShoppingListApi.Controllers
 {
+    [Authorize]
     [Route("api/ShoppingLists")]
     public class ShoppingListController : Controller
     {

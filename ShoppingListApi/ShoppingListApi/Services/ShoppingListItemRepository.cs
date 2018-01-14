@@ -57,5 +57,31 @@ namespace ShoppingListApi.Services
         {
             return (_context.SaveChanges() >= 0);
         }
+
+        public void AddShoppingItemForShoppingList(int shoppingListId, ShoppingItem shoppingItem)
+        {
+            var shoppingList = _context.ShoppingLists.FirstOrDefault(s => s.Id == shoppingListId);
+            if (shoppingList != null)
+            {
+                shoppingList.ShoppingItems.Add(new ShoppingListItem
+                {
+                    ShoppingItem = shoppingItem,
+                    ShoppingList = shoppingList
+                });
+            }
+        }
+
+        public void AddShoppingListForShoppingItem(int shoppingItemId, ShoppingList shoppingList)
+        {
+            var shoppingItem = _context.ShoppingItems.FirstOrDefault(s => s.Id == shoppingItemId);
+            if (shoppingItem != null)
+            {
+                shoppingItem.ShoppingLists.Add(new ShoppingListItem
+                {
+                    ShoppingList = shoppingList,
+                    ShoppingItem = shoppingItem
+                });
+            }
+        }
     }
 }

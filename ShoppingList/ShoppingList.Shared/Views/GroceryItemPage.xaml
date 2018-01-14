@@ -3,16 +3,17 @@
     x:Class="ShoppingList.Shared.Views.GroceryItemPage"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:global="clr-namespace:;assembly=ShoppingList.Shared"
     xmlns:mvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
-    xmlns:helpers="clr-namespace:ShoppingList.Shared.Helpers;assembly=ShoppingList.Shared"
-    mvvm:ViewModelLocator.AutowireViewModel="True"
     x:Name="ItemsPage"
-    Title="Shopping items">
-    <ContentPage.ToolbarItems>
-        <ToolbarItem  Text="New item"
-                      Command="{Binding NewItemCommand}"
-                      Icon="ic_plus.png"/>
-    </ContentPage.ToolbarItems>
+    Title="Shopping items"
+    mvvm:ViewModelLocator.AutowireViewModel="True">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <global:IntEnumConverter x:Key="IntEnumConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
 
     <StackLayout>
         <Grid>
@@ -22,81 +23,125 @@
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"></RowDefinition>
-                <RowDefinition Height="200"></RowDefinition>
-                <RowDefinition Height="Auto"></RowDefinition>
-                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
-
-
-            <ContentView Grid.Row="0" >
+            <ContentView Grid.Row="0">
                 <Grid>
 
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"></ColumnDefinition>
-                        <ColumnDefinition Width="auto"></ColumnDefinition>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
-                    <Entry  Text="{Binding GroceryItem.Name, Mode=TwoWay}" TextColor="Black" Placeholder="New item.." PlaceholderColor="Gray" FontSize="Medium" />
+                    <Entry
+                        FontSize="Medium"
+                        Placeholder="New item.."
+                        PlaceholderColor="Gray"
+                        Text="{Binding GroceryItem.Name, Mode=TwoWay}"
+                        TextColor="Black" />
+                    <Picker
+                        Grid.Column="1"
+                        ItemsSource="{Binding NewItemQuantities}"
+                        SelectedIndex="{Binding SelectedNewItemQuantity, Mode=TwoWay}" />
 
+                    <Picker
+                        Grid.Column="2"
+                        ItemsSource="{Binding ItemMeasurements}"
+                        SelectedIndex="{Binding SelectedNewItemMeasurement, Converter={StaticResource IntEnumConverter}, Mode=TwoWay}" />
                     <Button
-                    Command="{Binding SaveCommand}"
-                    Text="Save" 
-                    Grid.Column="1"/>
+                        Grid.Column="3"
+                        Command="{Binding SaveCommand}"
+                        Text="Save" />
                 </Grid>
             </ContentView>
-            <ListView Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" ItemsSource="{Binding Item, Mode=TwoWay}"
-                      VerticalOptions="FillAndExpand"
-                      HasUnevenRows="true"
-                      IsPullToRefreshEnabled="true"
-                      IsRefreshing="{Binding IsBusy, Mode=OneWay}"
-                      x:Name="GroceryItemList">
+            <ListView
+                x:Name="GroceryItemList"
+                Grid.Row="1"
+                Grid.Column="0"
+                Grid.ColumnSpan="3"
+                CachingStrategy="RecycleElement"
+                HasUnevenRows="true"
+                IsPullToRefreshEnabled="true"
+                ItemsSource="{Binding Item, Mode=TwoWay}"
+                VerticalOptions="FillAndExpand"
+                IsRefreshing="{Binding IsBusy, Mode=OneWay}">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
-                            <ViewCell.ContextActions>
-                                <MenuItem Text="Edit" 
-                                          Command="{Binding Path=BindingContext.EditItemCommand, 
-                                          Source={x:Reference Name=GroceryItemList}}"
-                                          CommandParameter="{Binding .}"/>
-                                <MenuItem Text="Delete"
-                                          Command="{Binding Path=BindingContext.RemoveItemCommand, 
-                                          Source={x:Reference Name=GroceryItemList}}" 
-                                          CommandParameter="{Binding .}"
-                                          IsDestructive="True"/>
-                            </ViewCell.ContextActions>
-                            <ContentView >
-
-
+                            <ContentView>
                                 <Grid Padding="10">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*" />
                                         <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
                                     </Grid.ColumnDefinitions>
 
-                                    <Label Grid.Column="0" HorizontalOptions="Start" 
-                                           TextColor="Black" 
-                                           Text="{Binding Name, Mode=TwoWay} " 
-                                        LineBreakMode="NoWrap" 
-                                        Style="{DynamicResource ListItemTextStyle}" 
-                                        FontSize="16" 
-                                  />
-                                    <Label Grid.Column="1" HorizontalOptions="End" 
-                                       TextColor="Black" 
-                                       Text="{Binding Quantity, Mode=TwoWay}" 
-                                       LineBreakMode="NoWrap" 
-                                       Style="{DynamicResource ListItemTextStyle}" 
-                                       FontSize="16" />
+                                    <Label
+                                        Grid.Column="0"
+                                        FontSize="16"
+                                        HorizontalOptions="Start"
+                                        LineBreakMode="NoWrap"
+                                        Style="{DynamicResource ListItemTextStyle}"
+                                        Text="{Binding Name, Mode=TwoWay}"
+                                        TextColor="Black" />
+                                    <Label
+                                        Grid.Column="1"
+                                        FontSize="16"
+                                        HorizontalOptions="End"
+                                        LineBreakMode="NoWrap"
+                                        Style="{DynamicResource ListItemTextStyle}"
+                                        Text="{Binding Quantity, Mode=TwoWay}"
+                                        TextColor="Black" />
+                                    <BoxView
+                                        Grid.Column="0"
+                                        HeightRequest="3"
+                                        IsVisible="{Binding InBasket, Mode=TwoWay}"
+                                        Opacity="0.5"
+                                        VerticalOptions="Center"
+                                        Color="Red" />
+                                    <Image
+                                        Grid.Column="2"
+                                        HorizontalOptions="End"
+                                        Source="delete.png">
+                                        <Image.GestureRecognizers>
+                                            <TapGestureRecognizer
+                                                Command="{Binding BindingContext.RemoveItemCommand, Source={x:Reference GroceryItemList}}"
+                                                CommandParameter="{Binding .}" />
+                                        </Image.GestureRecognizers>
+                                    </Image>
+                                    <Image
+                                        Grid.Column="3"
+                                        HorizontalOptions="End"
+                                        Source="pencil.png">
+                                        <Image.GestureRecognizers>
+                                            <TapGestureRecognizer
+                                                Command="{Binding BindingContext.EditItemCommand, Source={x:Reference GroceryItemList}}"
+                                                CommandParameter="{Binding .}" />
+                                        </Image.GestureRecognizers>
+                                    </Image>
+                                    <Image
+                                        Grid.Column="4"
+                                        HorizontalOptions="End"
+                                        Source="check.png">
+                                        <Image.GestureRecognizers>
+                                            <TapGestureRecognizer
+                                                Command="{Binding BindingContext.StrikeOver, Source={x:Reference GroceryItemList}}"
+                                                CommandParameter="{Binding .}" />
+                                        </Image.GestureRecognizers>
+                                    </Image>
                                 </Grid>
-
                             </ContentView>
-
                         </ViewCell>
                     </DataTemplate>
-
-
                 </ListView.ItemTemplate>
             </ListView>
-          </Grid>
+        </Grid>
     </StackLayout>
 </ContentPage>

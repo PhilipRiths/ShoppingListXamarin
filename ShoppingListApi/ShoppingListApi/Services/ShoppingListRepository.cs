@@ -117,5 +117,10 @@ namespace ShoppingListApi.Services
                 ShoppingListsLock.ExitWriteLock();
             }
         }
+
+        public void DeleteShoppingListUserContainingShoppingList(int shoppingListId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

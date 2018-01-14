@@ -141,8 +141,8 @@ namespace ShoppingListApi.Entities
             };
 
             context.Users.AddRange(users);
-            context.ShoppingLists.AddRange(shoppingLists);
             context.ShoppingItems.AddRange(shoppingItems);
+            context.ShoppingLists.AddRange(shoppingLists);
             context.SaveChanges();
         }
     }

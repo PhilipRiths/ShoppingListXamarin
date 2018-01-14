@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using ShoppingListApi.Entities;
 using ShoppingListApi.Models;
 using ShoppingListApi.Services.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -61,6 +63,31 @@ namespace ShoppingListApi.Controllers
             var listOfLists = listsForShoppingItem.Select(sl => sl.ShoppingList).ToList();
 
             return Ok(listOfLists);
+        }
+
+        [HttpPost("addItemToList/{shoppingListId}")]
+        public IActionResult CreateShoppingItemForShoppingList(int shoppingListId, [FromBody] ShoppingItemForCreationDto shoppingItem)
+        {
+            if (shoppingItem == null)
+            {
+                return NotFound();
+            }
+
+            if (!_shoppingListItemRepository.ShoppingListExists(shoppingListId))
+            {
+                return NotFound();
+            }
+
+            var itemEntity = Mapper.Map<ShoppingItem>(shoppingItem);
+
+            _shoppingListItemRepository.AddShoppingItemForShoppingList(shoppingListId, itemEntity);
+
+            if (!_shoppingListItemRepository.Save())
+            {
+                throw new Exception("Creating a new ShoppingItem in ShoppingList list failed on save.");
+            }
+
+            return NoContent();
         }
     }
 }

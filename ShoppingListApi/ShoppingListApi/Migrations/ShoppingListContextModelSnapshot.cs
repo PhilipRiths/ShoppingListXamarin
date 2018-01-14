@@ -56,8 +56,6 @@ namespace ShoppingListApi.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasAlternateKey("Name");
-
                     b.ToTable("ShoppingItems");
                 });
 
