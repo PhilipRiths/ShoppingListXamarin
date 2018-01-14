@@ -34,16 +34,9 @@ namespace ShoppingList.Shared.ViewModels
             NewItemCommand = new DelegateCommand(OnCreateItem);
             SaveCommand = new DelegateCommand(OnSaveExecute);
             StrikeOver = new DelegateCommand<GroceryItem>(OnStrikeExecute);
-            NavigateBackCommand = new DelegateCommand(OnNavigateExecute);
             RemoveItemCommand = new DelegateCommand<GroceryItem>(OnRemoveGroceryListItemExecute);
             EditItemCommand = new DelegateCommand<GroceryItem>(OnEditGroceryListItemExecute);
         }
-
-        private async void OnNavigateExecute()
-        {
-            await _navigationService.NavigateAsync($"{nameof(GroceryListPage)}");
-        }
-
 
         public void OnNavigatedFrom(NavigationParameters parameters)
         {
@@ -223,7 +216,6 @@ namespace ShoppingList.Shared.ViewModels
             newGroceryItem.Measurement = SelectedNewItemMeasurement;
             return newGroceryItem;
         }
-
 
         private async void OnCreateItem()
         {
