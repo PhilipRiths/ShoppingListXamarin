@@ -16,7 +16,7 @@
       "commandName": "IISExpress",
       "workingDirectory": "C:\\wwwroot\\ShoppingListApi",
       "launchBrowser": true,
-      "launchUrl": "api/values",
+      "launchUrl": "api/Test",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }

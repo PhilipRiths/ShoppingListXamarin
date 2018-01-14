@@ -30,7 +30,8 @@
 
             var restClient = new RestClient
             {
-                _endPoint = "https://localhost:5000/api/ShoppingLists",
+                // Is that an IP-Address?
+                _endPoint = "https://192.168.1.119:3333/api/ShoppingLists",
                 _httpMethod = httpVerb.POST,
                 PostJSON = shoppingListJson
             };
@@ -44,6 +45,14 @@
         {
             var removeList = _groceryLists.FirstOrDefault(arg => arg.Id == id);
             _groceryLists.Remove(removeList);
+
+            var restClient = new RestClient
+            {
+                _endPoint = "https://192.168.1.119:3333/api/ShoppingLists/" + id,
+                _httpMethod = httpVerb.DELETE
+            };
+
+            await restClient.MakeRequest();
 
             return await Task.FromResult(true);
         }
@@ -73,7 +82,7 @@
             {
                 var restClient = new RestClient
                 {
-                    _endPoint = "https://localhost:5000/api/ShoppingLists"
+                    _endPoint = "https://192.168.1.119:3333/api/ShoppingLists"
                 };
                 var groceryLists = await restClient.MakeRequest();
                 var Lists = JsonConvert.DeserializeObject<dynamic>(groceryLists);

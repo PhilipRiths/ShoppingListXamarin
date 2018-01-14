@@ -55,7 +55,7 @@ namespace ShoppingList.DataAccess.ApiService
             //}// End of using Response
 
             // Discover endpoints from metadata.
-            var discoveryResponse = await DiscoveryClient.GetAsync("http://localhost:5000");
+            var discoveryResponse = await DiscoveryClient.GetAsync("http://192.168.1.119:3333/");
 
             if (discoveryResponse.IsError)
             {
@@ -76,23 +76,40 @@ namespace ShoppingList.DataAccess.ApiService
             var client = new HttpClient();
             client.SetBearerToken(tokenResponse.AccessToken);
 
-            if (_httpMethod.Equals("POST") && PostJSON != string.Empty)
+            switch (_httpMethod.ToString())
             {
-                var stringContent = new StringContent(PostJSON);
-                await client.PostAsync(_endPoint, stringContent);
-            }
+                case "GET":
+                    var response = await client.GetAsync(_endPoint);
+                    if (!response.IsSuccessStatusCode)
+                    {
+                        Console.WriteLine(response.StatusCode);
+                        return "ERROR";
+                    }
+                    else
+                    {
+                        Console.WriteLine(strResponsValue);
+                        strResponsValue = await response.Content.ReadAsStringAsync();
+                    }
+                    break;
 
-            var response = await client.GetAsync(_endPoint); // Test URL
+                case "POST":
+                    if (_httpMethod.Equals("POST") && PostJSON != string.Empty)
+                    {
+                        var stringContent = new StringContent(PostJSON);
+                        await client.PostAsync(_endPoint, stringContent);
+                    }
+                    break;
 
-            if (!response.IsSuccessStatusCode)
-            {
-                Console.WriteLine(response.StatusCode);
-                return "ERROR";
-            }
-            else
-            {
-                Console.WriteLine(strResponsValue);
-                strResponsValue = await response.Content.ReadAsStringAsync();
+                case "DELETE":
+                    await client.DeleteAsync(_endPoint);
+                    break;
+
+                case "UPDATE":
+
+                    break;
+
+                default:
+                    break;
             }
 
             return strResponsValue;
