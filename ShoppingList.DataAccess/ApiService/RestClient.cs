@@ -1,6 +1,7 @@
-﻿using System;
-using System.IO;
-using System.Net;
+﻿using IdentityModel.Client;
+using System;
+using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace ShoppingList.DataAccess.ApiService
 {
@@ -16,6 +17,7 @@ namespace ShoppingList.DataAccess.ApiService
     {
         public string _endPoint { get; set; }
         public httpVerb _httpMethod { get; set; }
+        public string PostJSON { get; set; }
 
         public RestClient()
         {
@@ -23,34 +25,75 @@ namespace ShoppingList.DataAccess.ApiService
             _httpMethod = httpVerb.GET;
         }
 
-        public string MakeRequest()
+        public async Task<string> MakeRequest()
         {
             var strResponsValue = string.Empty;
 
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(_endPoint);
+            // HttpWebRequest request = (HttpWebRequest)WebRequest.Create(_endPoint);
 
-            request.Method = _httpMethod.ToString();
+            //request.Method = _httpMethod.ToString();
 
-            using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
+            //using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
+            //{
+            //    if (response.StatusCode != HttpStatusCode.OK)
+            //    {
+            //        throw new ApplicationException("Error code: " + response.StatusCode.ToString());
+            //    }
+
+            //    //Process the response stream...
+
+            //    using (Stream responseStream = response.GetResponseStream())
+            //    {
+            //        if (responseStream != null)
+            //        {
+            //            using (StreamReader reader = new StreamReader(responseStream))
+            //            {
+            //                strResponsValue = reader.ReadToEnd();
+            //            }// End of StreamReader
+            //        }
+            //    }// End of ResponseStream
+            //}// End of using Response
+
+            // Discover endpoints from metadata.
+            var discoveryResponse = await DiscoveryClient.GetAsync("http://localhost:5000");
+
+            if (discoveryResponse.IsError)
             {
-                if (response.StatusCode != HttpStatusCode.OK)
-                {
-                    throw new ApplicationException("Error code: " + response.StatusCode.ToString());
-                }
+                Console.WriteLine(discoveryResponse.Error);
+                return "ERROR";
+            }
 
-                //Process the response stream...
+            // Request token.
+            var tokenClient = new TokenClient(discoveryResponse.TokenEndpoint, "shoppingList", "secret");
+            var tokenResponse = await tokenClient.RequestClientCredentialsAsync("shoppingListApi");
 
-                using (Stream responseStream = response.GetResponseStream())
-                {
-                    if (responseStream != null)
-                    {
-                        using (StreamReader reader = new StreamReader(responseStream))
-                        {
-                            strResponsValue = reader.ReadToEnd();
-                        }// End of StreamReader
-                    }
-                }// End of ResponseStream
-            }// End of using Response
+            if (tokenResponse.IsError)
+            {
+                return "ERROR";
+            }
+
+            // Call API.
+            var client = new HttpClient();
+            client.SetBearerToken(tokenResponse.AccessToken);
+
+            if (_httpMethod.Equals("POST") && PostJSON != string.Empty)
+            {
+                var stringContent = new StringContent(PostJSON);
+                await client.PostAsync(_endPoint, stringContent);
+            }
+
+            var response = await client.GetAsync(_endPoint); // Test URL
+
+            if (!response.IsSuccessStatusCode)
+            {
+                Console.WriteLine(response.StatusCode);
+                return "ERROR";
+            }
+            else
+            {
+                Console.WriteLine(strResponsValue);
+                strResponsValue = await response.Content.ReadAsStringAsync();
+            }
 
             return strResponsValue;
         }

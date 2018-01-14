@@ -22,6 +22,21 @@
         {
             _groceryLists.Add(list);
 
+            var shoppingListJson = JsonConvert.SerializeObject(
+                new
+                {
+                    shoppingList = list
+                });
+
+            var restClient = new RestClient
+            {
+                _endPoint = "https://localhost:5000/api/ShoppingLists",
+                _httpMethod = httpVerb.POST,
+                PostJSON = shoppingListJson
+            };
+
+            await restClient.MakeRequest();
+
             return await Task.FromResult(true);
         }
 
@@ -52,7 +67,7 @@
             return await Task.FromResult(true);
         }
 
-        private void LoadShoppingLists()
+        private async void LoadShoppingLists()
         {
             try
             {
@@ -60,7 +75,7 @@
                 {
                     _endPoint = "https://localhost:5000/api/ShoppingLists"
                 };
-                var groceryLists = restClient.MakeRequest();
+                var groceryLists = await restClient.MakeRequest();
                 var Lists = JsonConvert.DeserializeObject<dynamic>(groceryLists);
 
                 foreach (var list in Lists)
@@ -74,7 +89,7 @@
                         );
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 var grocyList1 = new GroceryList
                 {

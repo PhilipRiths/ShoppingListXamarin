@@ -39,6 +39,30 @@ namespace ShoppingListApi.Entities
                 }
             };
 
+            var shoppingItems = new List<ShoppingItem>
+            {
+                new ShoppingItem
+                {
+                    Name = "OutsideListItem",
+                    IsBought = true
+                },
+                new ShoppingItem
+                {
+                    Name = "Test1",
+                    IsBought = true
+                },
+                new ShoppingItem
+                {
+                    Name = "Test3",
+                    IsBought = true
+                },
+                new ShoppingItem
+                {
+                    Name = "Test3",
+                    IsBought = true
+                },
+            };
+
             var shoppingLists = new List<ShoppingList>
             {
                 new ShoppingList
@@ -61,6 +85,10 @@ namespace ShoppingListApi.Entities
                                 Name = "Strumpor",
                                 IsBought = false
                             }
+                        },
+                        new ShoppingListItem
+                        {
+                            ShoppingItem = shoppingItems.Find(i => i.Name == "Test1")
                         }
                     },
                     LastEditedBy = users.Find(u => u.Mail == "RedigeRedginsson@redigmail.org"),
@@ -100,20 +128,15 @@ namespace ShoppingListApi.Entities
                                 Name = "Walkie-talkie",
                                 IsBought = false
                             }
+                        },
+                        new ShoppingListItem
+                        {
+                            ShoppingItem = shoppingItems.Find(i => i.Name == "Test1")
                         }
                     },
                     LastEditedBy = users.Find(u => u.Mail == "RediRedgi@redimail.org"),
                     LastEdited = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second),
                     CreatedBy = users.Find(u => u.Mail == "RediRedgi@redimail.org")
-                }
-            };
-
-            var shoppingItems = new List<ShoppingItem>
-            {
-                new ShoppingItem
-                {
-                    Name = "OutsideListItem",
-                    IsBought = true
                 }
             };
 

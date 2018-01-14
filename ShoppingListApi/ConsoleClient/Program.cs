@@ -1,21 +1,21 @@
-﻿using System;
-using IdentityModel.Client;
+﻿using IdentityModel.Client;
+using System;
 using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace ConsoleClient
 {
-    class Program
+    internal class Program
     {
-        static async Task Main(string[] args)
+        private static async Task Main(string[] args)
         {
             Console.WriteLine("Press any key to continue...\n");
             Console.ReadKey();
 
             // Discover endpoints from metadata.
             var discoveryResponse = await DiscoveryClient.GetAsync("http://localhost:5000");
-            
-             if (discoveryResponse.IsError)
+
+            if (discoveryResponse.IsError)
             {
                 Console.WriteLine(discoveryResponse.Error);
                 return;
@@ -40,7 +40,7 @@ namespace ConsoleClient
             var client = new HttpClient();
             client.SetBearerToken(tokenResponse.AccessToken);
 
-            var response = await client.GetAsync("http://localhost:5000/api/ShoppingLists/Test"); // Test URL
+            var response = await client.GetAsync("http://localhost:5000/api/ShoppingLists"); // Test URL
 
             if (!response.IsSuccessStatusCode)
             {
