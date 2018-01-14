@@ -13,7 +13,7 @@ using Xamarin.Forms;
 
 namespace ShoppingList.Shared.ViewModels
 {
-    public class GroceryListViewModel : BaseViewModel, IAsyncInitialization, INavigatedAware
+    public class GroceryListViewModel : BaseViewModel, IAsyncInitialization, INavigatingAware
     {
         private readonly IPageDialogService _dialogService;
         private readonly INavigationService _navigationService;
@@ -23,14 +23,15 @@ namespace ShoppingList.Shared.ViewModels
             _navigationService = navigationService;
             _dialogService = dialogService;
 
-            AddShoppingListCommand = new DelegateCommand(OnAddShoppingList);
             NavigateToItemSelected = new DelegateCommand<GroceryList>(OnItemSelected);
-
             OpenGroceryListDetailCommand = new DelegateCommand<GroceryList>(OnOpenGroceryListDetail);
+
             Initialization = InitializeAsync();
         }
 
         public GroceryItem GroceryItem { get; set; }
+
+        public ICommand NavigateToItemSelected { get; }
 
         public ICommand OpenGroceryListDetailCommand { get; }
 
@@ -40,15 +41,7 @@ namespace ShoppingList.Shared.ViewModels
 
         public GroceryList GroceryList { get; set; }
 
-        public ICommand AddShoppingListCommand { get; }
-
-        public ICommand NavigateToItemSelected { get; }
-
-        public void OnNavigatedFrom(NavigationParameters parameters)
-        {
-        }
-
-        public async void OnNavigatedTo(NavigationParameters parameters)
+        public async void OnNavigatingTo(NavigationParameters parameters)
         {
             // TODO Push changes to API
             if (parameters.Count <= 0) return;
@@ -76,7 +69,7 @@ namespace ShoppingList.Shared.ViewModels
 
             var editAction = ActionSheetButton.CreateButton(
                 "Edit",
-                () => _navigationService.NavigateAsync(nameof(GroceryListDetailPage), navigationParameters));
+                () => _navigationService.NavigateAsync(nameof(GroceryListDetailPopup), navigationParameters));
 
             var deleteAction = ActionSheetButton.CreateButton(
                 "Delete",
@@ -114,11 +107,6 @@ namespace ShoppingList.Shared.ViewModels
             GroceryLists = new ObservableCollection<GroceryList>(await MockShoppingListDataStore.GetAllAsync());
         }
 
-        private async void OnAddShoppingList()
-        {
-            await _navigationService.NavigateAsync(nameof(GroceryListDetailPage), null, true);
-        }
-
         private async void OnItemSelected(GroceryList groceryList)
         {
             var navParams = new NavigationParameters { { Title = "ItemList", groceryList } };
@@ -130,7 +118,7 @@ namespace ShoppingList.Shared.ViewModels
             if (groceryList == null)
             {
                 var newGroceryListParameter = new NavigationParameters { { "GroceryList", new GroceryList() } };
-                await _navigationService.NavigateAsync(nameof(GroceryListDetailPage), newGroceryListParameter, true);
+                await _navigationService.NavigateAsync(nameof(GroceryListDetailPopup), newGroceryListParameter, true);
                 return;
             }
 

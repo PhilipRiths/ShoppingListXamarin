@@ -23,13 +23,8 @@
 
     <ListView
         helpers:ItemTappedAttached.Command="{Binding NavigateToItemSelected, Mode=TwoWay}"
-        CachingStrategy="RecycleElement"
-        HasUnevenRows="true"
-        IsPullToRefreshEnabled="true"
         ItemsSource="{Binding GroceryLists}"
-        RefreshCommand="{Binding LoadItemsCommand}"
-        VerticalOptions="FillAndExpand"
-        IsRefreshing="{Binding IsBusy, Mode=OneWay}">
+        VerticalOptions="FillAndExpand">
         <ListView.ItemTemplate>
             <DataTemplate>
                 <ViewCell>

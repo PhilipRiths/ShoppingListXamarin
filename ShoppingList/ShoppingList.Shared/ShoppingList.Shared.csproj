@@ -17,11 +17,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Views\GroceryListDetailPopup.xaml.cs">
+      <DependentUpon>GroceryListDetailPopup.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Views\AddSharedListUserPopup.xaml.cs">
       <DependentUpon>AddSharedListUserPopup.xaml</DependentUpon>
-    </Compile>
-    <Compile Update="Views\GroceryListDetailPage.xaml.cs">
-      <DependentUpon>GroceryListDetailPage.xaml</DependentUpon>
     </Compile>
     <Compile Update="Views\GroceryItemDetailPage.xaml.cs">
       <DependentUpon>GroceryItemDetailPage.xaml</DependentUpon>

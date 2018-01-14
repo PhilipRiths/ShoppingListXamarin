@@ -38,13 +38,13 @@ namespace ShoppingList.Shared
             containerRegistry.RegisterForNavigation<NavigationPage>();
             containerRegistry.RegisterForNavigation<UserProfilePage, UserProfileViewModel>();
             containerRegistry.RegisterForNavigation<GroceryListPage, GroceryListViewModel>();
-            containerRegistry.RegisterForNavigation<GroceryListDetailPage, GroceryListDetailViewModel>();
             containerRegistry.RegisterForNavigation<GroceryItemPage, GroceryItemViewModel>();
             containerRegistry.RegisterForNavigation<GroceryItemDetailPage, GroceryItemDetailViewModel>();
             containerRegistry.RegisterForNavigation<SharedListPage, SharedListViewModel>();
             containerRegistry.RegisterForNavigation<LoginPage, LoginViewModel>();
 
             containerRegistry.RegisterForNavigation<AddSharedListUserPopup, AddSharedListUserPopupViewModel>();
+            containerRegistry.RegisterForNavigation<GroceryListDetailPopup, GroceryListDetailPopupViewModel>();
 
             containerRegistry.RegisterSingleton<IEventAggregator, EventAggregator>();
             containerRegistry.RegisterSingleton<IGoogleAuthService, GoogleAuthService>();

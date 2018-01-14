@@ -19,14 +19,14 @@ namespace ShoppingList.Shared.ViewModels
             _dialogService = dialogService;
 
             CancelCommand = new DelegateCommand(() => _navigationService.GoBackAsync());
-            SaveCommannd = new DelegateCommand<string>(OnSave);
+            SaveCommand = new DelegateCommand<string>(OnSave);
         }
 
         public GroceryList SelectedGroceryList { get; set; }
 
         public DelegateCommand CancelCommand { get; }
 
-        public DelegateCommand<string> SaveCommannd { get; }
+        public DelegateCommand<string> SaveCommand { get; }
 
         public void OnNavigatingTo(NavigationParameters parameters)
         {
