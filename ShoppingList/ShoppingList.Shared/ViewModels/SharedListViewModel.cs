@@ -1,4 +1,6 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 
 using Prism.Commands;
 using Prism.Navigation;
@@ -26,13 +28,13 @@ namespace ShoppingList.Shared.ViewModels
             Users = new ObservableCollection<UserWrapper>();
         }
 
-        public GroceryList SelectedGroceryList { get; set; }
-
         public DelegateCommand<UserWrapper> DeleteSharedListUserCommand { get; }
 
         public DelegateCommand AddSharedListUserCommand { get; }
 
-        public ObservableCollection<UserWrapper> Users { get; private set; }
+        public ObservableCollection<UserWrapper> Users { get; }
+
+        public GroceryList SelectedGroceryList { get; set; }
 
         public async void OnNavigatingTo(NavigationParameters parameters)
         {
@@ -68,6 +70,8 @@ namespace ShoppingList.Shared.ViewModels
         private async void OnDeleteSharedListUser(UserWrapper selectedUser)
         {
             Users.Remove(selectedUser);
+            var user = SelectedGroceryList.Users.Find(u => u.Id == selectedUser.Id);
+            SelectedGroceryList.Users.Remove(user);
 
             await _dialogService.DisplayAlertAsync(
                 string.Empty,
@@ -75,7 +79,7 @@ namespace ShoppingList.Shared.ViewModels
                 "OK");
 
             // TODO Implement API instead of Mock
-            await MockUserDataStore.DeleteByEmailAsync(selectedUser.Email);
+            await MockShoppingListDataStore.DeleteSharedListUser(SelectedGroceryList.Id, selectedUser);
         }
     }
 }

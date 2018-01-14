@@ -1,4 +1,6 @@
-﻿namespace ShoppingList.Shared.Services
+﻿using ShoppingList.Shared.Wrappers;
+
+namespace ShoppingList.Shared.Services
 {
     using System;
     using System.Collections.Generic;
@@ -8,7 +10,7 @@
 
     using ShoppingList.Shared.Models;
 
-    public class MockGroceryListDataStore : IDataStore<GroceryList>
+    public class MockGroceryListDataStore : IDataStore<GroceryList>, IGroceryListDataStore
     {
         private readonly List<GroceryList> _groceryLists;
         private readonly MockUserDataStore _users;
@@ -31,6 +33,16 @@
         {
             var removeList = _groceryLists.FirstOrDefault(arg => arg.Id == id);
             _groceryLists.Remove(removeList);
+
+            return await Task.FromResult(true);
+        }
+
+        public async Task<bool> DeleteSharedListUser(int listId,  UserWrapper selectedUser)
+        {
+            var groceryListFromDb = _groceryLists.Find(g => g.Id == listId);
+            var user = groceryListFromDb.Users.FirstOrDefault(u => u.Email == selectedUser.Email);
+
+            groceryListFromDb.Users.Remove(user);
 
             return await Task.FromResult(true);
         }
@@ -60,6 +72,7 @@
             {
                 Id = 1,
                 Name = "Babas lista",
+                Owner = await _users.GetAsync(1),
                 Items = new List<GroceryItem>
                 {
                     new GroceryItem { Id = 1, Name = "Banan", InBasket = false },
@@ -74,6 +87,7 @@
             {
                 Id = 2,
                 Name = "Babas lista2",
+                Owner = await _users.GetAsync(2),
                 Items = new List<GroceryItem>
                 {
                     new GroceryItem { Id = 5, Name = "Avokado", InBasket = false },
