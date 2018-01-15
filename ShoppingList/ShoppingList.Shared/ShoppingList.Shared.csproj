@@ -7,6 +7,7 @@
   <ItemGroup>
     <PackageReference Include="Acr.UserDialogs" Version="6.5.1" />
     <PackageReference Include="Clancey.SimpleAuth" Version="1.0.46" />
+    <PackageReference Include="IdentityModel" Version="3.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
     <PackageReference Include="Prism.Autofac.Forms" Version="7.0.0.269-pre" />
     <PackageReference Include="Prism.Forms" Version="7.0.0.269-pre" />

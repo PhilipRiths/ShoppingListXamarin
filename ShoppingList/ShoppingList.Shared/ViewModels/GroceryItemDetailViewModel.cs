@@ -48,7 +48,7 @@ namespace ShoppingList.Shared.ViewModels
         }
 
 
-        private async void OnSaveExecute()
+        private void OnSaveExecute()
         {
             //TODO: This method should save the current editable grocery item
 

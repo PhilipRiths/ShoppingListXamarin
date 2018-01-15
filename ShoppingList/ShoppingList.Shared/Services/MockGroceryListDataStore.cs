@@ -7,6 +7,8 @@
     using System.Threading.Tasks;
 
     using ShoppingList.Shared.Models;
+    using ShoppingList.Shared.ApiService;
+    using Newtonsoft.Json;
 
     public class MockGroceryListDataStore : IDataStore<GroceryList>
     {
@@ -52,36 +54,38 @@
             return await Task.FromResult(true);
         }
 
-        private void LoadShoppingLists()
+        private async void LoadShoppingLists()
         {
-            var grocyList1 = new GroceryList
+            try
             {
-                Id = 1,
-                Name = "Babas lista",
-                Items = new List<GroceryItem>
+                var restClient = new RestClient
                 {
-                    new GroceryItem { Id = 1, Name = "Banan", InBasket = false },
-                    new GroceryItem { Id = 2, Name = "Äpple", InBasket = false },
-                    new GroceryItem { Id = 3, Name = "Yoghurt", InBasket = false },
-                    new GroceryItem { Id = 4, Name = "Kanel", InBasket = false },
+                    _endPoint = "http://192.168.1.225:3000/api/ShoppingLists"
+                };
+                var groceryLists = await restClient.MakeRequest();
+                if (groceryLists.Equals("ERROR"))
+                {
+                    return;
                 }
-            };
+                var Lists = JsonConvert.DeserializeObject<dynamic>(groceryLists);
 
-            var grocyList2 = new GroceryList
+                foreach (var list in Lists)
+                {
+                    _groceryLists.Add(
+                            new GroceryList
+                            {
+                                Id = list.Id,
+                                Name = list.Name
+                            }
+                        );
+                }
+            }
+            catch (Exception)
             {
-                Id = 2,
-                Name = "Babas lista2",
-                Items = new List<GroceryItem>
-                {
-                    new GroceryItem { Id = 5, Name = "Avokado", InBasket = false },
-                    new GroceryItem { Id = 6, Name = "Spetskål", InBasket = false },
-                    new GroceryItem { Id = 7, Name = "Gurka", InBasket = false },
-                    new GroceryItem { Id = 8, Name = "Keso", InBasket = false },
-                }
-            };
 
-            _groceryLists.Add(grocyList1);
-            _groceryLists.Add(grocyList2);
+                throw;
+            }
+            
         }
     }
 }
