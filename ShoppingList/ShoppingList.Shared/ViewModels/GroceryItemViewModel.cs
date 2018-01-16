@@ -85,7 +85,7 @@ namespace ShoppingList.Shared.ViewModels
         private async void OnCreateItem()
         {
             var navParams = new NavigationParameters { { Title = "GroceryList", GroceryList } };
-            await _navigationService.NavigateAsync($"{nameof(GroceryItemDetailPage)}", navParams, true);
+            await _navigationService.NavigateAsync($"{nameof(NavigationPage)}/{nameof(GroceryItemDetailPage)}", navParams, true);
         }
 
         public ICommand NewItemCommand { get; }

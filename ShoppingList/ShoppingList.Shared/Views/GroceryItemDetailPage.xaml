@@ -2,86 +2,15 @@
 <ContentPage
     x:Class="ShoppingList.Shared.Views.GroceryItemDetailPage"
     xmlns="http://xamarin.com/schemas/2014/forms"
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:validation="clr-namespace:ShoppingList.Shared.Validation;assembly=ShoppingList.Shared"
-    xmlns:mvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
-    xmlns:vm="clr-namespace:ShoppingList.Shared.ViewModels"
-    x:Name="ItemDetailPage"
-    mvvm:ViewModelLocator.AutowireViewModel="True">
- 
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Go Back" Command="{Binding CancelCommand}"/>
+        <ToolbarItem Text="Save" Command="{Binding SaveCommand}"/>
+    </ContentPage.ToolbarItems>
     <ContentPage.Content>
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition />
-                <RowDefinition />
-            </Grid.RowDefinitions>
-            <StackLayout Spacing="20" Padding="15">
-            <Label Text="Edit item" FontSize="Medium" />
-             <StackLayout
-                 HorizontalOptions="Center"
-                 Orientation="Vertical">
-                 <Entry 
-                     x:Name="ItemNameEntry"
-                     Text="{Binding GroceryItem.Name, Mode=TwoWay}" 
-                     Placeholder="Edit name.." 
-                     FontSize="Small" >
-                     <Entry.Behaviors>
-                         <validation:EntryValidatorBehavior
-                             x:Name="EntryItemNameValidator"
-                             CheckEmpty="True"
-                             MaxLength="20" 
-                             IsValid="{Binding BindingContext.IsValidEntry, Source={x:Reference ItemDetailPage}, Mode=TwoWay}"/>
-                     </Entry.Behaviors>
-                    </Entry>
-                 <Label
-                     Margin="4,0,0,0"
-                     RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToView,
-                                                                  ElementName=ItemNameEntry,
-                                                                  Property=Height,
-                                                                  Factor=1,
-                                                                  Constant=-6}"
-                     Text="{Binding Message, Source={x:Reference EntryItemNameValidator}}"
-                     TextColor="Red" />
-
-                    <Entry 
-                        x:Name="ItemQuantityEntry"
-                        Keyboard="Numeric" 
-                        Text="{Binding GroceryItem.Quantity, Mode=TwoWay}" 
-                        Placeholder="Change quantity" 
-                        FontSize="Small" >
-                        <Entry.Behaviors>
-                            <validation:EntryValidatorBehavior
-                                x:Name="EntryItemQuantityValidator"
-                                CheckEmpty="True"
-                                MaxLength="20" 
-                                IsValid="{Binding BindingContext.IsValidEntry, Source={x:Reference ItemDetailPage}, Mode=TwoWay}"/>
-                        </Entry.Behaviors>
-                    </Entry>
-                 <Label
-                     Margin="4,0,0,0"
-                     RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToView,
-                                                                  ElementName=ItemQuantityEntry,
-                                                                  Property=Height,
-                                                                  Factor=1,
-                                                                  Constant=-6}"
-                     Text="{Binding Message, Source={x:Reference EntryItemQuantityValidator}}"
-                     TextColor="Red" />
-                </StackLayout>
-
-                <StackLayout
-                    HorizontalOptions="Center"
-                    Orientation="Horizontal"
-                    VerticalOptions="Center">
-                    <Button
-                        Command="{Binding CancelCommand}"
-                        Text="Cancel" />
-                    <Button
-                        Command="{Binding SaveCommand}"
-                        Text="Save" 
-                        IsEnabled="{Binding IsValidEntry}"/>
-                </StackLayout>
-            </StackLayout>
-        </Grid>
+        <StackLayout Spacing="20" Padding="15">
+            <Label Text="Text" FontSize="Medium" />
+            <Entry Text="{Binding GroceryItem.Name}" FontSize="Small" />
+        </StackLayout>
     </ContentPage.Content>
-        
 </ContentPage>
