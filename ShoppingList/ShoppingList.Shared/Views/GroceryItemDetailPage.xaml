@@ -30,8 +30,7 @@
                              x:Name="EntryItemNameValidator"
                              CheckEmpty="True"
                              MaxLength="20" 
-                             IsValid="{Binding BindingContext.IsValidEntry, 
-                             Source={x:Reference ItemDetailPage}, Mode=TwoWay}"/>
+                             IsValid="{Binding BindingContext.IsValidEntry, Source={x:Reference ItemDetailPage}, Mode=TwoWay}"/>
                      </Entry.Behaviors>
                     </Entry>
                  <Label
@@ -55,8 +54,7 @@
                                 x:Name="EntryItemQuantityValidator"
                                 CheckEmpty="True"
                                 MaxLength="20" 
-                                IsValid="{Binding BindingContext.IsValidEntry, 
-                                Source={x:Reference ItemDetailPage}, Mode=TwoWay}"/>
+                                IsValid="{Binding BindingContext.IsValidEntry, Source={x:Reference ItemDetailPage}, Mode=TwoWay}"/>
                         </Entry.Behaviors>
                     </Entry>
                  <Label
